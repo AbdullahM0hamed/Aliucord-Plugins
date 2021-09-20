@@ -24,19 +24,20 @@ class AvatarChangerSettings : SettingsPage() {
                     val text = dialog.input
                     
                     if (!text.isEmpty()) {
-                        val id = text.toLong()
+                        val discordId = text.toLong()
                         val guilds = StoreStream.getGuilds().getGuilds()
 
                         for (guild in guilds) {
-                            if (guild.id == id) {
-                                EditAvatar(guild=guild)
+                            if (guild.id == guildId) {
+                                EditAvatar(guild=guild.get(discordId))
                                 dialog.dismiss()
                             }
                         }
 
-                        val users = StoreStream.getUsers().fetchUsers(mutableListOf(id))
+                        val users = StoreStream.getUsers().getUsers(mutableListOf(discordId))
+
                         if (users.size > 0) {
-                            EditAvatar(user=users[0])
+                            EditAvatar(user=users.get(discordId))
                         }
                     }
                 }
