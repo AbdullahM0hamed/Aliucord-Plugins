@@ -1,3 +1,3 @@
-include(":CatApi")
+include(":AvatarChanger")
 
 rootProject.name = "Aliucord-Plugins"
