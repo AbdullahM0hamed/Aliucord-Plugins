@@ -36,11 +36,9 @@ class AvatarChangerSettings : SettingsPage() {
 
                         val userList = mutableListOf(id)
                         StoreStream.getUsers().fetchUsers(userList)
-                        val users = StoreStream.getUsers().getUsers().get(id)
+                        val user = StoreStream.getUsers().getUsers().get(id)
 
-                        if (users.size > 0) {
-                            EditAvatar(user=users.value)
-                        }
+                        EditAvatar(user=user)
                     }
                 }
                 
