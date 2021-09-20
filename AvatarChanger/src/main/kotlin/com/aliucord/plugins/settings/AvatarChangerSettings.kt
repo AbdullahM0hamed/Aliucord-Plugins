@@ -1,6 +1,7 @@
 package com.aliucord.plugins.settings
 
 import android.view.View
+import com.aliucord.Utils
 import com.aliucord.fragments.InputDialog
 import com.aliucord.fragments.SettingsPage
 import com.aliucord.views.Button
@@ -22,6 +23,7 @@ class AvatarChangerSettings : SettingsPage() {
 
                 dialog.setOnOkListener {
                     val text = dialog.input
+                    var page: EditAvatar? = null
                     
                     if (!text.isEmpty()) {
                         val id = text.toLong()
@@ -29,15 +31,19 @@ class AvatarChangerSettings : SettingsPage() {
 
                         for (guild in guilds) {
                             if (guild.value.id == id) {
-                                EditAvatar(guild=guild.value)
+                                page = EditAvatar(guild=guild.value)
                             }
                         }
 
-                        val userList = mutableListOf(id)
-                        StoreStream.getUsers().fetchUsers(userList)
-                        val user = StoreStream.getUsers().getUsers().get(id)
+                        if (page != null) {
+                            val userList = mutableListOf(id)
+                            StoreStream.getUsers().fetchUsers(userList)
+                            val user = StoreStream.getUsers().getUsers().get(id)
+                            page = EditAvatar(user=user)
+                        }
 
-                        EditAvatar(user=user)
+                        Utils.openPageWithProxy(view.context, page)
+                        dialog.dismiss()
                     }
                 }
                 
