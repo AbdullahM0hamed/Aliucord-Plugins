@@ -1,4 +1,4 @@
-package com.aliucord.red.plugins.settings
+package com.aliucord.plugins.settings
 
 import android.view.View
 import com.aliucord.Utils

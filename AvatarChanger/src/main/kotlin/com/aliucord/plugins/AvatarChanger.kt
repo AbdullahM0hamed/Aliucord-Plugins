@@ -1,4 +1,4 @@
-package com.aliucord.red.plugins
+package com.aliucord.plugins
 
 import android.content.Context
 import com.aliucord.annotations.AliucordPlugin
