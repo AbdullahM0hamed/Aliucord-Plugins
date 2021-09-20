@@ -1,5 +1,6 @@
 import com.aliucord.gradle.AliucordExtension
 import com.android.build.gradle.BaseExtension
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 buildscript {
     repositories {
@@ -10,6 +11,7 @@ buildscript {
     dependencies {
         classpath("com.android.tools.build:gradle:7.0.2")
         classpath("com.github.Aliucord:gradle:main-SNAPSHOT")
+        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.5.21")
     }
 }
 
@@ -28,6 +30,7 @@ fun Project.android(configuration: BaseExtension.() -> Unit) = extensions.getByN
 subprojects {
     apply(plugin = "com.android.library")
     apply(plugin = "com.aliucord.gradle")
+    apply(plugin = "kotlin-android")
 
     aliucord {
         author("DISCORD USERNAME", 123456789L)
@@ -46,6 +49,16 @@ subprojects {
         compileOptions {
             sourceCompatibility = JavaVersion.VERSION_11
             targetCompatibility = JavaVersion.VERSION_11
+        }
+
+        tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
+            kotlinOptions {
+                jvmTarget = "11"
+                freeCompilerArgs = freeCompilerArgs +
+                        "-Xno-call-assertions" +
+                        "-Xno-param-assertions" +
+                        "-Xno-receiver-assertions"
+            }
         }
     }
 
