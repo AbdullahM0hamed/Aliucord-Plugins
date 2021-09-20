@@ -39,10 +39,11 @@ class AvatarChangerSettings : SettingsPage() {
                             val userList = mutableListOf(id)
                             StoreStream.getUsers().fetchUsers(userList)
                             val user = StoreStream.getUsers().getUsers().get(id)
+                            Utils.showToast(view.context, user.toString())
                             page = EditAvatar(user=user)
                         }
 
-                        Utils.openPageWithProxy(view.context, page)
+                        //Utils.openPageWithProxy(view.context, page)
                         dialog.dismiss()
                     }
                 }
