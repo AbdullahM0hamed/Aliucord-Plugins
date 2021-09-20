@@ -26,7 +26,7 @@ class AvatarChangerSettings : SettingsPage() {
                     var page: EditAvatar? = null
                     
                     if (!text.isEmpty()) {
-                        val id = text.toLong()
+                        val id = text.toLongOrNull() ?: 0L
                         val guilds = StoreStream.getGuilds().getGuilds()
 
                         for (guild in guilds) {
@@ -42,12 +42,7 @@ class AvatarChangerSettings : SettingsPage() {
                             page = EditAvatar(user=user)
                         }
 
-                        if (page != null) {
-                            Utils.openPageWithProxy(view.context, page)
-                        } else {
-                            Utils.showToast(view.context, "Invalid User/Server ID")
-                        }
-
+                        Utils.openPageWithProxy(view.context, page)
                         dialog.dismiss()
                     }
                 }
