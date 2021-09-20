@@ -30,7 +30,6 @@ class AvatarChangerSettings : SettingsPage() {
                         for (guild in guilds) {
                             if (guild.value.id == id) {
                                 EditAvatar(guild=guild.value)
-                                dialog.dismiss()
                             }
                         }
 
