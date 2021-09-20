@@ -20,6 +20,6 @@ data class EditAvatar(
 
         setActionBarTitle("Edit Avatar")
         setActionBarSubtitle(guild?.name ?: user!!.username)
-        linearLayout.addView(this)
+        linearLayout.addView(view)
     }
 }
