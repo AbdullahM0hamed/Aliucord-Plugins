@@ -12,6 +12,8 @@ data class EditAvatar(
 ) : SettingsPage() {
 
     override fun onViewBound(view: View) {
+        super.onViewBound(view)
+
         if (guild == null && user == null) {
             Utils.showToast(view.context, "Invalid User/Server")
             activity?.onBackPressed()
