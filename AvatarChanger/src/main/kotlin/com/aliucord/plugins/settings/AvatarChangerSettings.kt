@@ -15,7 +15,7 @@ class AvatarChangerSettings : SettingsPage() {
         Button(view.context).apply {
             text = "Add User/Server"
             setOnClickListener {
-                val dialog = InputDialog
+                val dialog = InputDialog()
                     .setTitle("Add User/Server")
                     .setDescription("Enter the User or Server's ID")
                     .setPlaceholderText("User/Server ID")
@@ -24,19 +24,19 @@ class AvatarChangerSettings : SettingsPage() {
                     val text = dialog.input
                     
                     if (!text.isEmpty()) {
-                        val id = Long.parseLong(text)
+                        val id = text.toLong()
                         val guilds = StoreStream.getGuilds().getGuilds()
 
                         for (guild in guilds) {
                             if (guild.id == id) {
-                                EditAvatar(guild)
+                                EditAvatar(guild=guild)
                                 dialog.dismiss()
                             }
                         }
 
-                        val users = StoreStream.getUsers().fetchUsers(longArrayOf(id))
+                        val users = StoreStream.getUsers().fetchUsers(mutableListOf(id))
                         if (users.size > 0) {
-                            EditAvatar(users[0])
+                            EditAvatar(user=users[0])
                         }
                     }
                 }

@@ -6,7 +6,7 @@ import com.aliucord.fragments.SettingsPage
 import com.discord.models.guild.Guild
 import com.discord.models.user.User
 
-data class EditAvatar({
+data class EditAvatar(
     val guild: Guild? = null,
     val user: User? = null
 ) : SettingsPage() {
