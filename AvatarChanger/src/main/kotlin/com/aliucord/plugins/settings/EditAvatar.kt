@@ -1,6 +1,5 @@
 package com.aliucord.plugins.settings
 
-import android.content.Context
 import android.os.Environment
 import android.view.View
 import android.widget.LinearLayout
@@ -11,14 +10,10 @@ import com.aliucord.views.Button
 import com.discord.models.guild.Guild
 import com.discord.models.user.User
 import com.discord.utilities.view.ViewCoroutineScopeKt
-import com.lytefast.flexinput.R
-
+import kotlinx.coroutines.launchIn
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.launchIn
 
 data class EditAvatar(
     val guild: Guild? = null,
@@ -36,11 +31,13 @@ data class EditAvatar(
 
         setActionBarTitle("Edit Avatar")
         setActionBarSubtitle(guild?.name ?: user!!.username + user!!.discriminator)
-        linearLayout.addView(ProfileWidget(
-            ctx=view.context, 
-            guild=guild, 
-            user=user
-        ))
+        linearLayout.addView(
+            ProfileWidget(
+                ctx = view.context,
+                guild = guild,
+                user = user
+            )
+        )
 
         val buttons = LinearLayout(view.context)
         buttons.orientation = LinearLayout.VERTICAL
@@ -68,7 +65,7 @@ data class EditAvatar(
                 guild?.name ?: user!!.username + ".png",
                 view.context.getExternalFilesDir(
                     Environment.DIRECTORY_DOWNLOADS
-                ).absolutePath
+                ).absolutePath ?: "/storage/emulated/0/Download"
             )
 
             if (file.exists()) {
@@ -76,26 +73,25 @@ data class EditAvatar(
                     view.context,
                     "${guild?.name ?: user!!.username}.png already downloaded"
                 )
-                return
-            }
+            } else {
+                try {
+                    val res = Http.Request(url).execute()
+                    FileOutputStream(file).use { out ->
+                        res.pipe(out)
+                        Utils.showToast(
+                            view.context,
+                            "${file.absolutePath} downloaded"
+                        )
+                    }
+                } catch (e: IOException) {
+                    Utils.showToast(view.context, "Something went wrong")
 
-            try {
-                val res = Http.Request(url).execute()
-                FileOutputStream(file).use { out ->
-                    res.pipe(out)
-                    Utils.showToast(
-                        view.context,
-                        "${file.absolutePath} downloaded"
-                    )
-                }
-            } catch (e: IOException) {
-                Utils.showToast(view.context, "Something went wrong")
-                
-                if (file.exists()) {
-                    file.delete()
-                } else {
-                    //ABSOLUTE PAIN BECAUSE OF COMPILER
-                }
+                    if (file.exists()) {
+                        file.delete()
+                    } else {
+                        // ABSOLUTE PAIN BECAUSE OF COMPILER
+                    }
+                } 
             }
         }
     }
