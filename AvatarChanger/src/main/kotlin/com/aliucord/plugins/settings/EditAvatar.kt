@@ -10,7 +10,8 @@ import com.aliucord.views.Button
 import com.discord.models.guild.Guild
 import com.discord.models.user.User
 import com.discord.utilities.views.ViewCoroutineScopeKt
-import kotlinx.coroutines.launchIn
+
+import kotlinx.coroutines.launch
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
@@ -59,7 +60,7 @@ data class EditAvatar(
     }
 
     private fun downloadAvatar(view: View) {
-        ViewCoroutineScopeKt.getCoroutineScope(view).launchIn {
+        ViewCoroutineScopeKt.getCoroutineScope(view).launch {
             val url = guild?.icon ?: user!!.avatar
             val file = File(
                 guild?.name ?: user!!.username + ".png",
