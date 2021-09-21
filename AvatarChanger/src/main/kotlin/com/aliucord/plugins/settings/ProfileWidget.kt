@@ -14,13 +14,13 @@ import com.discord.utilities.icon.IconUtils
 import com.discord.utilities.images.MGImages
 
 class ProfileWidget(
-    val context: Context,
+    val ctx: Context,
     val guild: Guild? = null,
     val user: User? = null
-) : LinearLayout(context) {
+) : LinearLayout(ctx) {
 
     init {
-        val inflate = LayoutInflater.from(context).inflate(
+        val inflate = LayoutInflater.from(ctx).inflate(
             Utils.getResId(
                 "user_profile_header_view", 
                 "layout"
