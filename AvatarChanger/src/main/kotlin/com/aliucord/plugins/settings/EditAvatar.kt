@@ -10,16 +10,15 @@ import com.aliucord.fragments.SettingsPage
 import com.aliucord.views.Button
 import com.discord.models.guild.Guild
 import com.discord.models.user.User
-import com.discord.utilities.color.ColorCompat
-import com.discord.utilities.user.UserUtils
+import com.discord.utilities.view.ViewCoroutineScopeKt
 import com.lytefast.flexinput.R
 
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launchIn
 
 data class EditAvatar(
     val guild: Guild? = null,
@@ -48,7 +47,7 @@ data class EditAvatar(
 
         Button(view.context).apply {
             text = "Download Current Avatar"
-            setOnClickListener { downloadAvatar(view.context) }
+            setOnClickListener { downloadAvatar(view) }
 
             buttons.addView(this)
         }
@@ -62,19 +61,19 @@ data class EditAvatar(
         linearLayout.addView(buttons)
     }
 
-    private fun downloadAvatar(context: Context) {
-        CoroutineScope(Dispatchers.Main).launch {
+    private fun downloadAvatar(view: View) {
+        ViewCoroutineScopeKt.getCoroutineScope(view).launchIn {
             val url = guild?.icon ?: user!!.avatar
             val file = File(
                 guild?.name ?: user!!.username + ".png",
-                context.getExternalFilesDir(
+                view.context.getExternalFilesDir(
                     Environment.DIRECTORY_DOWNLOADS
-                )
+                ).absolutePath
             )
 
             if (file.exists()) {
                 Utils.showToast(
-                    context,
+                    view.context,
                     "${guild?.name ?: user!!.username}.png already downloaded"
                 )
                 return
@@ -82,15 +81,15 @@ data class EditAvatar(
 
             try {
                 val res = Http.Request(url).execute()
-                FileOutputStream(file).use {
-                    res.pipe(it)
+                FileOutputStream(file).use { out ->
+                    res.pipe(out)
                     Utils.showToast(
-                        context,
+                        view.context,
                         "${file.absolutePath} downloaded"
                     )
                 }
             } catch (e: IOException) {
-                Utils.showToast(context, "Something went wrong")
+                Utils.showToast(view.context, "Something went wrong")
                 
                 if (file.exists()) {
                     file.delete()
