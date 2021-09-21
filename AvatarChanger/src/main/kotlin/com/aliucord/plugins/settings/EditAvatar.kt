@@ -1,5 +1,6 @@
 package com.aliucord.plugins.settings
 
+import android.content.Context
 import android.os.Environment
 import android.view.View
 import android.widget.LinearLayout
@@ -16,6 +17,8 @@ import com.lytefast.flexinput.R
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 data class EditAvatar(
@@ -33,7 +36,7 @@ data class EditAvatar(
         }
 
         setActionBarTitle("Edit Avatar")
-        setActionBarSubtitle(guild?.name ?: user!!.getUserNameWithDiscriminator())
+        setActionBarSubtitle(guild?.name ?: user!!.username + user!!.discriminator)
         linearLayout.addView(ProfileWidget(
             ctx=view.context, 
             guild=guild, 
@@ -60,7 +63,7 @@ data class EditAvatar(
     }
 
     private fun downloadAvatar(context: Context) {
-        launch {
+        CoroutineScope(Dispatchers.Main).launch {
             val url = guild?.icon ?: user!!.avatar
             val file = File(
                 guild?.name ?: user!!.username + ".png",
@@ -85,12 +88,14 @@ data class EditAvatar(
                         context,
                         "${file.absolutePath} downloaded"
                     )
-                    Utils.mainThread.post(callback)
                 }
             } catch (e: IOException) {
                 Utils.showToast(context, "Something went wrong")
+                
                 if (file.exists()) {
                     file.delete()
+                } else {
+                    //ABSOLUTE PAIN BECAUSE OF COMPILER
                 }
             }
         }
