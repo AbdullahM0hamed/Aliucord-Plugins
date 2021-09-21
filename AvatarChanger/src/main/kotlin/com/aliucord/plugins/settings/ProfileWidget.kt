@@ -2,6 +2,7 @@ package com.aliucord.plugins.settings
 
 import android.content.Context
 import android.view.LayoutInflater
+import android.view.View
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.LinearLayout.LayoutParams
@@ -10,8 +11,10 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import com.aliucord.Utils
 import com.discord.models.guild.Guild
 import com.discord.models.user.User
+import com.discord.utilities.color.ColorCompat
 import com.discord.utilities.icon.IconUtils
 import com.discord.utilities.images.MGImages
+import com.lytefast.flexinput.R
 
 class ProfileWidget(
     val ctx: Context,
@@ -36,6 +39,23 @@ class ProfileWidget(
         )
 
         setImage(constraintLayout)
+
+        constraintLayout.findViewById(
+            Utils.getResId("user_avatar_presence_status", "id")
+        ).setVisibility(View.GONE)
+
+        val cutout = constraintLayout.findViewById(
+            Utils.getResId("avatar_cutout", "id")
+        )
+
+        val cutoutImg = cutout.drawable
+        cutoutImg.setTint(
+            ColorCompat.getThemedColor(
+                ctx,
+                R.b.colorBackgroundSecondary
+            )
+        )
+        cutout.setBackgroundDrawable(cutoutImg)
 
         val username: TextView = constraintLayout.findViewById(
             Utils.getResId("username_text", "id")
