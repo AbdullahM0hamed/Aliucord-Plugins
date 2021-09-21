@@ -42,7 +42,7 @@ data class EditAvatar(
                     view.context,
                     guild?.icon ?: user!!.avatar,
                     guild?.name ?: user!!.username + ".png",
-                    Environment.getExternalStoragePublicDirectory(
+                    view.context.getExternalFilesDir(
                         Environment.DIRECTORY_DOWNLOADS
                     )
                 )
