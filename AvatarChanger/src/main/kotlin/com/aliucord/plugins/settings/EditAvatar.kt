@@ -7,7 +7,6 @@ import com.aliucord.fragments.SettingsPage
 import com.aliucord.views.Button
 import com.discord.models.guild.Guild
 import com.discord.models.user.User
-import com.lytefast.flexinput.R
 
 data class EditAvatar(
     val guild: Guild? = null,
@@ -36,30 +35,32 @@ data class EditAvatar(
 
         Button(view.context).apply {
             text = "Download Current Avatar"
+
             setCompoundDrawableWithIntrinsicBounds(
-                R.d.ic_uploads_image_dark,
+                Utils.getResId(
+                    "ic_uploads_image_dark",
+                    "id"
+                ),
                 0,
                 0,
                 0
             )
-            setOnClickListener { 
-                //TODO: Add code here
-            }
 
             buttons.addView(this)
         }
 
         Button(view.context).apply {
             text = "Upload New Avatar"
+
             setCompoundDrawableWithIntrinsicBounds(
-                R.d.ic_uploads_generic_dark,
+                Utils.getResId(
+                    "ic_uploads_generic_dark",
+                    "id"
+                ),
                 0,
                 0,
                 0
             )
-            setOnClickListener {
-                //TODO: Do this as well
-            }
 
             buttons.addView(this)
         }
