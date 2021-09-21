@@ -16,6 +16,7 @@ import com.lytefast.flexinput.R
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
+import kotlinx.coroutines.launch
 
 data class EditAvatar(
     val guild: Guild? = null,
@@ -59,7 +60,7 @@ data class EditAvatar(
     }
 
     private fun downloadAvatar(context: Context) {
-        Utils.threadPool.execute(function: () -> Unit = {
+        launch {
             val url = guild?.icon ?: user!!.avatar
             val file = File(
                 guild?.name ?: user!!.username + ".png",
@@ -92,6 +93,6 @@ data class EditAvatar(
                     file.delete()
                 }
             }
-        })
+        }
     }
 }
