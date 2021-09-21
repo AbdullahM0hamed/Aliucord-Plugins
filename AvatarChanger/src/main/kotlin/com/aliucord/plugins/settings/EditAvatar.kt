@@ -32,16 +32,16 @@ data class EditAvatar(
         ))
 
         val buttons = LinearLayout(view.context)
-        buttons.orientation = LineaLayout.VERTICAL
+        buttons.orientation = LinearLayout.VERTICAL
 
         Button(view.context).apply {
             text = "Download Current Avatar"
-            setCompoundDrawableWithIntrinsicBounds {
+            setCompoundDrawableWithIntrinsicBounds(
                 R.d.ic_uploads_image_dark,
                 0,
                 0,
                 0
-            }
+            )
             setOnClickListener { 
                 //TODO: Add code here
             }
@@ -51,12 +51,12 @@ data class EditAvatar(
 
         Button(view.context).apply {
             text = "Upload New Avatar"
-            setCompoundDrawableWithIntrinsicBounds {
+            setCompoundDrawableWithIntrinsicBounds(
                 R.d.ic_uploads_generic_dark,
                 0,
                 0,
                 0
-            }
+            )
             setOnClickListener {
                 //TODO: Do this as well
             }
