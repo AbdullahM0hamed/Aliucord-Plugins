@@ -1,5 +1,6 @@
 package com.aliucord.plugins.settings
 
+import android.os.Environment
 import android.view.View
 import android.widget.LinearLayout
 import com.aliucord.Utils
@@ -7,6 +8,7 @@ import com.aliucord.fragments.SettingsPage
 import com.aliucord.views.Button
 import com.discord.models.guild.Guild
 import com.discord.models.user.User
+import com.discord.utilities.file.DownloadUtils
 
 data class EditAvatar(
     val guild: Guild? = null,
@@ -35,6 +37,16 @@ data class EditAvatar(
 
         Button(view.context).apply {
             text = "Download Current Avatar"
+            setOnClickListener {
+                DownloadUtils.downloadFile(
+                    view.context,
+                    guild?.icon ?: user!!.avatar,
+                    guild?.name ?: user!!.username + '.png',
+                    Environment.getExternalStoragePublicDirectory(
+                        Environment.DIRECTORY_DOWNLOADS
+                    )
+                )
+            }
 
             buttons.addView(this)
         }
