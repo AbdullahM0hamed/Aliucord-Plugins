@@ -40,13 +40,13 @@ class ProfileWidget(
 
         setImage(constraintLayout)
 
-        constraintLayout.findViewById(
+        (constraintLayout.findViewById(
             Utils.getResId("user_avatar_presence_status", "id")
-        ).setVisibility(View.GONE)
+        ) as ImageView).setVisibility(View.GONE)
 
         val cutout = constraintLayout.findViewById(
             Utils.getResId("avatar_cutout", "id")
-        )
+        ) as ImageView
 
         val cutoutImg = cutout.drawable
         cutoutImg.setTint(
