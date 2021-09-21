@@ -59,7 +59,7 @@ data class EditAvatar(
     }
 
     private fun downloadAvatar(context: Context) {
-        Utils.threadPool.execute(function : () -> Unit = {
+        Utils.threadPool.execute(function: () -> Unit = {
             val url = guild?.icon ?: user!!.avatar
             val file = File(
                 guild?.name ?: user!!.username + ".png",
