@@ -55,7 +55,7 @@ class ProfileWidget(
                 R.b.colorBackgroundSecondary
             )
         )
-        cutout.setBackgroundDrawable(cutoutImg)
+        cutout.setBackground(cutoutImg)
 
         val username: TextView = constraintLayout.findViewById(
             Utils.getResId("username_text", "id")
