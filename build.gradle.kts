@@ -73,7 +73,7 @@ subprojects {
         implementation("com.google.android.material:material:1.4.0")
         implementation("androidx.constraintlayout:constraintlayout:2.1.0")
         implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.1")
-        implementatio( "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.1")
+        implementation( "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.1")
 
     }
 }
