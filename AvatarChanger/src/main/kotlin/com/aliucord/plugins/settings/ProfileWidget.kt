@@ -2,8 +2,10 @@ package com.aliucord.plugins
 
 import android.content.Context
 import android.view.LayoutInflater
+import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.LinearLayout.LayoutParams
+import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.aliucord.Utils
 import com.discord.models.guild.Guild
@@ -21,10 +23,10 @@ class ProfileWidget(
         val inflate = LayoutInflater.from(context).inflate(
             Utils.getResId(
                 "user_profile_header_view", 
-                "layout", 
-                null,
-                false
-            )
+                "layout"
+            ),
+            null,
+            false
         )
 
         val constraintLayout = inflate as ConstraintLayout
@@ -35,7 +37,7 @@ class ProfileWidget(
 
         setImage(constraintLayout)
 
-        val username = constraintLayout.findViewById(
+        val username: TextView = constraintLayout.findViewById(
             Utils.getResId("username_text", "id")
         )
 
@@ -44,10 +46,14 @@ class ProfileWidget(
     }
 
     private fun setImage(constraintLayout: ConstraintLayout) {
-        val imageView = constraintLayout.findViewById(
+        val imageView: ImageView = constraintLayout.findViewById(
             Utils.getResId("avatar", "id")
         )
 
-        IconUtils.setIcon(imageView, guild ?: user)
+        if (guild != null) {
+            IconUtils.setIcon(imageView, guild)
+        } else {
+            IconUtils.setIcon(imageView, user)
+        }
     }
 }
