@@ -1,4 +1,4 @@
-package com.aliucord.plugins
+package com.aliucord.plugins.settings
 
 import android.content.Context
 import android.view.LayoutInflater
