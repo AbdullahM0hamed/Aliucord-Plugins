@@ -36,31 +36,11 @@ data class EditAvatar(
         Button(view.context).apply {
             text = "Download Current Avatar"
 
-            setCompoundDrawableWithIntrinsicBounds(
-                Utils.getResId(
-                    "ic_uploads_image_dark",
-                    "id"
-                ),
-                0,
-                0,
-                0
-            )
-
             buttons.addView(this)
         }
 
         Button(view.context).apply {
             text = "Upload New Avatar"
-
-            setCompoundDrawableWithIntrinsicBounds(
-                Utils.getResId(
-                    "ic_uploads_generic_dark",
-                    "id"
-                ),
-                0,
-                0,
-                0
-            )
 
             buttons.addView(this)
         }
