@@ -4,15 +4,16 @@ import android.content.Context
 import android.os.Environment
 import android.view.View
 import android.widget.LinearLayout
-import com.aliucord.Http
 import com.aliucord.Utils
 import com.aliucord.fragments.SettingsPage
 import com.aliucord.views.Button
 import com.discord.models.guild.Guild
 import com.discord.models.user.User
 import com.discord.utilities.file.DownloadUtils
+import com.discord.utilities.rx.ObservableExtensionsKt
 
 import java.io.File
+import rx.Observable
 
 data class EditAvatar(
     val guild: Guild? = null,
@@ -29,7 +30,10 @@ data class EditAvatar(
         }
 
         setActionBarTitle("Edit Avatar")
-        setActionBarSubtitle(guild?.name ?: user!!.username + user!!.discriminator)
+
+        val name =
+            guild?.name ?: "${user!!.username}#${user!!.discriminator}"
+        setActionBarSubtitle(name)
         linearLayout.addView(
             ProfileWidget(
                 ctx = view.context,
@@ -65,11 +69,16 @@ data class EditAvatar(
         val url = "https://cdn.discordapp.com/avatars/${guild?.id ?: user!!.id}/${guild?.icon ?: user!!.avatar}.png"
 
         Utils.showToast(context, guild?.name ?: user!!.username)
-        DownloadUtils.downloadFile(
-            context,
-            url,
-            guild?.name ?: user!!.username + ".png",
-            path
-        )   
+        
+        Observable.j(ObservableExtensionsKt.restSubscribeOn(
+            DownloadUtils.downloadFile(
+                context,
+                url,
+                guild?.name ?: user!!.username + ".png",
+                path
+            )
+        )
     }
+
+
 }

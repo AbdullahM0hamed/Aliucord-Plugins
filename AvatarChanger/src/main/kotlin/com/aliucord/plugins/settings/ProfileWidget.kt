@@ -61,7 +61,10 @@ class ProfileWidget(
             Utils.getResId("username_text", "id")
         )
 
-        username.text = guild?.name ?: user!!.username
+        val name =
+            guild?.name ?: "${user!!.username}#${user.discriminator}"
+
+        username.text = name
         addView(constraintLayout)
     }
 
