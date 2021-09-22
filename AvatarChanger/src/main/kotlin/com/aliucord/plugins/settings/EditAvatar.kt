@@ -64,7 +64,7 @@ data class EditAvatar(
 
         val url = "https://cdn.discordapp.com/avatars/${guild?.id ?: user!!.id}/${guild?.icon ?: user!!.avatar}.png"
 
-        Utils.showToast(context, url)
+        Utils.showToast(context, path)
         DownloadUtils.downloadFile(
             context,
             url,
