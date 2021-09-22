@@ -47,13 +47,12 @@ data class EditAvatar(
         Button(view.context).apply {
             text = "Download Current Avatar"
             setOnClickListener { downloadAvatar(view.context) }
-
             buttons.addView(this)
         }
 
         Button(view.context).apply {
             text = "Upload New Avatar"
-
+            setOnClickListener { getImageFile() }
             buttons.addView(this)
         }
 
@@ -61,22 +60,7 @@ data class EditAvatar(
     }
 
     private fun downloadAvatar(context: Context) {
-        val path = context.getExternalFilesDir(
-            Environment.DIRECTORY_DOWNLOADS
-        )
-
-        val url = "https://cdn.discordapp.com/avatars/${guild?.id ?: user!!.id}/${guild?.icon ?: user!!.avatar}.png"
-
-        Utils.showToast(context, guild?.name ?: user!!.username)
-        
-        /*Observable.j(ObservableExtensionsKt.restSubscribeOn(
-            DownloadUtils.downloadFile(
-                context,
-                url,
-                guild?.name ?: user!!.username + ".png",
-                path
-            )
-        ))*/
+        val url = "https://cdn.discordapp.com/avatars/${guild?.id ?: user!!.id}/${guild?.icon ?: user!!.avatar}.png?size=1024"
 
         val uri = Uri.parse(url)
         val request = DownloadManager.Request(uri)
@@ -99,6 +83,5 @@ data class EditAvatar(
         ) as DownloadManager?
 
         manager?.enqueue(request)
-        Utils.showToast(context, "Done that")
     }
 }
