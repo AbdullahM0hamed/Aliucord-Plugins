@@ -1,5 +1,6 @@
 package com.aliucord.plugins.settings
 
+import android.content.Context
 import android.os.Environment
 import android.view.View
 import android.widget.LinearLayout
@@ -42,7 +43,7 @@ data class EditAvatar(
 
         Button(view.context).apply {
             text = "Download Current Avatar"
-            setOnClickListener { downloadAvatar() }
+            setOnClickListener { downloadAvatar(view.context) }
 
             buttons.addView(this)
         }
