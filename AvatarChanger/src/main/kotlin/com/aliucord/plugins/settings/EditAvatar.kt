@@ -52,7 +52,7 @@ data class EditAvatar(
 
         Button(view.context).apply {
             text = "Upload New Avatar"
-            setOnClickListener { getImageFile() }
+            setOnClickListener { uploadFile() }
             buttons.addView(this)
         }
 
@@ -83,5 +83,9 @@ data class EditAvatar(
         ) as DownloadManager?
 
         manager?.enqueue(request)
+    }
+
+    private fun uploadFile() {
+        openMediaChooser()
     }
 }
