@@ -77,8 +77,6 @@ data class EditAvatar(
                 guild?.name ?: user!!.username + ".png",
                 path
             )
-        )
+        ))
     }
-
-
 }
