@@ -82,8 +82,8 @@ data class EditAvatar(
         val request = DownloadManager.Request(uri)
         val name = (guild?.name ?: user!!.username) + ".png"
 
-        request.title = name
-        request.description = "Download complete."
+        request.setTitle(name)
+        request.setadescription("Download complete.")
         request.setDestinationInExternalPublicDir(
             Environment.DIRECTORY_DOWNLOADS,
             name
