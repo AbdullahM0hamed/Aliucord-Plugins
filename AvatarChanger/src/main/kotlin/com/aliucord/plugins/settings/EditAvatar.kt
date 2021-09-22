@@ -79,8 +79,8 @@ data class EditAvatar(
         ))*/
 
         val uri = Uri.parse(url)
-        val request = Download.Request(uri)
-        val name = guild?.name ?: user!!.username + ".png"
+        val request = DownloadManager.Request(uri)
+        val name = (guild?.name ?: user!!.username) + ".png"
 
         request.title = name
         request.description = "Download complete."
@@ -94,7 +94,10 @@ data class EditAvatar(
             DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_ONLY_COMPLETION
         )
 
-        val manager = context.getSystemService<Any>(Context.DOWNLOAD_SERVICE) as DownloadManager?
+        val manager = context.getSystemService(
+            Context.DOWNLOAD_SERVICE
+        ) as DownloadManager?
+
         manager?.enqueue(request)
         Utils.showToast(context, "Done that")
     }
