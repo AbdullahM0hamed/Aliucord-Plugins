@@ -29,7 +29,7 @@ data class EditAvatar(
         }
 
         setActionBarTitle("Edit Avatar")
-        setActionBarSubtitle(guild?.name ?: user!!.username + user!!.discriminator)
+        setActionBarSubtitle(guild?.name ?: user.username + user.discriminator)
         linearLayout.addView(
             ProfileWidget(
                 ctx = view.context,
@@ -62,10 +62,12 @@ data class EditAvatar(
             Environment.DIRECTORY_DOWNLOADS
         )
 
-        Utils.showToast(context, guild?.icon ?: user!!.avatar)
+        val url = "https://cdn.discordapp.com/avatars/${guild?.id ?: user!!.id}/${guild?.icon ?: user!!.avatar}.png"
+
+        Utils.showToast(context, url)
         DownloadUtils.downloadFile(
             context,
-            guild?.icon ?: user!!.avatar,
+            url,
             guild?.name ?: user!!.username + ".png",
             path
         )   
