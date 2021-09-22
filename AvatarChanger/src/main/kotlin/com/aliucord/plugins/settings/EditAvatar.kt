@@ -58,13 +58,12 @@ data class EditAvatar(
     }
 
     private fun downloadAvatar(context: Context) {
-        val downloadUtils = DownloadUtils.INSTANCE
         val path = context.getExternalFilesDir(
             Environment.DIRECTORY_DOWNLOADS
         )
 
         Utils.showToast(context, guild?.icon ?: user!!.avatar)
-        downloadUtils.downloadFile(
+        DownloadUtils.downloadFile(
             context,
             guild?.icon ?: user!!.avatar,
             guild?.name ?: user!!.username + ".png",
