@@ -1,6 +1,8 @@
 package com.aliucord.plugins.settings
 
+import android.app.DownloadManager
 import android.content.Context
+import android.net.Uri
 import android.os.Environment
 import android.view.View
 import android.widget.LinearLayout
@@ -9,11 +11,8 @@ import com.aliucord.fragments.SettingsPage
 import com.aliucord.views.Button
 import com.discord.models.guild.Guild
 import com.discord.models.user.User
-import com.discord.utilities.file.DownloadUtils
-import com.discord.utilities.rx.ObservableExtensionsKt
 
 import java.io.File
-import rx.Observable
 
 data class EditAvatar(
     val guild: Guild? = null,
@@ -70,13 +69,33 @@ data class EditAvatar(
 
         Utils.showToast(context, guild?.name ?: user!!.username)
         
-        Observable.j(ObservableExtensionsKt.restSubscribeOn(
+        /*Observable.j(ObservableExtensionsKt.restSubscribeOn(
             DownloadUtils.downloadFile(
                 context,
                 url,
                 guild?.name ?: user!!.username + ".png",
                 path
             )
-        ))
+        ))*/
+
+        val uri = Uri.parse(url)
+        val request = Download.Request(uri)
+        val name = guild?.name ?: user!!.username + ".png"
+
+        request.title = name
+        request.description = "Download complete."
+        request.setDestinationInExternalPublicDir(
+            Environment.DIRECTORY_DOWNLOADS,
+            name
+        )
+
+        request.allowScanningByMediaScanner()
+        request.setNotificationVisibility(
+            DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_ONLY_COMPLETION
+        )
+
+        val manager = context.getSystemService<Any>(Context.DOWNLOAD_SERVICE) as DownloadManager?
+        manager?.enqueue(request)
+        Utils.showToast(context, "Done that")
     }
 }
