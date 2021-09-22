@@ -9,12 +9,9 @@ import com.aliucord.fragments.SettingsPage
 import com.aliucord.views.Button
 import com.discord.models.guild.Guild
 import com.discord.models.user.User
-import com.discord.utilities.views.ViewCoroutineScopeKt
+import com.discord.utilities.file.DownloadUtils
 
-import kotlinx.coroutines.launch
 import java.io.File
-import java.io.FileOutputStream
-import java.io.IOException
 
 data class EditAvatar(
     val guild: Guild? = null,
@@ -45,7 +42,7 @@ data class EditAvatar(
 
         Button(view.context).apply {
             text = "Download Current Avatar"
-            setOnClickListener { downloadAvatar(view) }
+            setOnClickListener { downloadAvatar() }
 
             buttons.addView(this)
         }
@@ -59,41 +56,18 @@ data class EditAvatar(
         linearLayout.addView(buttons)
     }
 
-    private fun downloadAvatar(view: View) {
-        ViewCoroutineScopeKt.getCoroutineScope(view).launch {
-            val url = guild?.icon ?: user!!.avatar
-            val file = File(
-                guild?.name ?: user!!.username + ".png",
-                view.context.getExternalFilesDir(
-                    Environment.DIRECTORY_DOWNLOADS
-                )?.absolutePath ?: "/storage/emulated/0/Download"
-            )
+    private fun downloadAvatar(context: Context) {
+        val downloadUtils = DownloadUtils.INSTANCE
+        val path = context.getExternalFilesDir(
+            Environment.DIRECTORY_DOWNLOADS
+        )
 
-            if (file.exists()) {
-                Utils.showToast(
-                    view.context,
-                    "${guild?.name ?: user!!.username}.png already downloaded"
-                )
-            } else {
-                try {
-                    val res = Http.Request(url).execute()
-                    FileOutputStream(file).use { out ->
-                        res.pipe(out)
-                        Utils.showToast(
-                            view.context,
-                            "${file.absolutePath} downloaded"
-                        )
-                    }
-                } catch (e: IOException) {
-                    Utils.showToast(view.context, "Something went wrong")
-
-                    if (file.exists()) {
-                        file.delete()
-                    } else {
-                        // ABSOLUTE PAIN BECAUSE OF COMPILER
-                    }
-                } 
-            }
-        }
+        Utils.showToast(context, guild?.icon ?: user!!.avatar)
+        downloadUtils.downloadFile(
+            context,
+            guild?.icon ?: user!!.avatar,
+            guild?.name ?: user!!.username + ".png",
+            path
+        )   
     }
 }
