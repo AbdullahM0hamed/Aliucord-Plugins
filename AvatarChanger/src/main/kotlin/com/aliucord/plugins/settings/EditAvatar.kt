@@ -101,7 +101,7 @@ data class EditAvatar(
                 override fun onEditTextAttached(
                     input: TextInputLayout
                 ) {
-                    input!!.editText.addTextChangedListener(
+                    input.editText?.addTextChangedListener(
                         object : TextWatcher {
                             override fun beforeTextChanged(
                                 s: CharSequence?,
