@@ -15,6 +15,7 @@ import com.aliucord.fragments.SettingsPage
 import com.aliucord.views.Button
 import com.discord.models.guild.Guild
 import com.discord.models.user.User
+import com.google.android.material.textfield.TextInputLayout.OnEditTextAttachedListener
 
 data class EditAvatar(
     val guild: Guild? = null,
@@ -95,30 +96,44 @@ data class EditAvatar(
             .setDescription("Link to new image to use for avatar")
             .setPlaceholderText("http://site.com/image.png")
 
-        dialog.inputLayout.editText?.addTextChangedListener(
-            object : TextWatcher {
-                override fun beforeTextChanged(
-                    s: CharSequence?, 
-                    start: Int, 
-                    count: Int,
-                    after: Int
-                ) {}
+        dialog.inputLayout.addOnEditTextAttachedListener(
+            object : OnEditTextAttachedListener {
+                override fun onEditTextAttached(
+                    input: TextInputLayout
+                ) {
+                    input!!.editText.addTextChangedListener(
+                        object : TextWatcher {
+                            override fun beforeTextChanged(
+                                s: CharSequence?,
+                                start: Int,
+                                count: Int,
+                                after: Int
+                            ) {}
 
-                override fun onTextChanged(
-                    s: CharSequence?, 
-                    start: Int, 
-                    before: Int, 
-                    count: Int
-                ) {}
+                            override fun onTextChanged(
+                                s: CharSequence?,
+                                start: Int,
+                                before: Int,
+                                count: Int
+                            ) {}
 
-                override fun afterTextChanged(_editable: Editable?) {
-                    val url = dialog.input
+                            override fun afterTextChanged(
+                                editable: Editable?
+                            ) {
+                                val url = dialog.input
 
-                    if (!Patterns.WEB_URL.matcher(url).matches()) {
-                        dialog.setDescription(
-                            "Link to new avatar image [INVALID]"
-                        )
-                    } 
+                                if (!Patterns
+                                    .WEB_URL
+                                    .matcher(url)
+                                    .matches()
+                                ) {
+                                    dialog.setDescription(
+                                        "Link to new avatar image [INVALID]"
+                                    )
+                                }
+                            }
+                        }
+                    )
                 }
             }
         )
@@ -131,7 +146,7 @@ data class EditAvatar(
             } else {
                 Utils.showToast(ctx, "Test toast")
             }
-       }
+        }
 
         dialog.show(parentFragmentManager, "setAvatar")
     }
