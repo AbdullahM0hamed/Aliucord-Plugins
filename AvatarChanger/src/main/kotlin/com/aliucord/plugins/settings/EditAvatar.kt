@@ -4,6 +4,7 @@ import android.app.DownloadManager
 import android.content.Context
 import android.net.Uri
 import android.os.Environment
+import android.text.Editable
 import android.text.TextWatcher
 import android.util.Patterns
 import android.view.View
@@ -95,7 +96,7 @@ data class EditAvatar(
             .setDescription("Link to new image to use for avatar")
             .setPlaceholderText(url)
 
-        dialog.inputLayout.addTextChangedListener(
+        dialog.inputLayout.editText.addTextChangedListener(
             object : TextWatcher {
                 override fun beforeTextChanged(
                     s: CharSequence?, 
@@ -112,7 +113,9 @@ data class EditAvatar(
                 ) {}
 
                 override fun afterTextChanged(_editable: Editable?) {
-                    if (!validate(dialog)) {
+                    val url = dialog.input
+
+                    if (!Patterns.WEB_URL.matcher(url).matches()) {
                         dialog.setDescription(
                             "Link to new avatar image [INVALID]"
                         )
@@ -122,17 +125,15 @@ data class EditAvatar(
         )
 
         dialog.setOnOkListener {
-           if (!valdiate(dialog)) {
-               Utils.showToast(ctx, "Invalid URL")
-           } else {
-               Utils.showToast(ctx, "Test toast")
-           }
+            val url = dialog.input
+
+            if (!Patterns.matcher(url).matches()) {
+                Utils.showToast(ctx, "Invalid URL")
+            } else {
+                Utils.showToast(ctx, "Test toast")
+            }
        }
 
         dialog.show(parentFragmentManager, "setAvatar")
-    }
-
-    private fun validate(dialog: InputDialog): Boolean {
-        return Patterns.WEB_URL.matcher(dialog.input).matches()
     }
 }
