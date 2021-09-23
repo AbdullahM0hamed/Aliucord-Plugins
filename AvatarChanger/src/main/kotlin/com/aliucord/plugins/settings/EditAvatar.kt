@@ -4,15 +4,16 @@ import android.app.DownloadManager
 import android.content.Context
 import android.net.Uri
 import android.os.Environment
+import android.text.TextWatcher
+import android.util.Patterns
 import android.view.View
 import android.widget.LinearLayout
 import com.aliucord.Utils
+import com.aliucord.fragments.InputDialog
 import com.aliucord.fragments.SettingsPage
 import com.aliucord.views.Button
 import com.discord.models.guild.Guild
 import com.discord.models.user.User
-
-import java.io.File
 
 data class EditAvatar(
     val guild: Guild? = null,
@@ -54,21 +55,17 @@ data class EditAvatar(
         }
 
         Button(ctx).apply {
-            text = "Upload New Avatar"
-            setOnClickListener { uploadFile() }
+            text = "Change Avatar"
+            setOnClickListener { setAvatar() }
             buttons.addView(this)
         }
 
         linearLayout.addView(buttons)
     }
 
-    override fun onImageChosen(uri: Uri, mimetype: String) {
-        Utils.showToast(ctx, uri.toString())
-    }
+    val url = "https://cdn.discordapp.com/avatars/${guild?.id ?: user!!.id}/${guild?.icon ?: user!!.avatar}.png?size=1024"
 
     private fun downloadAvatar() {
-        val url = "https://cdn.discordapp.com/avatars/${guild?.id ?: user!!.id}/${guild?.icon ?: user!!.avatar}.png?size=1024"
-
         val uri = Uri.parse(url)
         val request = DownloadManager.Request(uri)
         val name = (guild?.name ?: user!!.username) + ".png"
@@ -92,7 +89,50 @@ data class EditAvatar(
         manager?.enqueue(request)
     }
 
-    private fun uploadFile() {
-        getFileManager().b()
+    private fun setAvatar() {
+        val dialog = InputDialog()
+            .setTitle("Set Avatar URL")
+            .setDescription("Link to new image to use for avatar")
+            .setPlaceholderText(url)
+
+        dialog.inputLayout.addTextChangedListener(
+            object : TextWatcher {
+                override fun beforeTextChanged(
+                    s: CharSequence?, 
+                    start: Int, 
+                    count: Int,
+                    after: Int
+                ) {}
+
+                override fun onTextChanged(
+                    s: CharSequence?, 
+                    start: Int, 
+                    before: Int, 
+                    count: Int
+                ) {}
+
+                override fun afterTextChanged(_editable: Editable?) {
+                    if (!validate(dialog)) {
+                        dialog.setDescription(
+                            "Link to new avatar image [INVALID]"
+                        )
+                    } 
+                }
+            }
+        )
+
+        dialog.setOnOkListener {
+           if (!valdiate(dialog)) {
+               Utils.showToast(ctx, "Invalid URL")
+           } else {
+               Utils.showToast(ctx, "Test toast")
+           }
+       }
+
+        dialog.show(parentFragmentManager, "setAvatar")
+    }
+
+    private fun validate(dialog: InputDialog): Boolean {
+        return Patterns.WEB_URL.matcher(dialog.input).matches()
     }
 }
