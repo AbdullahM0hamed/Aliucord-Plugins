@@ -64,9 +64,8 @@ data class EditAvatar(
         linearLayout.addView(buttons)
     }
 
-    val url = "https://cdn.discordapp.com/avatars/${guild?.id ?: user!!.id}/${guild?.icon ?: user!!.avatar}.png?size=1024"
-
     private fun downloadAvatar() {
+        val url = "https://cdn.discordapp.com/avatars/${guild?.id ?: user!!.id}/${guild?.icon ?: user!!.avatar}.png?size=1024"
         val uri = Uri.parse(url)
         val request = DownloadManager.Request(uri)
         val name = (guild?.name ?: user!!.username) + ".png"
@@ -94,7 +93,7 @@ data class EditAvatar(
         val dialog = InputDialog()
             .setTitle("Set Avatar URL")
             .setDescription("Link to new image to use for avatar")
-            .setPlaceholderText(url)
+            .setPlaceholderText("http://site.com/image.png")
 
         dialog.inputLayout.editText?.addTextChangedListener(
             object : TextWatcher {
