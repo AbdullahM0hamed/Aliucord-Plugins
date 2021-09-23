@@ -93,6 +93,6 @@ data class EditAvatar(
     }
 
     private fun uploadFile() {
-        getImageFile()
+        Utils.showToast(ctx, getFileManager().toString())
     }
 }
