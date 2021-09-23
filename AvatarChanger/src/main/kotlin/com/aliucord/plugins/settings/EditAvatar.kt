@@ -15,7 +15,7 @@ import com.aliucord.fragments.SettingsPage
 import com.aliucord.views.Button
 import com.discord.models.guild.Guild
 import com.discord.models.user.User
-import com.google.android.material.textfield.TextInputLayout.OnEditTextAttachedListener
+import com.google.android.material.textfield.TextInputLayout
 
 data class EditAvatar(
     val guild: Guild? = null,
@@ -97,7 +97,7 @@ data class EditAvatar(
             .setPlaceholderText("http://site.com/image.png")
 
         dialog.inputLayout.addOnEditTextAttachedListener(
-            object : OnEditTextAttachedListener {
+            object : TextInputLayout.OnEditTextAttachedListener {
                 override fun onEditTextAttached(
                     input: TextInputLayout
                 ) {
