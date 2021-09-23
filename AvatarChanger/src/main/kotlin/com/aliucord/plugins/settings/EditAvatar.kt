@@ -19,14 +19,14 @@ data class EditAvatar(
     val user: User? = null
 ) : SettingsPage() {
 
-    lateinit var context : Context
+    lateinit var ctx: Context
 
     override fun onViewBound(view: View) {
         super.onViewBound(view)
-        context = view.context
+        ctx = view.context
 
         if (guild == null && user == null) {
-            Utils.showToast(context, "Invalid User/Server")
+            Utils.showToast(ctx, "Invalid User/Server")
             activity?.onBackPressed()
             return
         }
@@ -38,22 +38,22 @@ data class EditAvatar(
         setActionBarSubtitle(name)
         linearLayout.addView(
             ProfileWidget(
-                ctx = context,
+                ctx = ctx,
                 guild = guild,
                 user = user
             )
         )
 
-        val buttons = LinearLayout(context)
+        val buttons = LinearLayout(ctx)
         buttons.orientation = LinearLayout.VERTICAL
 
-        Button(context).apply {
+        Button(ctx).apply {
             text = "Download Current Avatar"
             setOnClickListener { downloadAvatar() }
             buttons.addView(this)
         }
 
-        Button(context).apply {
+        Button(ctx).apply {
             text = "Upload New Avatar"
             setOnClickListener { uploadFile() }
             buttons.addView(this)
@@ -63,7 +63,7 @@ data class EditAvatar(
     }
 
     override fun onImageChosen(uri: Uri, mimetype: String) {
-        Utils.showToast(context, uri.toString())
+        Utils.showToast(ctx, uri.toString())
     }
 
     private fun downloadAvatar() {
@@ -85,7 +85,7 @@ data class EditAvatar(
             DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_ONLY_COMPLETION
         )
 
-        val manager = context.getSystemService(
+        val manager = ctx.getSystemService(
             Context.DOWNLOAD_SERVICE
         ) as DownloadManager?
 
