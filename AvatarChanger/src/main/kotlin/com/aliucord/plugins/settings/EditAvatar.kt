@@ -19,11 +19,14 @@ data class EditAvatar(
     val user: User? = null
 ) : SettingsPage() {
 
+    lateinit var context : Context
+
     override fun onViewBound(view: View) {
         super.onViewBound(view)
+        context = view.context
 
         if (guild == null && user == null) {
-            Utils.showToast(view.context, "Invalid User/Server")
+            Utils.showToast(context, "Invalid User/Server")
             activity?.onBackPressed()
             return
         }
@@ -35,22 +38,22 @@ data class EditAvatar(
         setActionBarSubtitle(name)
         linearLayout.addView(
             ProfileWidget(
-                ctx = view.context,
+                ctx = context,
                 guild = guild,
                 user = user
             )
         )
 
-        val buttons = LinearLayout(view.context)
+        val buttons = LinearLayout(context)
         buttons.orientation = LinearLayout.VERTICAL
 
-        Button(view.context).apply {
+        Button(context).apply {
             text = "Download Current Avatar"
-            setOnClickListener { downloadAvatar(view.context) }
+            setOnClickListener { downloadAvatar() }
             buttons.addView(this)
         }
 
-        Button(view.context).apply {
+        Button(context).apply {
             text = "Upload New Avatar"
             setOnClickListener { uploadFile() }
             buttons.addView(this)
@@ -59,7 +62,11 @@ data class EditAvatar(
         linearLayout.addView(buttons)
     }
 
-    private fun downloadAvatar(context: Context) {
+    override fun onImageChosen(uri: Uri, mimetype: String) {
+        Utils.showToast(context, uri.toString())
+    }
+
+    private fun downloadAvatar() {
         val url = "https://cdn.discordapp.com/avatars/${guild?.id ?: user!!.id}/${guild?.icon ?: user!!.avatar}.png?size=1024"
 
         val uri = Uri.parse(url)
