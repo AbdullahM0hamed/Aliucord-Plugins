@@ -96,7 +96,7 @@ data class EditAvatar(
             .setDescription("Link to new image to use for avatar")
             .setPlaceholderText(url)
 
-        dialog.inputLayout.editText.addTextChangedListener(
+        dialog.inputLayout.editText?.addTextChangedListener(
             object : TextWatcher {
                 override fun beforeTextChanged(
                     s: CharSequence?, 
@@ -127,7 +127,7 @@ data class EditAvatar(
         dialog.setOnOkListener {
             val url = dialog.input
 
-            if (!Patterns.matcher(url).matches()) {
+            if (!Patterns.WEB_URL.matcher(url).matches()) {
                 Utils.showToast(ctx, "Invalid URL")
             } else {
                 Utils.showToast(ctx, "Test toast")
