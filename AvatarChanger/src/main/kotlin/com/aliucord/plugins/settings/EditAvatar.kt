@@ -93,6 +93,8 @@ data class EditAvatar(
     }
 
     private fun uploadFile() {
-        openMediaChooser()
+        requestMedia {
+            Utils.showToast(ctx, hasMedia().toString())
+        }
     }
 }
