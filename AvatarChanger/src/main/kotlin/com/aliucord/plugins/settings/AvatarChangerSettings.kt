@@ -34,6 +34,12 @@ class AvatarChangerSettings : SettingsPage() {
                         for (guild in guilds) {
                             if (guild.value.id == id) {
                                 page = EditAvatar(guild = guild.value)
+                                Utils.openPageWithProxy(
+                                    view.context, 
+                                    page
+                                )
+
+                                dialog.dismiss()
                             }
                         }
 
@@ -43,17 +49,17 @@ class AvatarChangerSettings : SettingsPage() {
                             StoreStream.getUsers().observeAllUsers()
                                 .subscribe(
                                     createActionSubscriber({ users ->
-                                        val user = StoreStream
-                                            .getUsers()
-                                            .getUsers()
-                                            .get(id)
+                                        val user = users.get(id)
                                         page = EditAvatar(user = user)
+                                        Utils.openPageWithProxy(
+                                            view.context, 
+                                            page
+                                        )
+
+                                        dialog.dismiss()
                                     })
                                 )
                         }
-
-                        Utils.openPageWithProxy(view.context, page)
-                        dialog.dismiss()
                     }
                 }
 
