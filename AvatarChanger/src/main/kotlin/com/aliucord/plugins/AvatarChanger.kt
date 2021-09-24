@@ -11,9 +11,12 @@ class AvatarChanger : Plugin() {
 
     init {
         settingsTab = SettingsTab(AvatarChangerSettings::class.java)
+
     }
 
-    override fun start(context: Context) {}
+    override fun start(context: Context) {
+        mSettings = settings
+    }
 
     override fun stop(context: Context) = patcher.unpatchAll()
 
