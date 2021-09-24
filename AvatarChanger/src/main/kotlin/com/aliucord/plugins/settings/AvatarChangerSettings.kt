@@ -36,9 +36,12 @@ class AvatarChangerSettings : SettingsPage() {
                         }
 
                         if (page == null) {
-                            StoreStream.getUsers().getUsers().get(id)
-                            val user = StoreStream.getUsers().getUsers().get(id)
-                            page = EditAvatar(user=user)
+                            val userList = mutableListOf(id)
+                            StoreStream.getUsers().fetchUsers(userList)
+                            StoreStream.getUsers().observerUser(id)
+                                .subscribe { user ->
+                                    page = EditAvatar(user=user)
+                                }
                         }
 
                         Utils.openPageWithProxy(view.context, page)
