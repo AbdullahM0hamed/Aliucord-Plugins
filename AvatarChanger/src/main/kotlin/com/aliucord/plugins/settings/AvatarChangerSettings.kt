@@ -43,7 +43,10 @@ class AvatarChangerSettings : SettingsPage() {
                             StoreStream.getUsers().observeAllUsers()
                                 .subscribe(
                                     createActionSubscriber({ users ->
-                                        val user = users.get(id) ?: 0L
+                                        val user = StoreStream
+                                            .getUsers()
+                                            .getUsers()
+                                            .get(id)
                                         page = EditAvatar(user = user)
                                     })
                                 )
