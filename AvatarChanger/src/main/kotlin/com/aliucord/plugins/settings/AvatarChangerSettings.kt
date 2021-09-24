@@ -35,7 +35,7 @@ class AvatarChangerSettings : SettingsPage() {
                             if (guild.value.id == id) {
                                 page = EditAvatar(guild = guild.value)
                                 Utils.openPageWithProxy(
-                                    view.context, 
+                                    view.context,
                                     page
                                 )
 
@@ -48,11 +48,9 @@ class AvatarChangerSettings : SettingsPage() {
                             StoreStream.getUsers().fetchUsers(userList)
                             StoreStream
                                 .getUsers()
-                                .observeAllUsers()
+                                .observeUser(id)
                                 .subscribe(
-                                    createActionSubscriber({ users ->
-                                        val user = users.get(id)
-
+                                    createActionSubscriber({ user ->
                                         if (user != null) {
                                             page = EditAvatar(
                                                 user = user
@@ -62,22 +60,14 @@ class AvatarChangerSettings : SettingsPage() {
                                                 view.context,
                                                 page
                                             )
-                                        
-                                            this.unsubscribe()
-                                            dialog.dismiss()
-                                        },
-                                        {
+                                        } else {
                                             Utils.showToast(
                                                 ctx,
-                                                "An error occurred!"
-                                            )
-                                        },
-                                        {
-                                            Utils.showToast(
-                                                ctx,
-                                                "User doesn't exist"
+                                                "Invalid User"
                                             )
                                         }
+
+                                        dialog.dismiss()
                                     })
                                 )
                         }
