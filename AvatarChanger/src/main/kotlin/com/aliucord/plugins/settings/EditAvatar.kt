@@ -104,6 +104,8 @@ data class EditAvatar(
                     url
                 )
             }
+
+            dialog.dismiss()
         }
 
         dialog.show(parentFragmentManager, "setAvatar")
