@@ -46,7 +46,7 @@ class AvatarChangerSettings : SettingsPage() {
                         if (page == null) {
                             val userList = mutableListOf(id)
                             StoreStream.getUsers().fetchUsers(userList)
-                            val subscriber = StoreStream
+                            StoreStream
                                 .getUsers()
                                 .observeAllUsers()
                                 .subscribe(
@@ -63,16 +63,18 @@ class AvatarChangerSettings : SettingsPage() {
                                                 page
                                             )
                                         
-                                            subscriber.unsubscribe()
+                                            this.unsubscribe()
                                             dialog.dismiss()
                                         },
                                         {
                                             Utils.showToast(
+                                                ctx,
                                                 "An error occurred!"
                                             )
                                         },
                                         {
                                             Utils.showToast(
+                                                ctx,
                                                 "User doesn't exist"
                                             )
                                         }
