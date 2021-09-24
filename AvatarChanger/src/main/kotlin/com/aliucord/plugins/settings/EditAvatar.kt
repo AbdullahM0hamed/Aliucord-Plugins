@@ -103,6 +103,33 @@ data class EditAvatar(
                     (guild?.id ?: user!!.id).toString(),
                     url
                 )
+
+                if (guild != null) {
+                    val guilds = mSettings.getObject(
+                        "guilds",
+                        mutableMapOf<Long, Guild>()
+                    )
+
+                    if (guilds.get(guild.id) == null) {
+                        guilds.put(guild.id, guild)
+                        mSettings.setObject("guilds", guilds)
+                    }
+                } else if (user != null) {
+                    val users = mSettings.getObject(
+                        "users",
+                        mutableMapOf<Long, User>()
+                    )
+
+                    if (users.get(user.id) == null) {
+                        users.put(user.id, user)
+                        mSettings.setObject("users", users)
+                    }
+                }
+
+                mSettings.setString(
+                    (guild?.id ?: user!!.id).toString(),
+                    url
+                )
             }
 
             dialog.dismiss()
