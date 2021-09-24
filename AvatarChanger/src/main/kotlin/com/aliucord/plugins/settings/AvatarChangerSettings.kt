@@ -60,11 +60,6 @@ class AvatarChangerSettings : SettingsPage() {
                                                 view.context,
                                                 page
                                             )
-                                        } else {
-                                            Utils.showToast(
-                                                view.context,
-                                                "Invalid User"
-                                            )
                                         }
 
                                         dialog.dismiss()
