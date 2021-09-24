@@ -21,7 +21,7 @@ class AvatarChanger : Plugin() {
     override fun load(context: Context) {
         pluginIcon = ContextCompat.getDrawable(
             context, 
-            R$d.ic_profile_24dp
+            R.d.ic_profile_24dp
         )
     }
 
