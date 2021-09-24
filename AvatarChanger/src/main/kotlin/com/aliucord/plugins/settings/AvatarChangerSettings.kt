@@ -46,17 +46,36 @@ class AvatarChangerSettings : SettingsPage() {
                         if (page == null) {
                             val userList = mutableListOf(id)
                             StoreStream.getUsers().fetchUsers(userList)
-                            StoreStream.getUsers().observeAllUsers()
+                            val subscriber = StoreStream
+                                .getUsers()
+                                .observeAllUsers()
                                 .subscribe(
                                     createActionSubscriber({ users ->
                                         val user = users.get(id)
-                                        page = EditAvatar(user = user)
-                                        Utils.openPageWithProxy(
-                                            view.context, 
-                                            page
-                                        )
 
-                                        dialog.dismiss()
+                                        if (user != null) {
+                                            page = EditAvatar(
+                                                user = user
+                                            )
+
+                                            Utils.openPageWithProxy(
+                                                view.context,
+                                                page
+                                            )
+                                        
+                                            subscriber.unsubscribe()
+                                            dialog.dismiss()
+                                        },
+                                        {
+                                            Utils.showToast(
+                                                "An error occurred!"
+                                            )
+                                        },
+                                        {
+                                            Utils.showToast(
+                                                "User doesn't exist"
+                                            )
+                                        }
                                     })
                                 )
                         }
