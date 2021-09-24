@@ -4,6 +4,7 @@ import android.view.View
 import com.aliucord.Utils
 import com.aliucord.fragments.InputDialog
 import com.aliucord.fragments.SettingsPage
+import com.aliucord.utils.RxUtils.createActionSubscriber
 import com.aliucord.utils.RxUtils.subscribe
 import com.aliucord.views.Button
 import com.discord.stores.StoreStream
@@ -25,14 +26,14 @@ class AvatarChangerSettings : SettingsPage() {
                 dialog.setOnOkListener {
                     val text = dialog.input
                     var page: EditAvatar? = null
-                    
+
                     if (!text.isEmpty()) {
                         val id = text.toLongOrNull() ?: 0L
                         val guilds = StoreStream.getGuilds().getGuilds()
 
                         for (guild in guilds) {
                             if (guild.value.id == id) {
-                                page = EditAvatar(guild=guild.value)
+                                page = EditAvatar(guild = guild.value)
                             }
                         }
 
@@ -40,16 +41,22 @@ class AvatarChangerSettings : SettingsPage() {
                             val userList = mutableListOf(id)
                             StoreStream.getUsers().fetchUsers(userList)
                             StoreStream.getUsers().observeUser(id)
-                                .subscribe { user ->
-                                    page = EditAvatar(user=user)
-                                }
+                                .subscribe(
+                                    createActionSubscriber({
+                                        val user = StoreStream
+                                        getUsers()
+                                            .getUsers()
+                                            .get(id)
+                                        page = EditAvatar(user = user)
+                                    })
+                                )
                         }
 
                         Utils.openPageWithProxy(view.context, page)
                         dialog.dismiss()
                     }
                 }
-                
+
                 dialog.show(parentFragmentManager, "addID")
             }
 
@@ -57,4 +64,3 @@ class AvatarChangerSettings : SettingsPage() {
         }
     }
 }
-
