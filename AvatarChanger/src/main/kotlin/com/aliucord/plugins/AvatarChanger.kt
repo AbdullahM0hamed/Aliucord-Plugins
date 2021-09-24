@@ -7,6 +7,7 @@ import com.aliucord.annotations.AliucordPlugin
 import com.aliucord.api.SettingsAPI
 import com.aliucord.entities.Plugin
 import com.aliucord.plugins.settings.AvatarChangerSettings
+import com.lytefast.flexinput.R
 
 @AliucordPlugin
 class AvatarChanger : Plugin() {
