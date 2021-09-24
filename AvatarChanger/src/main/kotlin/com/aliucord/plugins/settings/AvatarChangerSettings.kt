@@ -62,7 +62,7 @@ class AvatarChangerSettings : SettingsPage() {
                                             )
                                         } else {
                                             Utils.showToast(
-                                                ctx,
+                                                view.context,
                                                 "Invalid User"
                                             )
                                         }
