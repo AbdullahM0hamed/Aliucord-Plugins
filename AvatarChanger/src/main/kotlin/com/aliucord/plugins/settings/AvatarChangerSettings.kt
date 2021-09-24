@@ -4,6 +4,7 @@ import android.view.View
 import com.aliucord.Utils
 import com.aliucord.fragments.InputDialog
 import com.aliucord.fragments.SettingsPage
+import com.aliucord.utils.RxUtils.subscribe
 import com.aliucord.views.Button
 import com.discord.stores.StoreStream
 
