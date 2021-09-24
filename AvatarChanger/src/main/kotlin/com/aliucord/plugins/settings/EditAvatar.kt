@@ -100,7 +100,7 @@ data class EditAvatar(
                 Utils.showToast(ctx, "Invalid URL")
             } else {
                 AvatarChanger.mSettings.setString(
-                    guild?.id ?: user!!.id,
+                    (guild?.id ?: user!!.id).toString(),
                     url
                 )
             }
