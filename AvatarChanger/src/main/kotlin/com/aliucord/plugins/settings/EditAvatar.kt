@@ -10,6 +10,7 @@ import android.widget.LinearLayout
 import com.aliucord.Utils
 import com.aliucord.fragments.InputDialog
 import com.aliucord.fragments.SettingsPage
+import com.aliucord.plugins.AvatarChanger
 import com.aliucord.views.Button
 import com.discord.models.guild.Guild
 import com.discord.models.user.User
@@ -98,7 +99,10 @@ data class EditAvatar(
             if (!Patterns.WEB_URL.matcher(url).matches()) {
                 Utils.showToast(ctx, "Invalid URL")
             } else {
-                Utils.showToast(ctx, "Test toast")
+                AvatarChanger.mSettings.setString(
+                    guild?.id ?: user!!.id,
+                    url
+                )
             }
         }
 
