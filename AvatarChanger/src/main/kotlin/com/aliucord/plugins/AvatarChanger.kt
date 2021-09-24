@@ -22,7 +22,7 @@ class AvatarChanger : Plugin() {
         pluginIcon = ContextCompat.getDrawable(
             context, 
             R.d.ic_profile_24dp
-        )
+        )!!
     }
 
     override fun start(context: Context) {
