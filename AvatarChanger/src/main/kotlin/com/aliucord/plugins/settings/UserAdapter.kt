@@ -52,7 +52,7 @@ class UserAdapter(
         } else {
             user = users.get(
                 users.entries.asSequence().toList().get(
-                    position - guilds.size
+                    (position - guilds.size)
                 ).value
             )
             IconUtils.setIcon(holder.card.icon, user)
@@ -85,7 +85,7 @@ class UserAdapter(
                     users.remove(
                         users.entries.asSequence().toList()
                             .get(position)
-                            .values
+                            .value
                     )
                 }
 
