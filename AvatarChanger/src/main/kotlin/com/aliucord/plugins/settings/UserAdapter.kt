@@ -30,7 +30,7 @@ class UserAdapter(
             TypeToken.getParameterized(
                 Map::class.java, 
                 Long::class.javaObjectType, 
-                User::class.java
+                CoreUser::class.java
             ).getType()
         )
     }
@@ -48,7 +48,7 @@ class UserAdapter(
     ) {
         var guild: Guild? = null
         var user: User? = null
-
+        
         if (position < guilds.size) {
             guild = guilds.values.asSequence().toList()
                 .get(position)
