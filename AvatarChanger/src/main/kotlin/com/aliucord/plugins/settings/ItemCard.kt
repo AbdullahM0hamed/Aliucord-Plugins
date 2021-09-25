@@ -5,8 +5,6 @@ import android.view.Gravity
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.core.content.ContextCompat
-import androidx.core.content.res.ResourcesCompat
-import com.aliucord.Constants
 import com.aliucord.Utils
 import com.aliucord.utils.DimenUtils
 import com.aliucord.views.Button
@@ -71,12 +69,6 @@ class ItemCard(
         params.setMargins(p, 0, 0, 0)
         name.layoutParams = params
         name.textSize = 16f
-        name.setTypeFace(
-            ResourcesCompat.getFont(
-                ctx,
-                Constants.Fonts.whitney_bold
-            )
-        )
 
         name.setTextColor(
             ColorCompat.getThemedColor(
@@ -123,7 +115,7 @@ class ItemCard(
             ctx, 
             R.d.ic_clear_24dp
         )
-        clearIcon.setTint(0xFFED4245)
+        clearIcon?.setTint(0xFFED4245.toInt())
         clear.setImageDrawable(clearIcon)
         buttons.addView(clear)
 

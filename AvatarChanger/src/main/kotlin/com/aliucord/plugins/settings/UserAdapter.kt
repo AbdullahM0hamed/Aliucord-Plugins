@@ -1,6 +1,7 @@
 package com.aliucord.plugins.settings
 
 import android.content.Context
+import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.aliucord.Utils
 import com.aliucord.fragments.ConfirmDialog
@@ -32,7 +33,7 @@ class UserAdapter(
         parent: ViewGroup,
         type: Int
     ): UserViewHolder {
-        return UserViewHolder(this, ItemCard(ctx))
+        return UserViewHolder(ItemCard(ctx))
     }
 
     override fun onBindViewHolder(
@@ -95,8 +96,6 @@ class UserAdapter(
     }
 
     override fun getItemCount() = guilds.size + users.size
-
-    override fun onClick(context: Context, position: Int) {}
 }
 
 class UserViewHolder(
