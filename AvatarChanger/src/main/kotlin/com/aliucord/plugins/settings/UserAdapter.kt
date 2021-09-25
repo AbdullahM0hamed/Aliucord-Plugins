@@ -25,7 +25,12 @@ class UserAdapter(
 
         users = AvatarChanger.mSettings.getObject(
             "users",
-            mutableMapOf<Long, User>()
+            mutableMapOf<Long, User>(),
+            TypeToken.getParameterized(
+                Map::class.java, 
+                Long::class.javaObjectType, 
+                User::class.java
+            ).getType()
         )
     }
 
@@ -44,13 +49,13 @@ class UserAdapter(
         var user: User? = null
 
         if (position < guilds.size) {
-            guild = guilds.entries.asSequence().toList()
+            guild = guilds.values
                 .get(position)
                 .value
 
             IconUtils.setIcon(holder.card.icon, guild)
         } else {
-            user = users.entries.asSequence().toList().get(
+            user = users.values.get(
                     position - guilds.size
                 ).value
 
@@ -75,7 +80,7 @@ class UserAdapter(
             confirm.setOnOkListener {
                 if (guild != null) {
                     guilds.remove(
-                        guilds.entries.asSequence().toList()
+                        guilds.values
                             .get(position)
                             .key
                     )
@@ -83,7 +88,7 @@ class UserAdapter(
 
                 if (user != null) {
                     users.remove(
-                        users.entries.asSequence().toList()
+                        users.values
                             .get(position)
                             .key
                     )
