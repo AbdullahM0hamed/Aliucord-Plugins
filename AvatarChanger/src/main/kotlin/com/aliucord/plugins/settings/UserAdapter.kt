@@ -7,6 +7,7 @@ import com.aliucord.Utils
 import com.aliucord.fragments.ConfirmDialog
 import com.aliucord.plugins.AvatarChanger
 import com.discord.models.guild.Guild
+import com.discord.models.user.CoreUser
 import com.discord.models.user.User
 import com.discord.utilities.icon.IconUtils
 import com.google.gson.reflect.TypeToken
