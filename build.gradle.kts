@@ -72,7 +72,6 @@ subprojects {
         implementation("androidx.appcompat:appcompat:1.3.1")
         implementation("com.google.android.material:material:1.4.0")
         implementation("androidx.constraintlayout:constraintlayout:2.1.0")
-        compileOnly("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.5.1")
     }
 }
 

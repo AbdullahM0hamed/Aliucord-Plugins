@@ -14,18 +14,18 @@ class UserAdapter(
     val ctx: Context
 ) : RecyclerView.Adapter<UserViewHolder>() {
 
-    lateinit var guilds: mutableMapOf<Long, Guild>
-    lateinit var users: mutableMapOf<Long, User>
+    var guilds: MutableMap<Long, Guild>
+    var users: MutableMap<Long, User>
 
     init {
         guilds = AvatarChanger.mSettings.getObject(
             "guilds",
-            mutableMapOf<Long, Guild>
+            mutableMapOf<Long, Guild>()
         )
 
         users = AvatarChanger.mSettings.getObject(
             "users",
-            mutableMapOf<Long, User>
+            mutableMapOf<Long, User>()
         )
     }
 
@@ -59,7 +59,7 @@ class UserAdapter(
             guild?.name ?: "${user!!.username}#${user.discriminator}"
 
         holder.card.edit.setOnClickListener {
-            Utils.openPageWithProxy(ctx, EditAvatar(user, guild))
+            Utils.openPageWithProxy(ctx, EditAvatar(guild, user))
         }
 
         holder.card.clear.setOnClickListener {
