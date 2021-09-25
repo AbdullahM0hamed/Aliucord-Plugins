@@ -107,11 +107,11 @@ data class EditAvatar(
                 if (guild != null) {
                     val guilds = AvatarChanger.mSettings.getObject(
                         "guilds",
-                        mutableMapOf<Long, Guild>()
+                        mutableListOf<Long>()
                     )
 
                     if (guilds.get(guild.id) == null) {
-                        guilds.put(guild.id, guild)
+                        guilds.add(guild.id)
                         AvatarChanger.mSettings.setObject(
                             "guilds", 
                             guilds
@@ -120,22 +120,17 @@ data class EditAvatar(
                 } else if (user != null) {
                     val users = AvatarChanger.mSettings.getObject(
                         "users",
-                        mutableMapOf<Long, User>()
+                        mutableListOf<Long>()
                     )
 
                     if (users.get(user.id) == null) {
-                        users.put(user.id, user)
+                        users.add(user.id)
                         AvatarChanger.mSettings.setObject(
                             "users", 
                             users
                         )
                     }
                 }
-
-                AvatarChanger.mSettings.setString(
-                    (guild?.id ?: user!!.id).toString(),
-                    url
-                )
             }
 
             dialog.dismiss()

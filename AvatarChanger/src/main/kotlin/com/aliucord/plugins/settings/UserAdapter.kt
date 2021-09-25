@@ -6,11 +6,13 @@ import androidx.recyclerview.widget.RecyclerView
 import com.aliucord.Utils
 import com.aliucord.fragments.ConfirmDialog
 import com.aliucord.plugins.AvatarChanger
+import com.aliucord.utils.RxUtils.createActionSubscriber
+import com.aliucord.utils.RxUtils.subscribe
 import com.discord.models.guild.Guild
 import com.discord.models.user.CoreUser
 import com.discord.models.user.User
+import com.discord.stores.StoreStream
 import com.discord.utilities.icon.IconUtils
-import com.google.gson.reflect.TypeToken
 
 class UserAdapter(
     val ctx: Context
@@ -22,22 +24,12 @@ class UserAdapter(
     init {
         guilds = AvatarChanger.mSettings.getObject(
             "guilds",
-            mutableMapOf<Long, Guild>(),
-            TypeToken.getParameterized(
-                Map::class.java,
-                Long::class.javaObjectType,
-                Guild::class.java
-            ).getType()
+            mutableMapOf<Long, Guild>()
         )
 
         users = AvatarChanger.mSettings.getObject(
             "users",
-            mutableMapOf<Long, User>(),
-            TypeToken.getParameterized(
-                Map::class.java,
-                Long::class.javaObjectType,
-                CoreUser::class.java
-            ).getType()
+            mutableListOf<Long>()
         )
     }
 
@@ -52,19 +44,38 @@ class UserAdapter(
         holder: UserViewHolder,
         position: Int
     ) {
-        var guild: Guild? = null
-        var user: User? = null
-
         if (position < guilds.size) {
-            guild = guilds.values.asSequence().toList()
-                .get(position)
-
-            IconUtils.setIcon(holder.card.icon, guild)
+            val guildList = StoreStream.getGuilds().getGuilds()
+            guildsList.map { guild ->
+                if (guild.id == guilds.get(position)) {
+                    populateView(position, guild, null)
+                }
+            }
         } else {
-            user = users.values.asSequence().toList().get(
-                position - guilds.size
+            val id = users.get(position - guilds.size)
+            StoreStream.getUsers().fetchUsers(listOf(id))
+            StoreStream.getUsers().observeUser(id).subscribe(
+                createActionSubscriber({ user ->
+                    if (user != null) {
+                        populateView(position, null, user)
+                    }
+                })
             )
+        }
+    }
 
+    override fun getItemCount() = guilds.size + users.size
+
+    private fun populateView(
+        position: Int,
+        guild: Guild?, 
+        user: User?
+    ) {
+        if (guild != null) {
+            IconUtils.setIcon(holder.card.icon, guild)
+        }
+
+        if (user != null) {
             IconUtils.setIcon(holder.card.icon, user)
         }
 
@@ -84,17 +95,11 @@ class UserAdapter(
 
             confirm.setOnOkListener {
                 if (guild != null) {
-                    guilds.remove(
-                        guilds.keys.asSequence().toList()
-                            .get(position)
-                    )
+                    guilds.remove(position)
                 }
 
                 if (user != null) {
-                    users.remove(
-                        users.keys.asSequence().toList()
-                            .get(position)
-                    )
+                    users.remove(position - guilds.size)
                 }
 
                 AvatarChanger.mSettings.setObject("guilds", guilds)
@@ -107,14 +112,11 @@ class UserAdapter(
                     )
 
                 prefs.edit().remove(
-                    "AC_AvatarChanger_${guild?.id ?: user!!.id}"
-                ).apply()
+                    "AC_AvatarChanger_${guild?.id ?: user!!.id}"                      ).apply()
                 confirm.dismiss()
             }
         }
     }
-
-    override fun getItemCount() = guilds.size + users.size
 }
 
 class UserViewHolder(
