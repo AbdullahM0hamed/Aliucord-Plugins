@@ -20,7 +20,7 @@ class UserAdapter(
     init {
         guilds = AvatarChanger.mSettings.getObject(
             "guilds",
-            mutableMapOf<Long, Guild>()
+            mutableMapOf<Long, Guild>(),
         )
 
         users = AvatarChanger.mSettings.getObject(
@@ -54,7 +54,8 @@ class UserAdapter(
                     position - guilds.size
                 ).value
 
-            IconUtils.setIcon(holder.card.icon, user)
+            //IconUtils.setIcon(holder.card.icon, user)
+            Utils.showToast(user.toString())
         }
 
         holder.card.name.text =
