@@ -52,13 +52,12 @@ class UserAdapter(
         if (position < guilds.size) {
             guild = guilds.values.asSequence().toList()
                 .get(position)
-                .value
 
             IconUtils.setIcon(holder.card.icon, guild)
         } else {
             user = users.values.asSequence().toList().get(
                     position - guilds.size
-                ).value
+                )
 
             //IconUtils.setIcon(holder.card.icon, user)
             Utils.showToast(ctx, user.toString())
