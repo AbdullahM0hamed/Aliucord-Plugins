@@ -110,7 +110,7 @@ data class EditAvatar(
                         mutableListOf<Long>()
                     )
 
-                    if (guilds.get(guild.id) == null) {
+                    if (guilds.indexOf(guild.id) == null) {
                         guilds.add(guild.id)
                         AvatarChanger.mSettings.setObject(
                             "guilds", 
@@ -123,7 +123,7 @@ data class EditAvatar(
                         mutableListOf<Long>()
                     )
 
-                    if (users.get(user.id) == null) {
+                    if (users.indexOf(user.id) == null) {
                         users.add(user.id)
                         AvatarChanger.mSettings.setObject(
                             "users", 

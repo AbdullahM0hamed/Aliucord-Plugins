@@ -18,13 +18,13 @@ class UserAdapter(
     val ctx: Context
 ) : RecyclerView.Adapter<UserViewHolder>() {
 
-    var guilds: MutableMap<Long, Guild>
-    var users: MutableMap<Long, User>
+    var guilds: MutableList<Long>
+    var users: MutableList<Long>
 
     init {
         guilds = AvatarChanger.mSettings.getObject(
             "guilds",
-            mutableMapOf<Long, Guild>()
+            mutableListOf<Long>()
         )
 
         users = AvatarChanger.mSettings.getObject(
@@ -46,9 +46,9 @@ class UserAdapter(
     ) {
         if (position < guilds.size) {
             val guildList = StoreStream.getGuilds().getGuilds()
-            guildsList.map { guild ->
+            guildList.map { guild ->
                 if (guild.id == guilds.get(position)) {
-                    populateView(position, guild, null)
+                    populateView(position, holder, guild, null)
                 }
             }
         } else {
@@ -57,7 +57,7 @@ class UserAdapter(
             StoreStream.getUsers().observeUser(id).subscribe(
                 createActionSubscriber({ user ->
                     if (user != null) {
-                        populateView(position, null, user)
+                        populateView(position, holder, null, user)
                     }
                 })
             )
@@ -68,6 +68,7 @@ class UserAdapter(
 
     private fun populateView(
         position: Int,
+        holder: UserViewHolder,
         guild: Guild?, 
         user: User?
     ) {
