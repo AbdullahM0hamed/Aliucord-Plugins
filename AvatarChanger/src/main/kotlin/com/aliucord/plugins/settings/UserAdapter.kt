@@ -23,6 +23,11 @@ class UserAdapter(
         guilds = AvatarChanger.mSettings.getObject(
             "guilds",
             mutableMapOf<Long, Guild>(),
+            TypeToken.getParameterized(
+                Map::class.java,
+                Long::class.javaObjectType,
+                Guild:class.java
+            )
         )
 
         users = AvatarChanger.mSettings.getObject(
