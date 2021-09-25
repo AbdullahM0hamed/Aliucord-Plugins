@@ -6,6 +6,7 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
+import com.aliucord.Constants
 import com.aliucord.Utils
 import com.aliucord.utils.DimenUtils
 import com.aliucord.views.Button
@@ -70,19 +71,21 @@ class ItemCard(
         params.setMargins(p, 0, 0, 0)
         name.layoutParams = params
         name.textSize = 16f
-        name.typeFace =
+        name.setTypeFace(
             ResourcesCompat.getFont(
                 ctx,
                 Constants.Fonts.whitney_bold
             )
+        )
 
-        name.textColor =
+        name.setTextColor(
             ColorCompat.getThemedColor(
                 ctx,
                 R.b.colorInteractiveNormal
             )
+        )
 
-        name.singleLine = false
+        name.setSingleLine(false)
 
         root.addView(name)
 
@@ -94,8 +97,8 @@ class ItemCard(
                 LinearLayout.LayoutParams.WRAP_CONTENT
             )
 
-        buttons.horizontalGravity = Gravity.END
-        buttons.verticalGravity = Gravity.CENTER_VERTICAL
+        buttons.setHorizontalGravity(Gravity.END)
+        buttons.setVerticalGravity(Gravity.CENTER_VERTICAL)
 
         edit = Button(ctx)
         edit.setText("Edit")
@@ -103,6 +106,8 @@ class ItemCard(
             Utils.dpToPx(103),
             Utils.dpToPx(48)
         )
+
+        val p2 = p / 2
         editParams.setMargins(0, 0, p2, 0)
         edit.layoutParams = editParams
         buttons.addView(edit)
@@ -118,7 +123,7 @@ class ItemCard(
             ctx, 
             R.d.ic_clear_24dp
         )
-        clearIcon.tint = 0xFFED4245
+        clearIcon.setTint(0xFFED4245)
         clear.setImageDrawable(clearIcon)
         buttons.addView(clear)
 
