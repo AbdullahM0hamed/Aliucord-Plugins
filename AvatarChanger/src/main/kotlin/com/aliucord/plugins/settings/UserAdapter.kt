@@ -48,7 +48,7 @@ class UserAdapter(
             val guildList = StoreStream.getGuilds().getGuilds()
             guildList.map { guild ->
                 if (guild.value.id == guilds.get(position)) {
-                    populateView(position, holder, guild, null)
+                    populateView(position, holder, guild.value, null)
                 }
             }
         } else {
