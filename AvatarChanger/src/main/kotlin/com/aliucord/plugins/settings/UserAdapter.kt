@@ -44,13 +44,13 @@ class UserAdapter(
         var user: User? = null
 
         if (position < guilds.size) {
-            guild = guilds.get(guilds.keySet().get(position))
+            guild = guilds.entries.get(position).value
             IconUtils.setIcon(holder.card.icon, guild)
         } else {
             user = users.get(
-                users.keySet().get(
+                users.entries.get(
                     position - guilds.size
-                )
+                ).value
             )
             IconUtils.setIcon(holder.card.icon, user)
         }
@@ -71,11 +71,11 @@ class UserAdapter(
 
             confirm.setOnOkListener {
                 if (guild != null) {
-                    guilds.remove(guilds.keySet().get(position))
+                    guilds.remove(guilds.entries.get(position).value)
                 }
 
                 if (user != null) {
-                    users.remove(users.keySet().get(position))
+                    users.remove(users.entries.get(position).values)
                 }
 
                 AvatarChanger.mSettings.setObject("guilds", guilds)
