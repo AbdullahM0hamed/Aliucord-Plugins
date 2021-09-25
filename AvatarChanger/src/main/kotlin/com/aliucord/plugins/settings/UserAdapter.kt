@@ -58,7 +58,7 @@ class UserAdapter(
             Utils.showToast(ctx, user.toString())
         }
 
-        holder.card.name.text =
+        /*holder.card.name.text =
             guild?.name ?: "${user!!.username}#${user.discriminator}"
 
         holder.card.edit.setOnClickListener {
@@ -103,7 +103,7 @@ class UserAdapter(
                 ).apply()
                 confirm.dismiss()
             }
-        }
+        }*/
     }
 
     override fun getItemCount() = guilds.size + users.size
