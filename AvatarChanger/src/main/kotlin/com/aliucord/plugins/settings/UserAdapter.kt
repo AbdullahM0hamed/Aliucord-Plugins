@@ -50,11 +50,10 @@ class UserAdapter(
 
             IconUtils.setIcon(holder.card.icon, guild)
         } else {
-            user = users.get(
-                users.entries.asSequence().toList().get(
-                    (position - guilds.size)
+            user = users.entries.asSequence().toList().get(
+                    position - guilds.size
                 ).value
-            )
+
             IconUtils.setIcon(holder.card.icon, user)
         }
 
@@ -77,7 +76,7 @@ class UserAdapter(
                     guilds.remove(
                         guilds.entries.asSequence().toList()
                             .get(position)
-                            .value
+                            .key
                     )
                 }
 
@@ -85,7 +84,7 @@ class UserAdapter(
                     users.remove(
                         users.entries.asSequence().toList()
                             .get(position)
-                            .value
+                            .key
                     )
                 }
 
