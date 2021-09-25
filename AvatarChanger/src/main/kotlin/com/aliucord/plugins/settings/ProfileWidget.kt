@@ -13,7 +13,6 @@ import com.discord.models.guild.Guild
 import com.discord.models.user.User
 import com.discord.utilities.color.ColorCompat
 import com.discord.utilities.icon.IconUtils
-import com.discord.utilities.images.MGImages
 import com.lytefast.flexinput.R
 
 class ProfileWidget(

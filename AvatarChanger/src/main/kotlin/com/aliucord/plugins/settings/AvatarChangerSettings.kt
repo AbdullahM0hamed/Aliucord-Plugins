@@ -1,6 +1,8 @@
 package com.aliucord.plugins.settings
 
 import android.view.View
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.aliucord.Utils
 import com.aliucord.fragments.InputDialog
 import com.aliucord.fragments.SettingsPage
@@ -74,5 +76,14 @@ class AvatarChangerSettings : SettingsPage() {
 
             linearLayout.addView(this)
         }
+
+        val recycler = RecyclerView(view.context)
+        recycler.layoutManager = LinearLayoutManager(view.context)
+        recycler.adapter = UserAdapter(
+            view.context, 
+            parentFragmentManager
+        )
+
+        linearLayout.addView(recycler)
     }
 }
