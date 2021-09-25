@@ -47,7 +47,7 @@ class UserAdapter(
         if (position < guilds.size) {
             val guildList = StoreStream.getGuilds().getGuilds()
             guildList.map { guild ->
-                if (guild.id == guilds.get(position)) {
+                if (guild.value.id == guilds.get(position)) {
                     populateView(position, holder, guild, null)
                 }
             }
@@ -96,11 +96,11 @@ class UserAdapter(
 
             confirm.setOnOkListener {
                 if (guild != null) {
-                    guilds.remove(position)
+                    guilds.removeAt(position)
                 }
 
                 if (user != null) {
-                    users.remove(position - guilds.size)
+                    users.removeAt(position - guilds.size)
                 }
 
                 AvatarChanger.mSettings.setObject("guilds", guilds)
