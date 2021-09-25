@@ -26,7 +26,7 @@ class UserAdapter(
             TypeToken.getParameterized(
                 Map::class.java,
                 Long::class.javaObjectType,
-                Guild:class.java
+                Guild::class.java
             )
         )
 
@@ -34,8 +34,8 @@ class UserAdapter(
             "users",
             mutableMapOf<Long, User>(),
             TypeToken.getParameterized(
-                Map::class.java, 
-                Long::class.javaObjectType, 
+                Map::class.java,
+                Long::class.javaObjectType,
                 CoreUser::class.java
             ).getType()
         )
@@ -54,7 +54,7 @@ class UserAdapter(
     ) {
         var guild: Guild? = null
         var user: User? = null
-        
+
         if (position < guilds.size) {
             guild = guilds.values.asSequence().toList()
                 .get(position)
@@ -62,8 +62,8 @@ class UserAdapter(
             IconUtils.setIcon(holder.card.icon, guild)
         } else {
             user = users.values.asSequence().toList().get(
-                    position - guilds.size
-                )
+                position - guilds.size
+            )
 
             IconUtils.setIcon(holder.card.icon, user)
         }
