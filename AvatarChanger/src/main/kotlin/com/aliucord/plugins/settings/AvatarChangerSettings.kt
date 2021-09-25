@@ -79,10 +79,7 @@ class AvatarChangerSettings : SettingsPage() {
 
         val recycler = RecyclerView(view.context)
         recycler.layoutManager = LinearLayoutManager(view.context)
-        recycler.adapter = UserAdapter(
-            view.context, 
-            parentFragmentManager
-        )
+        recycler.adapter = UserAdapter(view.context)
 
         linearLayout.addView(recycler)
     }

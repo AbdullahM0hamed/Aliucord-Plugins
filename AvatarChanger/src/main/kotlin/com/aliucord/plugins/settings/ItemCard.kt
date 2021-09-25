@@ -6,6 +6,7 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
+import com.aliucord.Utils
 import com.aliucord.utils.DimenUtils
 import com.aliucord.views.Button
 import com.aliucord.views.ToolbarButton
@@ -24,7 +25,7 @@ class ItemCard(
     public lateinit var clear: ToolbarButton
 
     init {
-        setRadius(DimenUtils.getDefaultCardRadius())
+        setRadius(DimenUtils.getDefaultCardRadius().toFloat())
         setCardBackgroundColor(
             ColorCompat.getThemedColor(
                 ctx,
@@ -37,6 +38,7 @@ class ItemCard(
             LinearLayout.LayoutParams.WRAP_CONTENT
         )
 
+        val p = Utils.dpToPx(16)
         rootParams.setMargins(0, p / 2, 0, 0)
         layoutParams = rootParams
 
