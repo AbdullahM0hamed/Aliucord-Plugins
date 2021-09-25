@@ -80,17 +80,15 @@ class UserAdapter(
             confirm.setOnOkListener {
                 if (guild != null) {
                     guilds.remove(
-                        guilds.values.asSequence().toList()
+                        guilds.keys.asSequence().toList()
                             .get(position)
-                            .key
                     )
                 }
 
                 if (user != null) {
                     users.remove(
-                        users.values.asSequence().toList()
+                        users.keys.asSequence().toList()
                             .get(position)
-                            .key
                     )
                 }
 
