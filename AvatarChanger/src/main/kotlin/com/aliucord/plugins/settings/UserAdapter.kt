@@ -55,7 +55,7 @@ class UserAdapter(
                 ).value
 
             //IconUtils.setIcon(holder.card.icon, user)
-            Utils.showToast(user.toString())
+            Utils.showToast(ctx, user.toString())
         }
 
         holder.card.name.text =
