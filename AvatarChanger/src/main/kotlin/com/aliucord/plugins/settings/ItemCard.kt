@@ -18,10 +18,10 @@ class ItemCard(
     val ctx: Context
 ) : MaterialCardView(ctx) {
 
-    public lateinit var icon: SimpleDraweeView
-    public lateinit var name: TextView
-    public lateinit var edit: Button
-    public lateinit var clear: ToolbarButton
+    public var icon: SimpleDraweeView
+    public var name: TextView
+    public var edit: Button
+    public var clear: ToolbarButton
 
     init {
         setRadius(DimenUtils.getDefaultCardRadius().toFloat())
@@ -37,7 +37,7 @@ class ItemCard(
             LinearLayout.LayoutParams.WRAP_CONTENT
         )
 
-        val p = Utils.dpToPx(16)
+        val p = DimenUtils.dpToPx(16)
         rootParams.setMargins(0, p / 2, 0, 0)
         layoutParams = rootParams
 
@@ -55,15 +55,15 @@ class ItemCard(
         icon = SimpleDraweeView(ctx)
         icon.layoutParams = 
             LayoutParams(
-                Utils.dpToPx(38),
-                Utils.dpToPx(38)
+                DimenUtils.dpToPx(38),
+                DimenUtils.dpToPx(38)
             )
 
         root.addView(icon)
 
         name = TextView(ctx)
         val params = LinearLayout.LayoutParams(
-            Utils.dpToPx(110),
+            DimenUtils.dpToPx(110),
             LinearLayout.LayoutParams.WRAP_CONTENT
         )
         params.setMargins(p, 0, 0, 0)
@@ -95,8 +95,8 @@ class ItemCard(
         edit = Button(ctx)
         edit.setText("Edit")
         val editParams = LinearLayout.LayoutParams(
-            Utils.dpToPx(103),
-            Utils.dpToPx(48)
+            DimenUtils.dpToPx(103),
+            DimenUtils.dpToPx(48)
         )
 
         val p2 = p / 2
@@ -107,8 +107,8 @@ class ItemCard(
         clear = ToolbarButton(ctx);
         clear.setPadding(p2, p2, p2, p2)
         val clearParams = LinearLayout.LayoutParams(
-            Utils.dpToPx(40), 
-            Utils.dpToPx(40)
+            DimenUtils.dpToPx(40), 
+            DimenUtils.dpToPx(40)
         )
         clear.layoutParams = clearParams
         val clearIcon = ContextCompat.getDrawable(

@@ -110,7 +110,8 @@ data class EditAvatar(
                         mutableListOf<Long>()
                     )
 
-                    if (guilds.indexOf(guild.id) == null) {
+                    val guildFound = guilds.find { it == guild.id)
+                    if (guildFound == null) {
                         guilds.add(guild.id)
                         AvatarChanger.mSettings.setObject(
                             "guilds", 
@@ -123,7 +124,8 @@ data class EditAvatar(
                         mutableListOf<Long>()
                     )
 
-                    if (users.indexOf(user.id) == null) {
+                    val userFound = users.find { it == user.id }
+                    if (userFound  == null) {
                         users.add(user.id)
                         AvatarChanger.mSettings.setObject(
                             "users", 
