@@ -9,6 +9,7 @@ import com.aliucord.plugins.AvatarChanger
 import com.discord.models.guild.Guild
 import com.discord.models.user.User
 import com.discord.utilities.icon.IconUtils
+import com.google.gson.reflect.TypeToken
 
 class UserAdapter(
     val ctx: Context
@@ -49,13 +50,13 @@ class UserAdapter(
         var user: User? = null
 
         if (position < guilds.size) {
-            guild = guilds.values
+            guild = guilds.values.asSequence().toList()
                 .get(position)
                 .value
 
             IconUtils.setIcon(holder.card.icon, guild)
         } else {
-            user = users.values.get(
+            user = users.values.asSequence().toList().get(
                     position - guilds.size
                 ).value
 
@@ -80,7 +81,7 @@ class UserAdapter(
             confirm.setOnOkListener {
                 if (guild != null) {
                     guilds.remove(
-                        guilds.values
+                        guilds.values.asSequence().toList()
                             .get(position)
                             .key
                     )
@@ -88,7 +89,7 @@ class UserAdapter(
 
                 if (user != null) {
                     users.remove(
-                        users.values
+                        users.values.asSequence().toList()
                             .get(position)
                             .key
                     )
