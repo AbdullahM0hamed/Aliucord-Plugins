@@ -27,7 +27,7 @@ class UserAdapter(
                 Map::class.java,
                 Long::class.javaObjectType,
                 Guild::class.java
-            )
+            ).getType()
         )
 
         users = AvatarChanger.mSettings.getObject(
