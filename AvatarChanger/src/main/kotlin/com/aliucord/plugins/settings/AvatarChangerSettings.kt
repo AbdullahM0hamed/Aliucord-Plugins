@@ -85,19 +85,19 @@ class AvatarChangerSettings : SettingsPage() {
 
         val guildIds = AvatarChanger.mSettings.getObject(
             "guilds",
-            mutableListOf<Long>()
+            mutableListOf<String>()
         )
 
         //Populated when it needs to be
-        Utils.showToast(view.context, guildIds.toString())
+        //Utils.showToast(view.context, guildIds.toString())
 
         val userIds = AvatarChanger.mSettings.getObject(
             "users",
-            mutableListOf<Long>()
+            mutableListOf<String>()
         )
 
         val guildList = StoreStream.getGuilds().getGuilds().entries
-            .filter { it.key in guildIds }
+            .filter { it.key.toString() in guildIds }
             .map { it.value }
             .toMutableList()
 
@@ -119,7 +119,7 @@ class AvatarChangerSettings : SettingsPage() {
             userList
         )
 
-        StoreStream.getUsers().fetchUsers(userIds)
+        StoreStream.getUsers().fetchUsers(userIds.map { it.toLong() })
         StoreStream.getUsers().observeUsers(userIds).subscribe(
             createActionSubscriber({ users ->
                 recycler.adapter = UserAdapter(
