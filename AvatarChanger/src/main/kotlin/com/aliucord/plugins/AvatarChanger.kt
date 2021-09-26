@@ -40,12 +40,15 @@ class AvatarChanger : Plugin() {
                     mutableListOf<String>()
                 )
 
-                Utils.showToast(context, (guild.id.toString() in guildIds).toString())
+                //Works as intended
+                //Utils.showToast(context, (guild.id.toString() in guildIds).toString())
                 if (guild.id.toString() in guildIds) {
                     val icon = mSettings.getString(
                         "AC_AvatarChanger_${guild.id}",
                         callFrame.result as String
                     )
+
+                    Utils.showToast(context, icon)
                     callFrame.result = icon
                 } else {
                     callFrame.result = callFrame.result
