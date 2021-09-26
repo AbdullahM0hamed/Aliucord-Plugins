@@ -9,8 +9,7 @@ import com.aliucord.api.SettingsAPI
 import com.aliucord.entities.Plugin
 import com.aliucord.patcher.PinePatchFn
 import com.aliucord.plugins.settings.AvatarChangerSettings
-import com.discord.models.guild.Guild
-import com.discord.models.user.CoreUser
+import com.discord.utilities.icon.IconUtils
 import com.lytefast.flexinput.R
 
 @AliucordPlugin
@@ -32,27 +31,29 @@ class AvatarChanger : Plugin() {
     override fun start(context: Context) {
         mSettings = settings
         patcher.patch(
-            Guild::class.java.getDeclaredMethod("getIcon"),
+            Guild::class.java.getDeclaredMethod(
+                "getIcon",
+                Long::class.java.objectType,
+                String::class,
+                String::class,
+                Boolean::class,
+                Int::class
+            ),
             PinePatchFn { callFrame ->
-                val guild = callFrame.thisObject as Guild
+                val guild = callFrame.args[0] as Long
                 val guildIds = mSettings.getObject(
                     "guilds",
                     mutableListOf<String>()
                 )
 
-                //Works as intended
-                //Utils.showToast(context, (guild.id.toString() in guildIds).toString())
-                if (guild.id.toString() in guildIds) {
+                if ((callFrame.args[0] as Long).toString() in guildIds) {
                     val icon = mSettings.getString(
                         "AC_AvatarChanger_${guild.id}",
                         callFrame.result as String
                     )
 
-                    //Wtf non-url
-                    //Utils.showToast(context, icon)
-                    callFrame.result = "https://cdn.discordapp.com/attachments/649733488299475007/891758770579992576/1632682231442.png"
+                    callFrame.result = icon
                 } else {
-                    //Utils.showToast(context, callFrame.result as String)
                     callFrame.invokeOriginalMethod()
                 }
             }
