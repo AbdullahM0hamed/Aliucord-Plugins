@@ -99,3 +99,7 @@ class UserAdapter(
         }
     }
 }
+
+class ViewHolder(
+    val card: ItemCard
+) : RecyclerView.ViewHolder(card)
