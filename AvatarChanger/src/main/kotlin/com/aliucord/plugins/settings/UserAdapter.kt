@@ -87,11 +87,11 @@ class UserAdapter(
 
                 AvatarChanger.mSettings.setObject(
                     "guilds", 
-                    guilds.map { it.id }
+                    guilds.map { it.id.toString() }
                 )
                 AvatarChanger.mSettings.setObject(
                     "users", 
-                    users.map { it.id }
+                    users.map { it.id.toString() }
                 )
 
                 val prefs = Utils.getAppContext()
