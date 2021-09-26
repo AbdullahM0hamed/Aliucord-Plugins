@@ -40,7 +40,7 @@ class AvatarChanger : Plugin() {
                 Int::class.java
             ),
             PinePatchFn { callFrame ->
-                val guild = callFrame.args[0] as Long
+                Utils.showToast(context, "Gets called")
                 val guildIds = mSettings.getObject(
                     "guilds",
                     mutableListOf<String>()
