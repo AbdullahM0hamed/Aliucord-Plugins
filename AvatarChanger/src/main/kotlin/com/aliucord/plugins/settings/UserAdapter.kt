@@ -16,14 +16,14 @@ import com.discord.utilities.icon.IconUtils
 class UserAdapter(
     val ctx: Context,
     val guilds: MutableList<Guild>,
-    val users: MutableList<Guild>
+    val users: MutableList<User>
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
         type: Int
     ): RecyclerView.ViewHolder {
-        return RecyclerView.ViewHolder(ItemCard(ctx))
+        return ViewHolder(ItemCard(ctx))
     }
 
     override fun onBindViewHolder(

@@ -6,9 +6,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.aliucord.Utils
 import com.aliucord.fragments.InputDialog
 import com.aliucord.fragments.SettingsPage
+import com.aliucord.plugins.AvatarChanger
 import com.aliucord.utils.RxUtils.createActionSubscriber
 import com.aliucord.utils.RxUtils.subscribe
 import com.aliucord.views.Button
+import com.discord.models.user.User
 import com.discord.stores.StoreStream
 import rx.Observable
 
@@ -80,7 +82,6 @@ class AvatarChangerSettings : SettingsPage() {
 
         val recycler = RecyclerView(view.context)
         recycler.layoutManager = LinearLayoutManager(view.context)
-        recycler.adapter = UserAdapter(view.context)
 
         val guildIds = AvatarChanger.mSettings.getObject(
             "guilds",
@@ -93,8 +94,9 @@ class AvatarChangerSettings : SettingsPage() {
         )
 
         val guildList = StoreStream.getGuilds().getGuilds().entries
-            .filter { it.key in guilds }
+            .filter { it.key in guildIds }
             .map { it.value }
+            .toMutableList()
 
         val userList = mutableListOf<User>()
         recycler.adapter = UserAdapter(
@@ -109,7 +111,7 @@ class AvatarChangerSettings : SettingsPage() {
                 recycler.adapter = UserAdapter(
                     view.context,
                     guildList,
-                    users.values.asSequence().toList()
+                    users.values.asSequence().toMutableList()
                 )
             })
         )
