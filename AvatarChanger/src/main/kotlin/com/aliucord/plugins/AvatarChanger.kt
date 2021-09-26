@@ -34,10 +34,10 @@ class AvatarChanger : Plugin() {
             IconUtils::class.java.getDeclaredMethod(
                 "getForGuild",
                 Long::class.javaObjectType,
-                String::class,
-                String::class,
-                Boolean::class,
-                Int::class
+                String::class.java,
+                String::class.java,
+                Boolean::class.java,
+                Int::class.java
             ),
             PinePatchFn { callFrame ->
                 val guild = callFrame.args[0] as Long
