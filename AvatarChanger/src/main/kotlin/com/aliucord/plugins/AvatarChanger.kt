@@ -63,12 +63,13 @@ class AvatarChanger : Plugin() {
                 if (id.toString() in guildIds) {
                     //shown
                     //Utils.showToast(context, "is shown L64")
-                    val icon = mSettings.getString(
+                    val icon = settings.getString(
                         "AC_AvatarChanger_${id}",
                         callFrame.result as String
                     )
 
-                    Utils.showToast(context, "Icon URL: $icon")
+                    //Icon url not being taken from shared prefs???
+                    //Utils.showToast(context, "Icon URL: $icon")
 
                     callFrame.result = icon
                 } else {
