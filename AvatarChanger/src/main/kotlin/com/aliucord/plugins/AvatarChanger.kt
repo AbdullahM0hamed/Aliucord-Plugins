@@ -3,6 +3,7 @@ package com.aliucord.plugins
 import android.content.Context
 import android.graphics.drawable.Drawable
 import androidx.core.content.ContextCompat
+import com.aliucord.Utils
 import com.aliucord.annotations.AliucordPlugin
 import com.aliucord.api.SettingsAPI
 import com.aliucord.entities.Plugin
@@ -39,7 +40,7 @@ class AvatarChanger : Plugin() {
                     mutableListOf<String>()
                 )
 
-                Utils.showToast(context, (guild.id.toString() in guilfIds))
+                Utils.showToast(context, (guild.id.toString() in guildIds))
                 if (guild.id.toString() in guildIds) {
                     val icon = mSettings.getString(
                         "AC_AvatarChanger_${guild.id}",
