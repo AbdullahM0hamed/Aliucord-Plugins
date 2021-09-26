@@ -115,7 +115,7 @@ data class EditAvatar(
                     }
 
                     if (guildFound == null) {
-                        guilds.add(guild.id)
+                        guilds.add(guild.id.toString())
                         AvatarChanger.mSettings.setObject(
                             "guilds",
                             guilds
@@ -132,7 +132,7 @@ data class EditAvatar(
                     }
 
                     if (userFound == null) {
-                        users.add(user.id)
+                        users.add(user.id.toString())
                         AvatarChanger.mSettings.setObject(
                             "users", 
                             users

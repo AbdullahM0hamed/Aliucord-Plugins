@@ -119,8 +119,9 @@ class AvatarChangerSettings : SettingsPage() {
             userList
         )
 
-        StoreStream.getUsers().fetchUsers(userIds.map { it.toLong() })
-        StoreStream.getUsers().observeUsers(userIds).subscribe(
+        val userIdsLong = userIds.map { it.toLong() }
+        StoreStream.getUsers().fetchUsers(userIdsLong)
+        StoreStream.getUsers().observeUsers(userIdsLong).subscribe(
             createActionSubscriber({ users ->
                 recycler.adapter = UserAdapter(
                     view.context,
