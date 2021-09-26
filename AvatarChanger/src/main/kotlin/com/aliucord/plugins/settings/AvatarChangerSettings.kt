@@ -98,6 +98,8 @@ class AvatarChangerSettings : SettingsPage() {
             .map { it.value }
             .toMutableList()
 
+        Utils.showToast(view.context, guildList)
+
         val userList = mutableListOf<User>()
         recycler.adapter = UserAdapter(
             view.context,
