@@ -58,7 +58,6 @@ class AvatarChanger : Plugin() {
                 //Utils.showToast(context, id.toString())
 
                 //True when it should be
-                //False positives after a true?
                 //Utils.showToast(context, (id.toString() in guildIds).toString())
                 if (id.toString() in guildIds) {
                     //shown
@@ -68,10 +67,11 @@ class AvatarChanger : Plugin() {
                         callFrame.result as String
                     )
 
-                    Utils.showToast(context, "AC_AvatarChanger_${id}")
+                    //Expected value
+                    //Utils.showToast(context, "AC_AvatarChanger_${id}")
 
                     //Icon url not being taken from shared prefs???
-                    //Utils.showToast(context, "Icon URL: $icon")
+                    Utils.showToast(context, "Icon URL: $icon")
 
                     callFrame.result = icon
                 } else {
