@@ -40,7 +40,6 @@ class AvatarChanger : Plugin() {
                 Int::class.javaObjectType
             ),
             PinePatchFn { callFrame ->
-                Utils.showToast(context, "Gets called")
                 val guildIds = mSettings.getObject(
                     "guilds",
                     mutableListOf<String>()
@@ -48,6 +47,7 @@ class AvatarChanger : Plugin() {
 
                 val id = callFrame.args[1] as Long
                 if (id.toString() in guildIds) {
+                    Utils.showToast(context, "Gets called")
                     val icon = mSettings.getString(
                         "AC_AvatarChanger_${id}",
                         callFrame.result as String
