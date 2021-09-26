@@ -47,10 +47,11 @@ class AvatarChanger : Plugin() {
                     mutableListOf<String>()
                 )
 
+                //Shown
                 Utils.showToast(context, "is shown L50")
                 val id = callFrame.args[1] as Long
-                //Is not shown
-                //Utils.showToast(context, "is shown")
+
+                Utils.showToast(context, "is shown L54")
 
                 //Isnt't shown ???????????
                 //Utils.showToast(context, id.toString())
