@@ -88,6 +88,8 @@ class AvatarChangerSettings : SettingsPage() {
             mutableListOf<Long>()
         )
 
+        Utils.showToast(view.context, guildIds.toString())
+
         val userIds = AvatarChanger.mSettings.getObject(
             "users",
             mutableListOf<Long>()
@@ -98,7 +100,10 @@ class AvatarChangerSettings : SettingsPage() {
             .map { it.value }
             .toMutableList()
 
-        Utils.showToast(view.context, guildList.toString())
+        //empty on restart in any case
+        //populated if you save but come back
+        //and have not exited the app
+        //Utils.showToast(view.context, guildList.toString())
 
         val userList = mutableListOf<User>()
         recycler.adapter = UserAdapter(
