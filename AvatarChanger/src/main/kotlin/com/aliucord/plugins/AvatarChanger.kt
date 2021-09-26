@@ -46,8 +46,10 @@ class AvatarChanger : Plugin() {
                 )
 
                 val id = callFrame.args[1] as Long
+                Utils.showToast(context, id.toString()
                 if (id.toString() in guildIds) {
-                    Utils.showToast(context, "Gets called")
+                    //Isn't
+                    //Utils.showToast(context, "Gets called")
                     val icon = mSettings.getString(
                         "AC_AvatarChanger_${id}",
                         callFrame.result as String
