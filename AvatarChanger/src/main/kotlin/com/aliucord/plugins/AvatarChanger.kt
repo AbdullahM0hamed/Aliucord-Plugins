@@ -63,7 +63,7 @@ class AvatarChanger : Plugin() {
                     //shown
                     //Utils.showToast(context, "is shown L64")
                     val icon = settings.getString(
-                        "AC_AvatarChanger_${id}",
+                        id.toString(),
                         callFrame.result as String
                     )
 
