@@ -6,9 +6,10 @@ import androidx.core.content.ContextCompat
 import com.aliucord.annotations.AliucordPlugin
 import com.aliucord.api.SettingsAPI
 import com.aliucord.entities.Plugin
+import com.aliucord.patcher.PinePatchFn
 import com.aliucord.plugins.settings.AvatarChangerSettings
 import com.discord.models.guild.Guild
-import com.discorf.models.user.CoreUser
+import com.discord.models.user.CoreUser
 import com.lytefast.flexinput.R
 
 @AliucordPlugin
