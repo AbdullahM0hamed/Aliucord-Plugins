@@ -88,9 +88,6 @@ class AvatarChangerSettings : SettingsPage() {
             mutableListOf<String>()
         )
 
-        //Populated when it needs to be
-        //Utils.showToast(view.context, guildIds.toString())
-
         val userIds = AvatarChanger.mSettings.getObject(
             "users",
             mutableListOf<String>()
@@ -101,20 +98,10 @@ class AvatarChangerSettings : SettingsPage() {
             .map { it.value }
             .toMutableList()
 
-        //Empty on restart
-        //Utils.showToast(view.context, StoreStream.getGuilds().getGuilds().entries.filter { it.key in guildIds }.toString())
-
-        //HAS THE NECESSARY KEYS
-        //Utils.showToast(view.context, StoreStream.getGuilds().getGuilds().keys.toString())
-
-        //empty on restart in any case
-        //populated if you save but come back
-        //and have not exited the app
-        //Utils.showToast(view.context, guildList.toString())
-
         val userList = mutableListOf<User>()
         recycler.adapter = UserAdapter(
             view.context,
+            parentFragmentManager,
             guildList,
             userList
         )
@@ -125,6 +112,7 @@ class AvatarChangerSettings : SettingsPage() {
             createActionSubscriber({ users ->
                 recycler.adapter = UserAdapter(
                     view.context,
+                    parentFragmentManager,
                     guildList,
                     users.values.asSequence().toMutableList()
                 )

@@ -2,6 +2,7 @@ package com.aliucord.plugins.settings
 
 import android.content.Context
 import android.view.ViewGroup
+import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.RecyclerView
 import com.aliucord.Utils
 import com.aliucord.fragments.ConfirmDialog
@@ -15,6 +16,7 @@ import com.discord.utilities.icon.IconUtils
 
 class UserAdapter(
     val ctx: Context,
+    val manager: FragmentManager,
     val guilds: MutableList<Guild>,
     val users: MutableList<User>
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
@@ -96,6 +98,8 @@ class UserAdapter(
                     "AC_AvatarChanger_${guild?.id ?: user!!.id}"                      ).apply()
                 confirm.dismiss()
             }
+
+            confirm.show(manager, "confirm")
         }
     }
 }
