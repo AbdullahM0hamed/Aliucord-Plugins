@@ -61,11 +61,14 @@ class AvatarChanger : Plugin() {
                 //False positives after a true?
                 //Utils.showToast(context, (id.toString() in guildIds).toString())
                 if (id.toString() in guildIds) {
-                    Utils.showToast(context, "is shown L64")
+                    //shown
+                    //Utils.showToast(context, "is shown L64")
                     val icon = mSettings.getString(
                         "AC_AvatarChanger_${id}",
                         callFrame.result as String
                     )
+
+                    Utils.showToast(context, "Icon URL: $icon")
 
                     callFrame.result = icon
                 } else {
