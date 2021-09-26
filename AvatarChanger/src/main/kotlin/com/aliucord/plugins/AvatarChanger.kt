@@ -46,7 +46,7 @@ class AvatarChanger : Plugin() {
                 )
 
                 val id = callFrame.args[1] as Long
-                Utils.showToast(context, id.toString()
+                Utils.showToast(context, id.toString())
                 if (id.toString() in guildIds) {
                     //Isn't
                     //Utils.showToast(context, "Gets called")
