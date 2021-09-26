@@ -42,7 +42,7 @@ class AvatarChanger : Plugin() {
                 if (guild.id.toString() in guildIds) {
                     val icon = mSettings.getString(
                         "AC_AvatarChanger_${guild.id}",
-                        callFrame.result
+                        callFrame.result as String
                     )
                     callFrame.result = icon
                 } else {
