@@ -10,6 +10,7 @@ import com.aliucord.utils.RxUtils.createActionSubscriber
 import com.aliucord.utils.RxUtils.subscribe
 import com.aliucord.views.Button
 import com.discord.stores.StoreStream
+import rx.Observable
 
 class AvatarChangerSettings : SettingsPage() {
 
@@ -80,6 +81,38 @@ class AvatarChangerSettings : SettingsPage() {
         val recycler = RecyclerView(view.context)
         recycler.layoutManager = LinearLayoutManager(view.context)
         recycler.adapter = UserAdapter(view.context)
+
+        val guildIds = AvatarChanger.mSettings.getObject(
+            "guilds",
+            mutableListOf<Long>()
+        )
+
+        val userIds = AvatarChanger.mSettings.getObject(
+            "users",
+            mutableListOf<Long>()
+        )
+
+        val guildList = StoreStream.getGuilds().getGuilds().entries
+            .filter { it.key in guilds }
+            .map { it.value }
+
+        val userList = mutableListOf<User>()
+        recycler.adapter = UserAdapter(
+            view.context,
+            guildList,
+            userList
+        )
+
+        StoreStream.getUsers().fetchUsers(userIds)
+        StoreStream.getUsers().observeUsers(userIds).subscribe(
+            createActionSubscriber({ users ->
+                recycler.adapter = UserAdapter(
+                    view.context,
+                    guildList,
+                    users.values.asSequence().toList()
+                )
+            })
+        )
 
         linearLayout.addView(recycler)
     }

@@ -9,57 +9,35 @@ import com.aliucord.plugins.AvatarChanger
 import com.aliucord.utils.RxUtils.createActionSubscriber
 import com.aliucord.utils.RxUtils.subscribe
 import com.discord.models.guild.Guild
-import com.discord.models.user.CoreUser
 import com.discord.models.user.User
 import com.discord.stores.StoreStream
 import com.discord.utilities.icon.IconUtils
 
 class UserAdapter(
-    val ctx: Context
-) : RecyclerView.Adapter<UserViewHolder>() {
-
-    var guilds: MutableList<Long>
-    var users: MutableList<Long>
-
-    init {
-        guilds = AvatarChanger.mSettings.getObject(
-            "guilds",
-            mutableListOf<Long>()
-        )
-
-        users = AvatarChanger.mSettings.getObject(
-            "users",
-            mutableListOf<Long>()
-        )
-    }
+    val ctx: Context,
+    val guilds: MutableList<Guild>,
+    val users: MutableList<Guild>
+) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
         type: Int
-    ): UserViewHolder {
-        return UserViewHolder(ItemCard(ctx))
+    ): RecyclerView.ViewHolder {
+        return RecyclerView.ViewHolder(ItemCard(ctx))
     }
 
     override fun onBindViewHolder(
-        holder: UserViewHolder,
+        holder: RecyclerView.ViewHolder,
         position: Int
     ) {
         if (position < guilds.size) {
-            val guildList = StoreStream.getGuilds().getGuilds()
-            guildList.map { guild ->
-                if (guild.value.id == guilds.get(position)) {
-                    populateView(position, holder, guild.value, null)
-                }
-            }
+            populateView(position, holder, guilds.get(position), null)
         } else {
-            val id = users.get(position - guilds.size)
-            StoreStream.getUsers().fetchUsers(listOf(id))
-            StoreStream.getUsers().observeUser(id).subscribe(
-                createActionSubscriber({ user ->
-                    if (user != null) {
-                        populateView(position, holder, null, user)
-                    }
-                })
+            populateView(
+                position,
+                holder,
+                null,
+                users.get(position - guilds.size)
             )
         }
     }
@@ -68,26 +46,28 @@ class UserAdapter(
 
     private fun populateView(
         position: Int,
-        holder: UserViewHolder,
+        holder: RecyclerView.ViewHolder,
         guild: Guild?, 
         user: User?
     ) {
+        val card = holder.itemView as ItemCard
+
         if (guild != null) {
-            IconUtils.setIcon(holder.card.icon, guild)
+            IconUtils.setIcon(card.icon, guild)
         }
 
         if (user != null) {
-            IconUtils.setIcon(holder.card.icon, user)
+            IconUtils.setIcon(card.icon, user)
         }
 
-        holder.card.name.text =
+        card.name.text =
             guild?.name ?: "${user!!.username}#${user.discriminator}"
 
-        holder.card.edit.setOnClickListener {
+        card.edit.setOnClickListener {
             Utils.openPageWithProxy(ctx, EditAvatar(guild, user))
         }
 
-        holder.card.clear.setOnClickListener {
+        card.clear.setOnClickListener {
             val confirm = ConfirmDialog()
                 .setTitle("Revert Avatar")
                 .setDescription(
@@ -119,7 +99,3 @@ class UserAdapter(
         }
     }
 }
-
-class UserViewHolder(
-    val card: ItemCard
-) : RecyclerView.ViewHolder(card)
