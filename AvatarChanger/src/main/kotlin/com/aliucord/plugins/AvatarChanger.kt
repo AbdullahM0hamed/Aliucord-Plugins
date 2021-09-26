@@ -40,12 +40,14 @@ class AvatarChanger : Plugin() {
                 Int::class.javaObjectType
             ),
             PinePatchFn { callFrame ->
-                Utils.showToast(context, "is shown L43")
+                //Definitely shown
+                //Utils.showToast(context, "is shown L43")
                 val guildIds = mSettings.getObject(
                     "guilds",
                     mutableListOf<String>()
                 )
 
+                Utils.showToast(context, "is shown L50")
                 val id = callFrame.args[1] as Long
                 //Is not shown
                 //Utils.showToast(context, "is shown")
