@@ -68,6 +68,8 @@ class AvatarChanger : Plugin() {
                         callFrame.result as String
                     )
 
+                    Utils.showToast(context, "AC_AvatarChanger_${id}")
+
                     //Icon url not being taken from shared prefs???
                     //Utils.showToast(context, "Icon URL: $icon")
 
