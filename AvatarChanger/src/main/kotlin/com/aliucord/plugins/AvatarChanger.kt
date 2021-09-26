@@ -31,9 +31,9 @@ class AvatarChanger : Plugin() {
     override fun start(context: Context) {
         mSettings = settings
         patcher.patch(
-            Guild::class.java.getDeclaredMethod(
-                "getIcon",
-                Long::class.java.objectType,
+            IconUtils::class.java.getDeclaredMethod(
+                "getForGuild",
+                Long::class.javaObjectType,
                 String::class,
                 String::class,
                 Boolean::class,
@@ -46,9 +46,10 @@ class AvatarChanger : Plugin() {
                     mutableListOf<String>()
                 )
 
-                if ((callFrame.args[0] as Long).toString() in guildIds) {
+                val id = callFrame.args[1] as Long
+                if (id.toString() in guildIds) {
                     val icon = mSettings.getString(
-                        "AC_AvatarChanger_${guild.id}",
+                        "AC_AvatarChanger_${id}",
                         callFrame.result as String
                     )
 
