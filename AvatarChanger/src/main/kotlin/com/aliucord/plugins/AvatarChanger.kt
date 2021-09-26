@@ -51,7 +51,7 @@ class AvatarChanger : Plugin() {
                     Utils.showToast(context, icon)
                     callFrame.result = icon
                 } else {
-                    Utils.showToast(context, icon)
+                    Utils.showToast(context, callFrame.result as String)
                     callFrame.result = callFrame.result
                 }
             }
