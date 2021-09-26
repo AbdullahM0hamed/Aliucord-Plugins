@@ -48,7 +48,7 @@ class AvatarChanger : Plugin() {
                 )
 
                 //Shown
-                Utils.showToast(context, "is shown L50")
+                //Utils.showToast(context, "is shown L50")
                 val id = callFrame.args[1] as Long
 
                 Utils.showToast(context, "is shown L54")
