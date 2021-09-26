@@ -36,7 +36,7 @@ class AvatarChanger : Plugin() {
                 Long::class.javaObjectType,
                 String::class.javaObjectType,
                 String::class.javaObjectType,
-                Boolean::class.javaObjectType,
+                Boolean::class.java,
                 Int::class.javaObjectType
             ),
             PinePatchFn { callFrame ->
