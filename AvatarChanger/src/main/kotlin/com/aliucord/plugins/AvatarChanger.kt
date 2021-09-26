@@ -57,10 +57,11 @@ class AvatarChanger : Plugin() {
                 //Is an ID as expected
                 //Utils.showToast(context, id.toString())
 
-                Utils.showToast(context, (id.toString() in guildIds).toString())
+                //True when it should be
+                //False positives after a true?
+                //Utils.showToast(context, (id.toString() in guildIds).toString())
                 if (id.toString() in guildIds) {
-                    //Isn't
-                    //Utils.showToast(context, "Gets called")
+                    Utils.showToast(context, "is shown L64")
                     val icon = mSettings.getString(
                         "AC_AvatarChanger_${id}",
                         callFrame.result as String
