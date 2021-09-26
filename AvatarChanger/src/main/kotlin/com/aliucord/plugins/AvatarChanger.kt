@@ -54,8 +54,10 @@ class AvatarChanger : Plugin() {
                 //Shown
                 //Utils.showToast(context, "is shown L54")
 
-                //Isnt't shown ???????????
-                Utils.showToast(context, id.toString())
+                //Is an ID as expected
+                //Utils.showToast(context, id.toString())
+
+                Utils.showToast(context, (id.toString() in guildIds).toString())
                 if (id.toString() in guildIds) {
                     //Isn't
                     //Utils.showToast(context, "Gets called")
