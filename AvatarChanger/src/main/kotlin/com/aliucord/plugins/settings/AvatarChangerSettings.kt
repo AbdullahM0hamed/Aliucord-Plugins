@@ -101,7 +101,7 @@ class AvatarChangerSettings : SettingsPage() {
             .map { it.value }
             .toMutableList()
 
-        Utils.showToast(view.context, StoreStrean.getGuilds().getGuilds().entries.filter { it.key in guildIds }.toString())
+        Utils.showToast(view.context, StoreStream.getGuilds().getGuilds().entries.filter { it.key in guildIds }.toString())
 
         //HAS THE NECESSARY KEYS
         //Utils.showToast(view.context, StoreStream.getGuilds().getGuilds().keys.toString())
