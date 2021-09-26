@@ -85,8 +85,14 @@ class UserAdapter(
                     users.removeAt(position - guilds.size)
                 }
 
-                AvatarChanger.mSettings.setObject("guilds", guilds)
-                AvatarChanger.mSettings.setObject("users", users)
+                AvatarChanger.mSettings.setObject(
+                    "guilds", 
+                    guilds.map { it.id }
+                )
+                AvatarChanger.mSettings.setObject(
+                    "users", 
+                    users.map { it.id }
+                )
 
                 val prefs = Utils.getAppContext()
                     .getSharedPreferences(
