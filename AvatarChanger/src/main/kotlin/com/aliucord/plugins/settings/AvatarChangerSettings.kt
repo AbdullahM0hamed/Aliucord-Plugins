@@ -101,7 +101,7 @@ class AvatarChangerSettings : SettingsPage() {
             .map { it.value }
             .toMutableList()
 
-        Util.showToast(view.context, StoreStream.getGuilds().getGuilds().keys.toString())
+        Utils.showToast(view.context, StoreStream.getGuilds().getGuilds().keys.toString())
 
         //empty on restart in any case
         //populated if you save but come back
