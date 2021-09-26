@@ -88,7 +88,8 @@ class AvatarChangerSettings : SettingsPage() {
             mutableListOf<Long>()
         )
 
-        Utils.showToast(view.context, guildIds.toString())
+        //Populated when it needs to be
+        //Utils.showToast(view.context, guildIds.toString())
 
         val userIds = AvatarChanger.mSettings.getObject(
             "users",
@@ -99,6 +100,8 @@ class AvatarChangerSettings : SettingsPage() {
             .filter { it.key in guildIds }
             .map { it.value }
             .toMutableList()
+
+        Util.showToast(view.context, StoreStream.getGuilds().getGuilds().keys.toString())
 
         //empty on restart in any case
         //populated if you save but come back
