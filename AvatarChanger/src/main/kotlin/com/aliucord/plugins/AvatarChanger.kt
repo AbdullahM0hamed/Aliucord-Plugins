@@ -7,6 +7,8 @@ import com.aliucord.annotations.AliucordPlugin
 import com.aliucord.api.SettingsAPI
 import com.aliucord.entities.Plugin
 import com.aliucord.plugins.settings.AvatarChangerSettings
+import com.discord.models.guild.Guild
+import com.discorf.models.user.CoreUser
 import com.lytefast.flexinput.R
 
 @AliucordPlugin
@@ -27,6 +29,26 @@ class AvatarChanger : Plugin() {
 
     override fun start(context: Context) {
         mSettings = settings
+        patcher.patch(
+            Guild::class.java.getDeclaredMethod("getIcon"),
+            PinePatchFn { callframe ->
+                val guild = callFrame.thisObject as Guild
+                val guildIds = mSettings.getObject(
+                    "guilds",
+                    mutableListOf<String>()
+                )
+
+                if (guild.id.toString() in guildIds) {
+                    val icon = mSettings.getString(
+                        "AC_AvatarChanger_${guild.id}",
+                        callFrame.result
+                    )
+                    callFrame.result = icon
+                } else {
+                    callFrame.result = callFrame.result
+                }
+            }
+        )
     }
 
     override fun stop(context: Context) = patcher.unpatchAll()
