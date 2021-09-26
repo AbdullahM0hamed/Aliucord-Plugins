@@ -34,10 +34,10 @@ class AvatarChanger : Plugin() {
             IconUtils::class.java.getDeclaredMethod(
                 "getForGuild",
                 Long::class.javaObjectType,
-                String::class.java,
-                String::class.java,
-                Boolean::class.java,
-                Int::class.java
+                String::class.javaObjectType,
+                String::class.javaObjectType,
+                Boolean::class.javaObjectType,
+                Int::class.javaObjectType
             ),
             PinePatchFn { callFrame ->
                 Utils.showToast(context, "Gets called")
