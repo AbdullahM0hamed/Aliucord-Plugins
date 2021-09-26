@@ -32,7 +32,7 @@ class AvatarChanger : Plugin() {
         mSettings = settings
         patcher.patch(
             Guild::class.java.getDeclaredMethod("getIcon"),
-            PinePatchFn { callframe ->
+            PinePatchFn { callFrame ->
                 val guild = callFrame.thisObject as Guild
                 val guildIds = mSettings.getObject(
                     "guilds",
