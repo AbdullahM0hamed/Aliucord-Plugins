@@ -48,11 +48,12 @@ class AvatarChanger : Plugin() {
                         callFrame.result as String
                     )
 
-                    Utils.showToast(context, icon)
-                    callFrame.result = icon
+                    //Wtf non-url
+                    //Utils.showToast(context, icon)
+                    callFrame.result = "https://cdn.discordapp.com/attachments/649733488299475007/891758770579992576/1632682231442.png"
                 } else {
-                    Utils.showToast(context, callFrame.result as String)
-                    callFrame.result = callFrame.result
+                    //Utils.showToast(context, callFrame.result as String)
+                    callFrame.invokeOriginalMethod()
                 }
             }
         )
