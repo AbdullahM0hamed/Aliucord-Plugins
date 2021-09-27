@@ -136,7 +136,7 @@ class AvatarChanger : Plugin() {
                             .get(state.component1())
 
                         editDialog(
-                            sheet!!.activity,
+                            sheet!!.activity as Context,
                             sheet.parentFragmentManager,
                             guild,
                             null
