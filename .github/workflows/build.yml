@@ -10,9 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@master
-        with:
-          path: "src"
+        uses: actions/checkout@v2
 
       - name: Checkout builds
         uses: actions/checkout@master
