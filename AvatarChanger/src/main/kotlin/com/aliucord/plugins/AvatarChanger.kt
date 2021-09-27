@@ -153,14 +153,14 @@ class AvatarChanger : Plugin() {
                             .get(state.component1())
 
                         editDialog(
-                            sheet!!.activity as Context,
+                            sheet.activity as Context,
                             sheet.parentFragmentManager,
                             guild,
                             null
                         )
                     }
                 }.also {
-                    if (actions.findViewById(editId) as View == null) {
+                    if ((actions.findViewById(editId) as View) == null) {
                         actions.addView(it, index)
                     }
                 }
