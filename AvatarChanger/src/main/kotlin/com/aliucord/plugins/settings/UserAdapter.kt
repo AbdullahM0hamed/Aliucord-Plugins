@@ -77,11 +77,11 @@ class UserAdapter(
                 )
 
             confirm.setOnOkListener {
-                if (guild != null && guilds.size > position) {
+                if (guild != null) {
                     guilds.removeAt(position)
                 }
 
-                if (user != null && users.size > position) {
+                if (user != null) {
                     users.removeAt(position - guilds.size)
                 }
 
@@ -102,6 +102,8 @@ class UserAdapter(
 
                 prefs.edit().remove(
                     "AC_AvatarChanger_${guild?.id ?: user!!.id}"                      ).apply()
+
+                notifyDataSetChanged()
                 confirm.dismiss()
             }
 
