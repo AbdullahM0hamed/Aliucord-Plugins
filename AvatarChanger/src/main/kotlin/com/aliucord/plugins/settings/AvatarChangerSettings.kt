@@ -121,4 +121,9 @@ class AvatarChangerSettings : SettingsPage() {
 
         linearLayout.addView(recycler)
     }
+
+    override fun onResume() {
+        super.onResume()
+        reRender()
+    }
 }
