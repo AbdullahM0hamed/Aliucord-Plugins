@@ -40,38 +40,48 @@ class AvatarChanger : Plugin() {
                 Int::class.javaObjectType
             ),
             PinePatchFn { callFrame ->
-                //Definitely shown
-                //Utils.showToast(context, "is shown L43")
-                val guildIds = mSettings.getObject(
+                val guildIds = settings.getObject(
                     "guilds",
                     mutableListOf<String>()
                 )
 
-                //Shown
-                //Utils.showToast(context, "is shown L50")
                 val id = callFrame.args[0] as Long
 
-                //Shown
-                //Utils.showToast(context, "is shown L54")
-
-                //Is an ID as expected
-                //Utils.showToast(context, id.toString())
-
-                //True when it should be
-                //Utils.showToast(context, (id.toString() in guildIds).toString())
                 if (id.toString() in guildIds) {
-                    //shown
-                    //Utils.showToast(context, "is shown L64")
                     val icon = settings.getString(
                         id.toString(),
                         callFrame.result as String
                     )
 
-                    //Expected value
-                    //Utils.showToast(context, "AC_AvatarChanger_${id}")
+                    callFrame.result = icon
+                } else {
+                    callFrame.invokeOriginalMethod()
+                }
+            }
+        )
 
-                    //Icon url not being taken from shared prefs???
-                    Utils.showToast(context, "Icon URL: $icon")
+        patcher.patch(
+            IconUtils::class.java.getDeclaredMethod(
+                "getForUser",
+                Long::class.javaObjectType,
+                String::class.javaObjectType,
+                Int::class.javaObjectType,
+                Boolean::class.javaPrimitiveType,
+                Int::class.javaObjectType
+            ),
+            PinePatchFn { callFrame ->
+                val userIds = settings.getObject(
+                    "users",
+                    mutableListOf<String>()
+                )
+
+                val id = callFrame.args[0] as Long
+
+                if (id.toString() in userIds) {
+                    val icon = settings.getString(
+                        id.toString(),
+                        callFrame.result as String
+                    )
 
                     callFrame.result = icon
                 } else {

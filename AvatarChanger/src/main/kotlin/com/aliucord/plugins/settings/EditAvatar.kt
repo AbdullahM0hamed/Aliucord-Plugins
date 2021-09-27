@@ -14,6 +14,7 @@ import com.aliucord.plugins.AvatarChanger
 import com.aliucord.views.Button
 import com.discord.models.guild.Guild
 import com.discord.models.user.User
+import com.discord.utilities.icon.IconUtils
 
 data class EditAvatar(
     val guild: Guild? = null,
@@ -64,7 +65,16 @@ data class EditAvatar(
     }
 
     private fun downloadAvatar() {
-        val url = "https://cdn.discordapp.com/avatars/${guild?.id ?: user!!.id}/${guild?.icon ?: user!!.avatar}.png?size=1024"
+        var url = ""
+
+        if (guild != null) {
+            url = IconUtils.getForGuild(guild)
+        }
+
+        if (user != null) {
+            url = IconUtils.getForUser(user)
+        }
+
         val uri = Uri.parse(url)
         val request = DownloadManager.Request(uri)
         val name = (guild?.name ?: user!!.username) + ".png"
