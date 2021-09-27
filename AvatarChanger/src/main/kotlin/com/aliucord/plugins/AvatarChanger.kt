@@ -160,7 +160,7 @@ class AvatarChanger : Plugin() {
                         )
                     }
                 }.also {
-                    if ((actions.findViewById(editId) as View) == null) {
+                    if ((actions.findViewById(editId) as TextView) == null) {
                         actions.addView(it, index)
                     }
                 }
