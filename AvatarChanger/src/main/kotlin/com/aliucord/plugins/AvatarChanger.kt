@@ -116,7 +116,8 @@ class AvatarChanger : Plugin() {
 
                 val sheet = callFrame.thisObject as WidgetGuildProfileSheet
                 val state = callFrame.args[0] as WidgetGuildProfileSheetViewModel.ViewState.Loaded
-                val binding = sheet.getBinding()
+                val getBinding = sheet.getDeclaredMethod("getBinding").apply { isAccessible = true }
+                val binding = getBinding.invoke(callFrame.thisObject) as WidgetGuildProfileSheetBinding
                 val lo = binding.root as NestedScrollView
                 val layout = lo.findViewById(sheetId) as LinearLayout
                 val actions = (
