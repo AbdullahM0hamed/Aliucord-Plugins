@@ -2,14 +2,13 @@ package com.aliucord.plugins
 
 import android.app.AlertDialog
 import android.content.Context
-import android.content.DialogInterface
 import android.graphics.drawable.Drawable
-import android.widget FrameLayout
+import android.widget.FrameLayout
 import android.widget.LinearLayout
 import android.widget.TextView
-import androidx.fragment.app.Fragment
 import androidx.core.content.ContextCompat
 import androidx.core.widget.NestedScrollView
+import androidx.fragment.app.Fragment
 import com.aliucord.Utils
 import com.aliucord.annotations.AliucordPlugin
 import com.aliucord.api.SettingsAPI
@@ -21,10 +20,10 @@ import com.discord.databinding.WidgetGuildProfileSheetBinding
 import com.discord.models.guild.Guild
 import com.discord.models.user.User
 import com.discord.stores.StoreStream
-import com.discord.widgets.guilds.profile.WidgetGuildProfileSheet
-import com.discord.widgets.guilds.profile.WidgetGuildProfileSheetViewModel
 import com.discord.utilities.icon.IconUtils
 import com.discord.utilities.viewbinding.FragmentViewBindingDelegate
+import com.discord.widgets.guilds.profile.WidgetGuildProfileSheet
+import com.discord.widgets.guilds.profile.WidgetGuildProfileSheetViewModel
 import com.lytefast.flexinput.R
 
 @AliucordPlugin
@@ -38,7 +37,7 @@ class AvatarChanger : Plugin() {
 
     override fun load(context: Context) {
         pluginIcon = ContextCompat.getDrawable(
-            context, 
+            context,
             R.d.ic_profile_24dp
         )!!
     }
@@ -121,40 +120,43 @@ class AvatarChanger : Plugin() {
                 val bindingDelegate = sheet::class.java.getDeclaredField("binding\$delegate")
                 bindingDelegate.apply { isAccessible = true }
                 val d = bindingDelegate.get(sheet) as FragmentViewBindingDelegate<*>
-              val binding = d.getValue(sheet as Fragment, sheet.$$delegatedProperties[0]) as WidgetGuildProfileSheetBinding
-              val lo = binding.root as NestedScrollView
-              val layout = lo.findViewById(sheetId) as LinearLayout
-              val actions = (lo.findViewById(Utils.getResId(
-                  "guild_profile_sheet_secondary_actions",
-                  "id"
-              )) as FrameLayout).getChildAt(0) as LinearLayout
+                val binding = d.getValue(sheet as Fragment, sheet.`$$delegatedProperties`[0]) as WidgetGuildProfileSheetBinding
+                val lo = binding.root as NestedScrollView
+                val layout = lo.findViewById(sheetId) as LinearLayout
+                val actions = (
+                    lo.findViewById(
+                        Utils.getResId(
+                            "guild_profile_sheet_secondary_actions",
+                            "id"
+                        )
+                    ) as FrameLayout
+                    ).getChildAt(0) as LinearLayout
 
-              TextView(actions.context).apply {
-                  text = "Edit Server Icon"
-                  setOnClickListener {
-                      val guildStore = StoreStream.getGuilds()
-                      val guild = guildStore.getGuilds()
-                          .get(state.component1())
+                TextView(actions.context).apply {
+                    text = "Edit Server Icon"
+                    setOnClickListener {
+                        val guildStore = StoreStream.getGuilds()
+                        val guild = guildStore.getGuilds()
+                            .get(state.component1())
 
-                      editDialog(context, guild, null)
-                  }
-              }.also {
-                  val index = actions.indexOfChild(
-                      actions.findViewById(
-                          Utils.getResId(
-                              "guild_profile_sheet_change_nickname",
-                              "id"
-                          )
-                      )
-                  )
-                  actions.addView(this, index + 1)
-              }
-          }
-      )
+                        editDialog(context, guild, null)
+                    }
+                }.also {
+                    val index = actions.indexOfChild(
+                        actions.findViewById(
+                            Utils.getResId(
+                                "guild_profile_sheet_change_nickname",
+                                "id"
+                            )
+                        )
+                    )
+                    actions.addView(this, index + 1)
+                }
+            }
+        )
     }
 
     override fun stop(context: Context) = patcher.unpatchAll()
-
 
     private fun editDialog(ctx: Context, guild: Guild?, user: User?) {
         AlertDialog.Builder(ctx)
@@ -176,7 +178,6 @@ class AvatarChanger : Plugin() {
             )
             .show()
     }
-                        
 
     companion object {
         lateinit var mSettings: SettingsAPI
