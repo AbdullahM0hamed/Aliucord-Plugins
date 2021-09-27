@@ -8,7 +8,7 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.core.widget.NestedScrollView
-import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import com.aliucord.Utils
 import com.aliucord.annotations.AliucordPlugin
 import com.aliucord.api.SettingsAPI
@@ -21,7 +21,6 @@ import com.discord.models.guild.Guild
 import com.discord.models.user.User
 import com.discord.stores.StoreStream
 import com.discord.utilities.icon.IconUtils
-import com.discord.utilities.viewbinding.FragmentViewBindingDelegate
 import com.discord.widgets.guilds.profile.WidgetGuildProfileSheet
 import com.discord.widgets.guilds.profile.WidgetGuildProfileSheetViewModel
 import com.lytefast.flexinput.R
@@ -117,10 +116,7 @@ class AvatarChanger : Plugin() {
 
                 val sheet = callFrame.thisObject as WidgetGuildProfileSheet
                 val state = callFrame.args[0] as WidgetGuildProfileSheetViewModel.ViewState.Loaded
-                val bindingDelegate = sheet::class.java.getDeclaredField("binding\$delegate")
-                bindingDelegate.apply { isAccessible = true }
-                val d = bindingDelegate.get(sheet) as FragmentViewBindingDelegate<*>
-                val binding = d.getValue(sheet as Fragment, sheet.delegatedProperties[0]) as WidgetGuildProfileSheetBinding
+                val binding = sheet.getBinding()
                 val lo = binding.root as NestedScrollView
                 val layout = lo.findViewById(sheetId) as LinearLayout
                 val actions = (
@@ -139,7 +135,12 @@ class AvatarChanger : Plugin() {
                         val guild = guildStore.getGuilds()
                             .get(state.component1())
 
-                        editDialog(context, guild, null)
+                        editDialog(
+                            context,
+                            sheet.parentFragmentManager,
+                            guild,
+                            null
+                        )
                     }
                 }.also {
                     val index = actions.indexOfChild(
@@ -158,7 +159,12 @@ class AvatarChanger : Plugin() {
 
     override fun stop(context: Context) = patcher.unpatchAll()
 
-    private fun editDialog(ctx: Context, guild: Guild?, user: User?) {
+    private fun editDialog(
+        ctx: Context,
+        manager: FragmentManager,
+        guild: Guild?,
+        user: User?
+    ) {
         AlertDialog.Builder(ctx)
             .setTitle("Avatar Changer")
             .setItems(
@@ -172,7 +178,7 @@ class AvatarChanger : Plugin() {
                         )
                         1 -> EditAvatar.setAvatar(
                             ctx,
-                            parentFragmentManager,
+                            manager,
                             guild,
                             user
                         )
