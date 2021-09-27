@@ -152,7 +152,7 @@ class AvatarChanger : Plugin() {
                             )
                         )
                     ) + 1
-                    actions.addView(this, index)
+                    actions.addView(it, index)
                 }
             }
         )
