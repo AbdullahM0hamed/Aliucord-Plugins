@@ -51,109 +51,117 @@ data class EditAvatar(
 
         Button(ctx).apply {
             text = "Download Current Avatar"
-            setOnClickListener { downloadAvatar() }
+            setOnClickListener { downloadAvatar(guild, user) }
             buttons.addView(this)
         }
 
         Button(ctx).apply {
             text = "Change Avatar"
-            setOnClickListener { setAvatar() }
+            setOnClickListener { setAvatar(guild, user) }
             buttons.addView(this)
         }
 
         linearLayout.addView(buttons)
     }
 
-    private fun downloadAvatar() {
-        var url = ""
+    companion object {
+        public fun downloadAvatar(
+            guild: Guild?,
+            user: User?
+        ) {
+            var url = ""
 
-        if (guild != null) {
-            url = IconUtils.getForGuild(guild)
-        }
-
-        if (user != null) {
-            url = IconUtils.getForUser(user)
-        }
-
-        val uri = Uri.parse(url)
-        val request = DownloadManager.Request(uri)
-        val name = (guild?.name ?: user!!.username) + ".png"
-
-        request.setTitle(name)
-        request.setDescription("Download complete.")
-        request.setDestinationInExternalPublicDir(
-            Environment.DIRECTORY_DOWNLOADS,
-            name
-        )
-
-        request.setNotificationVisibility(
-            DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_ONLY_COMPLETION
-        )
-
-        val manager = ctx.getSystemService(
-            Context.DOWNLOAD_SERVICE
-        ) as DownloadManager?
-
-        manager?.enqueue(request)
-    }
-
-    private fun setAvatar() {
-        val dialog = InputDialog()
-            .setTitle("Set Avatar URL")
-            .setDescription("Link to new image to use for avatar")
-            .setPlaceholderText("http://site.com/image.png")
-
-        dialog.setOnOkListener {
-            val url = dialog.input
-
-            if (!Patterns.WEB_URL.matcher(url).matches()) {
-                Utils.showToast(ctx, "Invalid URL")
-            } else {
-                AvatarChanger.mSettings.setString(
-                    (guild?.id ?: user!!.id).toString(),
-                    url
-                )
-
-                if (guild != null) {
-                    val guilds = AvatarChanger.mSettings.getObject(
-                        "guilds",
-                        mutableListOf<String>()
-                    )
-
-                    val guildFound = guilds.find {
-                        it.toLong() == guild.id
-                    }
-
-                    if (guildFound == null) {
-                        guilds.add(guild.id.toString())
-                        AvatarChanger.mSettings.setObject(
-                            "guilds",
-                            guilds
-                        )
-                    }
-                } else if (user != null) {
-                    val users = AvatarChanger.mSettings.getObject(
-                        "users",
-                        mutableListOf<String>()
-                    )
-
-                    val userFound = users.find {
-                        it.toLong() == user.id
-                    }
-
-                    if (userFound == null) {
-                        users.add(user.id.toString())
-                        AvatarChanger.mSettings.setObject(
-                            "users", 
-                            users
-                        )
-                    }
-                }
+            if (guild != null) {
+                url = IconUtils.getForGuild(guild)
             }
 
-            dialog.dismiss()
+            if (user != null) {
+                url = IconUtils.getForUser(user)
+            }
+
+            val uri = Uri.parse(url)
+            val request = DownloadManager.Request(uri)
+            val name = (guild?.name ?: user!!.username) + ".png"
+
+            request.setTitle(name)
+            request.setDescription("Download complete.")
+            request.setDestinationInExternalPublicDir(
+                Environment.DIRECTORY_DOWNLOADS,
+                name
+            )
+
+            request.setNotificationVisibility(
+                DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_ONLY_COMPLETION
+            )
+
+            val manager = ctx.getSystemService(
+                Context.DOWNLOAD_SERVICE
+            ) as DownloadManager?
+
+            manager?.enqueue(request)
         }
 
-        dialog.show(parentFragmentManager, "setAvatar")
+        public fun setAvatar(
+            guild: Guild?,
+            user: User?
+        ) {
+            val dialog = InputDialog()
+                .setTitle("Set Avatar URL")
+                .setDescription("Link to new image to use for avatar")
+                .setPlaceholderText("http://site.com/image.png")
+
+            dialog.setOnOkListener {
+                val url = dialog.input
+
+                if (!Patterns.WEB_URL.matcher(url).matches()) {
+                    Utils.showToast(ctx, "Invalid URL")
+                } else {
+                    AvatarChanger.mSettings.setString(
+                        (guild?.id ?: user!!.id).toString(),
+                        url
+                    )
+
+                    if (guild != null) {
+                        val guilds = AvatarChanger.mSettings.getObject(
+                            "guilds",
+                            mutableListOf<String>()
+                        )
+
+                        val guildFound = guilds.find {
+                            it.toLong() == guild.id
+                        }
+
+                        if (guildFound == null) {
+                            guilds.add(guild.id.toString())
+                            AvatarChanger.mSettings.setObject(
+                                "guilds",
+                                guilds
+                            )
+                        }
+                    } else if (user != null) {
+                        val users = AvatarChanger.mSettings.getObject(
+                            "users",
+                            mutableListOf<String>()
+                        )
+
+                        val userFound = users.find {
+                            it.toLong() == user.id
+                        }
+
+                        if (userFound == null) {
+                            users.add(user.id.toString())
+                            AvatarChanger.mSettings.setObject(
+                                "users",
+                                users
+                            )
+                        }
+                    }
+                }
+
+                dialog.dismiss()
+            }
+
+            dialog.show(parentFragmentManager, "setAvatar")
+        }
     }
 }
