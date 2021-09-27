@@ -7,6 +7,7 @@ import android.os.Environment
 import android.util.Patterns
 import android.view.View
 import android.widget.LinearLayout
+import androidx.fragment.app.FragmentManager
 import com.aliucord.Utils
 import com.aliucord.fragments.InputDialog
 import com.aliucord.fragments.SettingsPage
@@ -57,7 +58,9 @@ data class EditAvatar(
 
         Button(ctx).apply {
             text = "Change Avatar"
-            setOnClickListener { setAvatar(guild, user) }
+            setOnClickListener {
+                setAvatar(ctx, manager, guild, user)
+            }
             buttons.addView(this)
         }
 
@@ -103,6 +106,8 @@ data class EditAvatar(
         }
 
         public fun setAvatar(
+            ctx: Context,
+            manager: FragmentManager,
             guild: Guild?,
             user: User?
         ) {
@@ -162,7 +167,7 @@ data class EditAvatar(
                 dialog.dismiss()
             }
 
-            dialog.show(parentFragmentManager, "setAvatar")
+            dialog.show(manager, "setAvatar")
         }
     }
 }

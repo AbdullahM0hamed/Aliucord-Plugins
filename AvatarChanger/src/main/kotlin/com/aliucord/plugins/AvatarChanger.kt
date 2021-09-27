@@ -120,7 +120,7 @@ class AvatarChanger : Plugin() {
                 val bindingDelegate = sheet::class.java.getDeclaredField("binding\$delegate")
                 bindingDelegate.apply { isAccessible = true }
                 val d = bindingDelegate.get(sheet) as FragmentViewBindingDelegate<*>
-                val binding = d.getValue(sheet as Fragment, sheet.`$$delegatedProperties`[0]) as WidgetGuildProfileSheetBinding
+                val binding = d.getValue(sheet as Fragment, sheet.delegatedProperties[0]) as WidgetGuildProfileSheetBinding
                 val lo = binding.root as NestedScrollView
                 val layout = lo.findViewById(sheetId) as LinearLayout
                 val actions = (
@@ -170,7 +170,12 @@ class AvatarChanger : Plugin() {
                             guild,
                             user
                         )
-                        1 -> EditAvatar.setAvatar(guild, user)
+                        1 -> EditAvatar.setAvatar(
+                            ctx,
+                            parentFragmentManager,
+                            guild,
+                            user
+                        )
                     }
 
                     dialog.dismiss()
