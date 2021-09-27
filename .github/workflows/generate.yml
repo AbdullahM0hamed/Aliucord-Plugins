@@ -34,7 +34,6 @@ jobs:
           ./gradlew make generateUpdaterJson
 
       - name: Upload Artifacts
-        if: always()
         uses: actions/upload-artifact@v2
         with:
-          path: '**/builds/*.zip'
+          path: '**/build/*.zip'
