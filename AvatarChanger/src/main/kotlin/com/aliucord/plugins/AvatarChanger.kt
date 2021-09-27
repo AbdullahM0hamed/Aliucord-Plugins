@@ -4,6 +4,7 @@ import android.app.AlertDialog
 import android.content.Context
 import android.content.DialogInterface
 import android.graphics.drawable.Drawable
+import android.widget FrameLayout
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.fragment.app.Fragment
@@ -16,7 +17,8 @@ import com.aliucord.entities.Plugin
 import com.aliucord.patcher.PinePatchFn
 import com.aliucord.plugins.settings.AvatarChangerSettings
 import com.aliucord.plugins.settings.EditAvatar
-import com.didcord.models.guild.Guild
+import com.discord.databinding.WidgetGuildProfileSheetBinding
+import com.discord.models.guild.Guild
 import com.discord.models.user.User
 import com.discord.stores.StoreStream
 import com.discord.widgets.guilds.profile.WidgetGuildProfileSheet
@@ -118,14 +120,14 @@ class AvatarChanger : Plugin() {
                 val state = callFrame.args[0] as WidgetGuildProfileSheetViewModel.ViewState.Loaded
                 val bindingDelegate = sheet::class.java.getDeclaredField("binding\$delegate")
                 bindingDelegate.apply { isAccessible = true }
-                val d = bindingDelegate.get(sheet) as FragmentViewBindingDelegate
-              val binding = (WidgetGuildProfileSheetBinding) d.getValue(sheet as Fragment, sheet.$$delegatedProperties[0])
+                val d = bindingDelegate.get(sheet) as FragmentViewBindingDelegate<*>
+              val binding = d.getValue(sheet as Fragment, sheet.$$delegatedProperties[0]) as WidgetGuildProfileSheetBinding
               val lo = binding.root as NestedScrollView
               val layout = lo.findViewById(sheetId) as LinearLayout
-              val actions = lo.findViewById(Utils.getResId(
+              val actions = (lo.findViewById(Utils.getResId(
                   "guild_profile_sheet_secondary_actions",
                   "id"
-              )).getChildAt(0)
+              )) as FrameLayout).getChildAt(0) as LinearLayout
 
               TextView(actions.context).apply {
                   text = "Edit Server Icon"
@@ -158,10 +160,14 @@ class AvatarChanger : Plugin() {
         AlertDialog.Builder(ctx)
             .setTitle("Avatar Changer")
             .setItems(
-                listOf("Download Current Avatar", "Change Avatar"),
-                DialogInterface.OnClickListener { dialog, item ->
+                arrayOf("Download Current Avatar", "Change Avatar"),
+                { dialog, item ->
                     when (item) {
-                        0 -> EditAvatar.downloadAvatar(guild, user)
+                        0 -> EditAvatar.downloadAvatar(
+                            ctx,
+                            guild,
+                            user
+                        )
                         1 -> EditAvatar.setAvatar(guild, user)
                     }
 

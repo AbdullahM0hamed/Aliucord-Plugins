@@ -51,7 +51,7 @@ data class EditAvatar(
 
         Button(ctx).apply {
             text = "Download Current Avatar"
-            setOnClickListener { downloadAvatar(guild, user) }
+            setOnClickListener { downloadAvatar(ctx, guild, user) }
             buttons.addView(this)
         }
 
@@ -66,6 +66,7 @@ data class EditAvatar(
 
     companion object {
         public fun downloadAvatar(
+            ctx: Context,
             guild: Guild?,
             user: User?
         ) {
