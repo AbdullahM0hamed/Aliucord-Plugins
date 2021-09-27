@@ -151,8 +151,8 @@ class AvatarChanger : Plugin() {
                                 "id"
                             )
                         )
-                    )
-                    actions.addView(this, index + 1)
+                    ) + 1
+                    actions.addView(this, index)
                 }
             }
         )
