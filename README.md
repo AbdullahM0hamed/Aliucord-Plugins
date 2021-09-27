@@ -1,20 +1,15 @@
-# `Aliucord-plugins-template`
+## Plugins for [Aliucord](https://github.com/Aliucord)
 
-Template for an [Aliucord](https://github.com/Aliucord) plugins repo
+Click on a plugin name to download, and then move the downloaded file to the `Aliucord/plugins` folder
 
-## Setup
+- [AvatarChanger](https://github.com/AbdullahM0hamed/Aliucord-Plugins/raw/builds/AvatarChanger.zip)
+  Allows you to modify the icons of servers, and the profile pictures of fellow users.
 
-1. Generate a repo based on this template
+  ### Steps to use:
+  1: Copy the ID of user or server
+  2: Go to AvatarChanger settings
+  3: Click Add User/Server
+  4: Paste the ID
+  5: Click change avatar and paste a URL to your an image of yout choice
 
-## Getting started with writing your first plugin
-
-This template includes 4 example plugins which you can find in the ExamplePlugins folder.
-
-1. Copy the `HelloWorld` example plugin into the root of this folder as MyFirstPlugin and fix all values in the plugin Manifest method
-2. Uncomment the first line in `settings.gradle.kts` to tell gradle to include it. Whenever you add a new plugin you have to add it here
-3. Edit default manifest in root project `build.gradle.kts` in `aliucord` session
-4. Run `./gradlew MyFirstPlugin:make` or `./gradlew MyFirstPlugin:deployWithAdb`
-
-## License
-
-Everything in this repo is released into the public domain. You may use it however you want with no conditions whatsoever
+  You may also download the user's avatar to photoshop it, and it is recommended that you upload to a private discord server, and use that image's link when changing their avatar.

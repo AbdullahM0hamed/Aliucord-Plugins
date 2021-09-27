@@ -77,11 +77,11 @@ class UserAdapter(
                 )
 
             confirm.setOnOkListener {
-                if (guild != null) {
+                if (guild != null && guilds.size > position) {
                     guilds.removeAt(position)
                 }
 
-                if (user != null) {
+                if (user != null && users.size > position) {
                     users.removeAt(position - guilds.size)
                 }
 
