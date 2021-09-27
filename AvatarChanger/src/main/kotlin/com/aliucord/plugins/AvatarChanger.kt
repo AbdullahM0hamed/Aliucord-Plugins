@@ -119,7 +119,6 @@ class AvatarChanger : Plugin() {
                 val getBinding = WidgetGuildProfileSheet::class.java.getDeclaredMethod("getBinding").apply { isAccessible = true }
                 val binding = getBinding.invoke(callFrame.thisObject) as WidgetGuildProfileSheetBinding
                 val lo = binding.root as NestedScrollView
-                val layout = lo.findViewById(sheetId) as LinearLayout
                 val actions = (
                     lo.findViewById(
                         Utils.getResId(
@@ -137,7 +136,7 @@ class AvatarChanger : Plugin() {
                             .get(state.component1())
 
                         editDialog(
-                            context,
+                            sheet!!.activity,
                             sheet.parentFragmentManager,
                             guild,
                             null
