@@ -3,6 +3,7 @@ package com.aliucord.plugins
 import android.app.AlertDialog
 import android.content.Context
 import android.graphics.drawable.Drawable
+import android.view.View
 import android.widget.FrameLayout
 import android.widget.LinearLayout
 import android.widget.TextView
@@ -103,17 +104,15 @@ class AvatarChanger : Plugin() {
             }
         )
 
+        val editId = View.generateViewId()
+        val removeId = View.generateViewId()
+
         patcher.patch(
             WidgetGuildProfileSheet::class.java.getDeclaredMethod(
                 "configureUI",
                 WidgetGuildProfileSheetViewModel.ViewState.Loaded::class.java,
             ),
             PinePatchFn { callFrame ->
-                val sheetId = Utils.getResId(
-                    "guild_profile_sheet_actions",
-                    "id"
-                )
-
                 val sheet = callFrame.thisObject as WidgetGuildProfileSheet
                 val state = callFrame.args[0] as WidgetGuildProfileSheetViewModel.ViewState.Loaded
                 val getBinding = WidgetGuildProfileSheet::class.java.getDeclaredMethod("getBinding").apply { isAccessible = true }
@@ -128,8 +127,26 @@ class AvatarChanger : Plugin() {
                     ) as FrameLayout
                     ).getChildAt(0) as LinearLayout
 
-                TextView(actions.context).apply {
+                val index = actions.indexOfChild(
+                    actions.findViewById(
+                        Utils.getResId(
+                            "guild_profile_sheet_change_nickname",
+                            "id"
+                        )
+                    )
+                ) + 1
+
+                TextView(
+                    actions.context,
+                    null,
+                    0,
+                    Utils.getResId(
+                        "GuildProfileSheet.Actions.Title",
+                        "style"
+                    )
+                ).apply {
                     text = "Edit Server Icon"
+                    id = editId
                     setOnClickListener {
                         val guildStore = StoreStream.getGuilds()
                         val guild = guildStore.getGuilds()
@@ -143,15 +160,9 @@ class AvatarChanger : Plugin() {
                         )
                     }
                 }.also {
-                    val index = actions.indexOfChild(
-                        actions.findViewById(
-                            Utils.getResId(
-                                "guild_profile_sheet_change_nickname",
-                                "id"
-                            )
-                        )
-                    ) + 1
-                    actions.addView(it, index)
+                    if (actions.findViewById(editId) == null) {
+                        actions.addView(it, index)
+                    }
                 }
             }
         )
