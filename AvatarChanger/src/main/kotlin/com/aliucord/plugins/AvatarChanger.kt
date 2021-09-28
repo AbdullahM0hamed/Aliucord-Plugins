@@ -47,14 +47,6 @@ class AvatarChanger : Plugin() {
 
     override fun start(context: Context) {
         mSettings = settings
-        val guildIds = settings.getObject(
-            "guilds",
-            mutableListOf<String>()
-        )
-        val userIds = settings.getObject(
-            "users",
-            mutableListOf<String>()
-        )
 
         patcher.patch(
             IconUtils::class.java.getDeclaredMethod(
@@ -68,6 +60,7 @@ class AvatarChanger : Plugin() {
             PinePatchFn { callFrame ->
                 val id = callFrame.args[0] as Long
 
+                val guildIds = AvatarChangerSettings.getGuildIds()
                 if (id.toString() in guildIds) {
                     val icon = settings.getString(
                         id.toString(),
@@ -93,6 +86,7 @@ class AvatarChanger : Plugin() {
             PinePatchFn { callFrame ->
                 val id = callFrame.args[0] as Long
 
+                val userIds = AvatarChangerSettings.getUserIds()
                 if (id.toString() in userIds) {
                     val icon = settings.getString(
                         id.toString(),
@@ -179,6 +173,7 @@ class AvatarChanger : Plugin() {
                     }
                 }
 
+                val guildIds = AvatarChangerSettings.getGuildIds()
                 if (guild!!.id.toString() in guildIds) {
                     TextView(
                         actions.context,

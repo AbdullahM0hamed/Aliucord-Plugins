@@ -92,7 +92,7 @@ class AvatarChangerSettings : SettingsPage() {
             userList
         )
 
-        val userIds = getUserIds()
+        val userIds = getUserIds().map { it.toLong() }
         StoreStream.getUsers().fetchUsers(userIds)
 
         StoreStream.getUsers().observeUsers(userIds).subscribe(
@@ -115,13 +115,17 @@ class AvatarChangerSettings : SettingsPage() {
     }
 
     companion object {
-        public fun getEditedGuilds(): MutableList<Guild> {
+        public fun getGuildIds(): MutableList<String> {
             val guildIds = AvatarChanger.mSettings.getObject(
                 "guilds",
                 mutableListOf<String>()
             )
 
-            val guildList = StoreStream.getGuilds().getGuilds().entries
+            return guildIds
+        }
+
+        public getEditedGuilds(): MutableList<Guild> {
+            getGuildIds()
                 .filter { it.key.toString() in guildIds }
                 .map { it.value }
                 .toMutableList()
@@ -129,13 +133,13 @@ class AvatarChangerSettings : SettingsPage() {
             return guildList
         }
 
-        public fun getUserIds(): MutableList<Long> {
+        public fun getUserIds(): MutableList<String> {
             val userIds = AvatarChanger.mSettings.getObject(
                 "users",
                 mutableListOf<String>()
             )
 
-            return userIds.map { it.toLong() }.toMutableList()
+            return userIds
         }
     }
 }

@@ -91,7 +91,7 @@ class UserAdapter(
                 }
 
                 if (user != null) {
-                    userIds.remove(user.id)
+                    userIds.remove(user.id.toString())
                 }
 
                 AvatarChanger.mSettings.setObject(
