@@ -166,7 +166,11 @@ class AvatarChanger : Plugin() {
                 }.also {
                     val padding = Utils.dpToPx(16)
                     it.setPadding(padding, padding, padding, padding)
-                    actions.addView(it, index)
+                    
+                    val view = actions.findViewById(editId) as View?
+                    if (view == null) {
+                        actions.addView(it, index)
+                    }
                 }
             }
         )
