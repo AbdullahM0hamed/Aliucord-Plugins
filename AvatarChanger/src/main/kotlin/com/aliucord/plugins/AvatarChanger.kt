@@ -27,6 +27,8 @@ import com.discord.stores.StoreStream
 import com.discord.utilities.icon.IconUtils
 import com.discord.widgets.guilds.profile.WidgetGuildProfileSheet
 import com.discord.widgets.guilds.profile.WidgetGuildProfileSheetViewModel
+import com.discord.widgets.user.usersheet.WidgetUserSheet
+import com.discord.widgets.user.usersheet.WidgetUserSheetViewModel
 import com.lytefast.flexinput.R
 
 @AliucordPlugin
@@ -103,6 +105,21 @@ class AvatarChanger : Plugin() {
         val editId = View.generateViewId()
         val removeId = View.generateViewId()
 
+        val params = LinearLayout.LayoutParams(
+            LinearLayout.LayoutParams.MATCH_PARENT,
+            LinearLayout.LayoutParams.WRAP_CONTENT
+        )
+        val padding = DimenUtils.dpToPx(16)
+
+        val actionStyle = Utils.getResId(
+            "GuildProfileSheet.Actions.Title",
+            "style"
+        )
+
+        val getBinding = WidgetGuildProfileSheet::class.java
+            .getDeclaredMethod("getBinding")
+            .apply { isAccessible = true }
+
         patcher.patch(
             WidgetGuildProfileSheet::class.java.getDeclaredMethod(
                 "configureUI",
@@ -111,7 +128,6 @@ class AvatarChanger : Plugin() {
             PinePatchFn { callFrame ->
                 val sheet = callFrame.thisObject as WidgetGuildProfileSheet
                 val state = callFrame.args[0] as WidgetGuildProfileSheetViewModel.ViewState.Loaded
-                val getBinding = WidgetGuildProfileSheet::class.java.getDeclaredMethod("getBinding").apply { isAccessible = true }
                 val binding = getBinding.invoke(callFrame.thisObject) as WidgetGuildProfileSheetBinding
                 val lo = binding.root as NestedScrollView
                 val actions = (
@@ -135,17 +151,6 @@ class AvatarChanger : Plugin() {
                 val guildStore = StoreStream.getGuilds()
                 val guild = guildStore.getGuilds()
                     .get(state.component1())
-
-                val actionStyle = Utils.getResId(
-                    "GuildProfileSheet.Actions.Title",
-                    "style"
-                )
-
-                val params = LinearLayout.LayoutParams(
-                    LinearLayout.LayoutParams.MATCH_PARENT,
-                    LinearLayout.LayoutParams.WRAP_CONTENT
-                )
-                val padding = DimenUtils.dpToPx(16)
 
                 TextView(
                     actions.context,
@@ -197,6 +202,106 @@ class AvatarChanger : Plugin() {
                         val view = actions.findViewById(removeId) as View?
                         if (view == null) {
                             actions.addView(it, index + 1)
+                        }
+                    }
+                }
+            }
+        )
+
+        val profileBinding = WidgetUserSheet::class.java
+            .getDeclaredMethod("getBinding")
+            .apply { isAccessible = true }
+
+        val headerId = View.generateViewId()
+        patcher.patch(
+            WidgetUserSheet::class.java.getDeclaredMethod(
+                "configureUI",
+                WidgetUserSheetViewModel.ViewState::class.java
+            ),
+            PinePatchFn { callFrame ->
+                val state = callFrame.args[0] as WidgetUserSheetViewModel.ViewState
+
+                if (state is WidgetUserSheetViewModel.ViewState.Loaded) {
+                    val user = state.user
+                    val sheet = callFrame.thisObject as WidgetUserSheet
+                    val binding = profileBinding.invoke(sheet)
+                    val root = binding.root as NestedScrollView
+
+                    TextView(
+                        sheet.activity as Context,
+                        null,
+                        0,
+                        Utils.getResId(
+                            "UserProfile.Section.Header",
+                            "style"
+                        )
+                    ).apply {
+                        text = "Avatar Changer"
+                        id = headerId
+                        layoutParams = params
+                    }.also {
+                        it.setPadding(padding,padding,padding,padding)
+                        val header = sheet.findViewById(headerId) as View?
+
+                        if (header == null) {
+                            sheet.addView(it, 0)
+                        }
+                    }
+
+                    TextView(
+                        sheet.activity as Context,
+                        null,
+                        0,
+                        Utils.getResId(
+                            "UiKit.ListItem.Icon",
+                            "style"
+                        )
+                    ).apply {
+                        text = "Edit User Avatar"
+                        id = editId
+                        layoutParams = params
+                        setOnClickListener {
+                            editDialog(
+                                sheet.activity as Context,
+                                sheet.parentFragmentManager,
+                                null,
+                                user
+                            )
+                        }
+                    }.also {
+                        it.setPadding(padding,padding,padding,padding)
+                        val view = sheet.findViewById(editId) as View?
+
+                        if (view == null) {
+                            sheet.addView(it, 1)
+                        }
+                    }
+
+                    TextView(
+                        sheet.activity as Context,
+                        null,
+                        0,
+                        Utils.getResId(
+                            "UiKit.ListItem.Icon",
+                            "style"
+                        )
+                    ).apply {
+                        text = "Revert User Avatar"
+                        id = editId
+                        layoutParams = params
+                        setOnClickListener {
+                            UserAdapter.removeDialog(
+                                null,
+                                user,
+                                sheet.parentFragmentManager
+                            )
+                        }
+                    }.also {
+                        it.setPadding(padding,padding,padding,padding)
+                        val view = sheet.findViewById(removeId) as View?
+
+                        if (view == null) {
+                            sheet.addView(it, 2)
                         }
                     }
                 }
