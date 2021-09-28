@@ -147,6 +147,10 @@ class AvatarChanger : Plugin() {
                 ).apply {
                     text = "Edit Server Icon"
                     id = editId
+                    layoutParams = LinearLayout.LayoutParams(
+                        LinearLayout.LayoutParams.MATCH_PARENT,
+                        LinearLayout.LayoutParams.WRAP_CONTENT
+                    )
                     setOnClickListener {
                         val guildStore = StoreStream.getGuilds()
                         val guild = guildStore.getGuilds()
