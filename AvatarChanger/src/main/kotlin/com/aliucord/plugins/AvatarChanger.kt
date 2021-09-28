@@ -131,7 +131,7 @@ class AvatarChanger : Plugin() {
                 val index = actions.indexOfChild(
                     actions.findViewById(
                         Utils.getResId(
-                            "guild_profile_sheet_change_nickname",
+                            "guild_profile_sheet_mark_as_read",
                             "id"
                         )
                     )
