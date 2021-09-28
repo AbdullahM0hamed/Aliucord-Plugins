@@ -188,7 +188,7 @@ class AvatarChanger : Plugin() {
         AlertDialog.Builder(ContextThemeWrapper(
             ctx,
             Utils.getResId(
-                "AppTheme.Dark.Notice",
+                "AppTheme.Dark.BottomSheet",
                 "style"
             )
         ))
