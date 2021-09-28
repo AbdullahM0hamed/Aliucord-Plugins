@@ -3,6 +3,7 @@ package com.aliucord.plugins
 import android.app.AlertDialog
 import android.content.Context
 import android.graphics.drawable.Drawable
+import android.view.ContextThemeWrapper
 import android.view.View
 import android.widget.FrameLayout
 import android.widget.LinearLayout
@@ -184,7 +185,13 @@ class AvatarChanger : Plugin() {
         guild: Guild?,
         user: User?
     ) {
-        AlertDialog.Builder(ctx)
+        AlertDialog.Builder(ContextThemeWrapper(
+            context,
+            Utils.getResId(
+                "AppAlertDialog",
+                "style"
+            )
+        ))
             .setTitle("Avatar Changer")
             .setItems(
                 arrayOf("Download Current Avatar", "Change Avatar"),
