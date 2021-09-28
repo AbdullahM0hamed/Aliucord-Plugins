@@ -66,24 +66,32 @@ class UserAdapter(
             Utils.openPageWithProxy(ctx, EditAvatar(guild, user))
         }
 
-        card.clear.setOnClickListener { removeDialog(guild, user, manager) }
+        card.clear.setOnClickListener { removeDialog(guild, user, manager, this) }
     }
 
     companion object {
-        public fun removeDialog(guild: Guild?, user: User?, manager: FragmentManager) {
+        public fun removeDialog(
+            guild: Guild?,
+            user: User?,
+            manager: FragmentManager,
+            adapter: RecyclerView.Adapter? = null
+        ) {
             val confirm = ConfirmDialog()
                 .setTitle("Revert Avatar")
                 .setDescription(
                     "This will revert to the original avatar. Continue?"
                 )
 
+            val guilds = AvatarChangerSettings.getEditedGuilds()
+            val userIds = AvatarChangerSettings.getUserIds()
+
             confirm.setOnOkListener {
                 if (guild != null) {
-                    guilds.removeAt(position)
+                    guilds.remove(guild)
                 }
 
                 if (user != null) {
-                    users.removeAt(position - guilds.size)
+                    userIds.remove(user.id)
                 }
 
                 AvatarChanger.mSettings.setObject(
@@ -92,7 +100,7 @@ class UserAdapter(
                 )
                 AvatarChanger.mSettings.setObject(
                     "users",
-                    users.map { it.id.toString() }
+                    userIds
                 )
 
                 val prefs = Utils.getAppContext()
@@ -105,12 +113,12 @@ class UserAdapter(
                     "AC_AvatarChanger_${guild?.id ?: user!!.id}"
                 ).apply()
 
-                notifyDataSetChanged()
+                adapter?.notifyDataSetChanged()
                 confirm.dismiss()
             }
 
             confirm.show(manager, "confirm")
-        } 
+        }
     }
 }
 

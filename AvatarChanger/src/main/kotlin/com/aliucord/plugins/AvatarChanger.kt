@@ -147,7 +147,7 @@ class AvatarChanger : Plugin() {
                     "style"
                 )
 
-                val layoutParams = LinearLayout.LayoutParams(
+                val params = LinearLayout.LayoutParams(
                     LinearLayout.LayoutParams.MATCH_PARENT,
                     LinearLayout.LayoutParams.WRAP_CONTENT
                 )
@@ -161,7 +161,7 @@ class AvatarChanger : Plugin() {
                 ).apply {
                     text = "Edit Server Icon"
                     id = editId
-                    layoutParams = layoutParams
+                    layoutParams = params
                     setOnClickListener {
                         editDialog(
                             sheet.activity as Context,
@@ -179,7 +179,7 @@ class AvatarChanger : Plugin() {
                     }
                 }
 
-                if (guild.id in guildIds) {
+                if (guild!!.id in guildIds) {
                     TextView(
                         actions.context,
                         null,
@@ -188,7 +188,7 @@ class AvatarChanger : Plugin() {
                     ).apply {
                         text = "Revert Server Icon"
                         id = removeId
-                        layoutParams = layoutParams
+                        layoutParams = params
                         setOnClickListener {
                             UserAdapter.removeDialog(
                                 guild,
@@ -201,7 +201,7 @@ class AvatarChanger : Plugin() {
 
                         val view = actions.findViewById(removeId) as View?
                         if (view == null) {
-                            actions.addView(index + 1)
+                            actions.addView(it, index + 1)
                         }
                     }
                 }

@@ -83,37 +83,22 @@ class AvatarChangerSettings : SettingsPage() {
         val recycler = RecyclerView(view.context)
         recycler.layoutManager = LinearLayoutManager(view.context)
 
-        val guildIds = AvatarChanger.mSettings.getObject(
-            "guilds",
-            mutableListOf<String>()
-        )
-
-        val userIds = AvatarChanger.mSettings.getObject(
-            "users",
-            mutableListOf<String>()
-        )
-
-        val guildList = StoreStream.getGuilds().getGuilds().entries
-            .filter { it.key.toString() in guildIds }
-            .map { it.value }
-            .toMutableList()
-
         val userList = mutableListOf<User>()
         recycler.adapter = UserAdapter(
             view.context,
             parentFragmentManager,
-            guildList,
+            getEditedGuilds(),
             userList
         )
 
-        val userIdsLong = userIds.map { it.toLong() }
-        StoreStream.getUsers().fetchUsers(userIdsLong)
-        StoreStream.getUsers().observeUsers(userIdsLong).subscribe(
+        val userIds = getUserIds()
+        StoreStream.getUsers().fetchUsers(userIds)
+        StoreStream.getUsers().observeUsers(userIds).first().subscribe(
             createActionSubscriber({ users ->
                 recycler.adapter = UserAdapter(
                     view.context,
                     parentFragmentManager,
-                    guildList,
+                    getEditedGuilds(),
                     users.values.asSequence().toMutableList()
                 )
             })
@@ -125,5 +110,30 @@ class AvatarChangerSettings : SettingsPage() {
     override fun onResume() {
         super.onResume()
         reRender()
+    }
+
+    companion object {
+        public fun getEditedGuilds(): MutableList<Guild> {
+            val guildIds = AvatarChanger.mSettings.getObject(
+                "guilds",
+                mutableListOf<String>()
+            )
+
+            val guildList = StoreStream.getGuilds().getGuilds().entries
+                .filter { it.key.toString() in guildIds }
+                .map { it.value }
+                .toMutableList()
+
+            return guildList
+        }
+
+        public fun getUserIds(): MutableList<Long> {
+            val userIds = AvatarChanger.mSettings.getObject(
+                "users",
+                mutableListOf<String>()
+            )
+
+            return userIds.map { it.toLong() }
+        }
     }
 }
