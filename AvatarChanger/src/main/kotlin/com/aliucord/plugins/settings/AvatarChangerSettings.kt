@@ -124,7 +124,7 @@ class AvatarChangerSettings : SettingsPage() {
             return guildIds
         }
 
-        public getEditedGuilds(): MutableList<Guild> {
+        public fun getEditedGuilds(): MutableList<Guild> {
             getGuildIds()
                 .filter { it.key.toString() in guildIds }
                 .map { it.value }
