@@ -10,6 +10,7 @@ import com.aliucord.plugins.AvatarChanger
 import com.aliucord.utils.RxUtils.createActionSubscriber
 import com.aliucord.utils.RxUtils.subscribe
 import com.aliucord.views.Button
+import com.discord.models.guild.Guild
 import com.discord.models.user.User
 import com.discord.stores.StoreStream
 import rx.Observable
@@ -93,7 +94,7 @@ class AvatarChangerSettings : SettingsPage() {
 
         val userIds = getUserIds()
         StoreStream.getUsers().fetchUsers(userIds)
-        StoreStream.getUsers().observeUsers(userIds).first().subscribe(
+        StoreStream.getUsers().observeUsers(userIds).take(1).subscribe(
             createActionSubscriber({ users ->
                 recycler.adapter = UserAdapter(
                     view.context,
@@ -133,7 +134,7 @@ class AvatarChangerSettings : SettingsPage() {
                 mutableListOf<String>()
             )
 
-            return userIds.map { it.toLong() }
+            return userIds.map { it.toLong() }.toMutableList()
         }
     }
 }

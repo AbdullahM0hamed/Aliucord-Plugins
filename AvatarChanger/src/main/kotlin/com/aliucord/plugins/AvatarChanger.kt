@@ -179,7 +179,7 @@ class AvatarChanger : Plugin() {
                     }
                 }
 
-                if (guild!!.id in guildIds) {
+                if (guild!!.id.toString() in guildIds) {
                     TextView(
                         actions.context,
                         null,

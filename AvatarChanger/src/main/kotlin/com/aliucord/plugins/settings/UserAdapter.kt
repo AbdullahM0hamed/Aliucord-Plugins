@@ -74,7 +74,7 @@ class UserAdapter(
             guild: Guild?,
             user: User?,
             manager: FragmentManager,
-            adapter: RecyclerView.Adapter? = null
+            adapter: RecyclerView.Adapter<*>? = null
         ) {
             val confirm = ConfirmDialog()
                 .setTitle("Revert Avatar")
