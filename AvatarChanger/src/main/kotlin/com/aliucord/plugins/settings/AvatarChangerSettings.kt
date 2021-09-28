@@ -125,12 +125,12 @@ class AvatarChangerSettings : SettingsPage() {
         }
 
         public fun getEditedGuilds(): MutableList<Guild> {
-            getGuildIds()
-                .filter { it.key.toString() in guildIds }
+            val guilds = StoreStream.getGuilds().getGuilds().entries
+                .filter { it.key.toString() in getGuildIds() }
                 .map { it.value }
                 .toMutableList()
 
-            return guildList
+            return guilds
         }
 
         public fun getUserIds(): MutableList<String> {
