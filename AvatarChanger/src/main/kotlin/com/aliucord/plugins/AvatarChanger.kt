@@ -186,7 +186,7 @@ class AvatarChanger : Plugin() {
         user: User?
     ) {
         AlertDialog.Builder(ContextThemeWrapper(
-            context,
+            ctx,
             Utils.getResId(
                 "AppAlertDialog",
                 "style"
