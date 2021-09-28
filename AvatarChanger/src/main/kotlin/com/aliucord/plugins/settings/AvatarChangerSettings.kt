@@ -94,18 +94,16 @@ class AvatarChangerSettings : SettingsPage() {
 
         val userIds = getUserIds()
         StoreStream.getUsers().fetchUsers(userIds)
-        val subscriber = createActionSubscriber({ users ->
-            recycler.adapter = UserAdapter(
-                view.context,
-                parentFragmentManager,
-                getEditedGuilds(),
-                users.values.asSequence().toMutableList()
-            )
-            subscriber.unsubscribe()
-        })
 
         StoreStream.getUsers().observeUsers(userIds).subscribe(
-            subscriber
+            createActionSubscriber({ users ->
+                recycler.adapter = UserAdapter(
+                    view.context,
+                    parentFragmentManager,
+                    getEditedGuilds(),
+                    users.values.asSequence().toMutableList()
+                )
+            })
         )
 
         linearLayout.addView(recycler)
