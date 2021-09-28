@@ -7,11 +7,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.aliucord.Utils
 import com.aliucord.fragments.ConfirmDialog
 import com.aliucord.plugins.AvatarChanger
-import com.aliucord.utils.RxUtils.createActionSubscriber
-import com.aliucord.utils.RxUtils.subscribe
 import com.discord.models.guild.Guild
 import com.discord.models.user.User
-import com.discord.stores.StoreStream
 import com.discord.utilities.icon.IconUtils
 
 class UserAdapter(
@@ -49,7 +46,7 @@ class UserAdapter(
     private fun populateView(
         position: Int,
         holder: RecyclerView.ViewHolder,
-        guild: Guild?, 
+        guild: Guild?,
         user: User?
     ) {
         val card = holder.itemView as ItemCard
@@ -69,7 +66,11 @@ class UserAdapter(
             Utils.openPageWithProxy(ctx, EditAvatar(guild, user))
         }
 
-        card.clear.setOnClickListener {
+        card.clear.setOnClickListener { removeDialog(guild, user, manager) }
+    }
+
+    companion object {
+        public fun removeDialog(guild: Guild?, user: User?, manager: FragmentManager) {
             val confirm = ConfirmDialog()
                 .setTitle("Revert Avatar")
                 .setDescription(
@@ -86,11 +87,11 @@ class UserAdapter(
                 }
 
                 AvatarChanger.mSettings.setObject(
-                    "guilds", 
+                    "guilds",
                     guilds.map { it.id.toString() }
                 )
                 AvatarChanger.mSettings.setObject(
-                    "users", 
+                    "users",
                     users.map { it.id.toString() }
                 )
 
@@ -101,14 +102,15 @@ class UserAdapter(
                     )
 
                 prefs.edit().remove(
-                    "AC_AvatarChanger_${guild?.id ?: user!!.id}"                      ).apply()
+                    "AC_AvatarChanger_${guild?.id ?: user!!.id}"
+                ).apply()
 
                 notifyDataSetChanged()
                 confirm.dismiss()
             }
 
             confirm.show(manager, "confirm")
-        }
+        } 
     }
 }
 

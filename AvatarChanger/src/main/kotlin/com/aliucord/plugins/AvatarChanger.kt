@@ -18,6 +18,8 @@ import com.aliucord.entities.Plugin
 import com.aliucord.patcher.PinePatchFn
 import com.aliucord.plugins.settings.AvatarChangerSettings
 import com.aliucord.plugins.settings.EditAvatar
+import com.aliucord.plugins.settings.UserAdapter
+import com.aliucord.utils.DimenUtils
 import com.discord.databinding.WidgetGuildProfileSheetBinding
 import com.discord.models.guild.Guild
 import com.discord.models.user.User
@@ -45,6 +47,15 @@ class AvatarChanger : Plugin() {
 
     override fun start(context: Context) {
         mSettings = settings
+        val guildIds = settings.getObject(
+            "guilds",
+            mutableListOf<String>()
+        )
+        val userIds = settings.getObject(
+            "users",
+            mutableListOf<String>()
+        )
+
         patcher.patch(
             IconUtils::class.java.getDeclaredMethod(
                 "getForGuild",
@@ -55,11 +66,6 @@ class AvatarChanger : Plugin() {
                 Int::class.javaObjectType
             ),
             PinePatchFn { callFrame ->
-                val guildIds = settings.getObject(
-                    "guilds",
-                    mutableListOf<String>()
-                )
-
                 val id = callFrame.args[0] as Long
 
                 if (id.toString() in guildIds) {
@@ -85,11 +91,6 @@ class AvatarChanger : Plugin() {
                 Int::class.javaObjectType
             ),
             PinePatchFn { callFrame ->
-                val userIds = settings.getObject(
-                    "users",
-                    mutableListOf<String>()
-                )
-
                 val id = callFrame.args[0] as Long
 
                 if (id.toString() in userIds) {
@@ -137,26 +138,31 @@ class AvatarChanger : Plugin() {
                     )
                 ) + 1
 
+                val guildStore = StoreStream.getGuilds()
+                val guild = guildStore.getGuilds()
+                    .get(state.component1())
+
+                val actionStyle = Utils.getResId(
+                    "GuildProfileSheet.Actions.Title",
+                    "style"
+                )
+
+                val layoutParams = LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.MATCH_PARENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT
+                )
+                val padding = DimenUtils.dpToPx(16)
+
                 TextView(
                     actions.context,
                     null,
                     0,
-                    Utils.getResId(
-                        "GuildProfileSheet.Actions.Title",
-                        "style"
-                    )
+                    actionStyle
                 ).apply {
                     text = "Edit Server Icon"
                     id = editId
-                    layoutParams = LinearLayout.LayoutParams(
-                        LinearLayout.LayoutParams.MATCH_PARENT,
-                        LinearLayout.LayoutParams.WRAP_CONTENT
-                    )
+                    layoutParams = layoutParams
                     setOnClickListener {
-                        val guildStore = StoreStream.getGuilds()
-                        val guild = guildStore.getGuilds()
-                            .get(state.component1())
-
                         editDialog(
                             sheet.activity as Context,
                             sheet.parentFragmentManager,
@@ -165,12 +171,38 @@ class AvatarChanger : Plugin() {
                         )
                     }
                 }.also {
-                    val padding = Utils.dpToPx(16)
                     it.setPadding(padding, padding, padding, padding)
-                    
+
                     val view = actions.findViewById(editId) as View?
                     if (view == null) {
                         actions.addView(it, index)
+                    }
+                }
+
+                if (guild.id in guildIds) {
+                    TextView(
+                        actions.context,
+                        null,
+                        0,
+                        actionStyle
+                    ).apply {
+                        text = "Revert Server Icon"
+                        id = removeId
+                        layoutParams = layoutParams
+                        setOnClickListener {
+                            UserAdapter.removeDialog(
+                                guild,
+                                null,
+                                sheet.parentFragmentManager
+                            )
+                        }
+                    }.also {
+                        it.setPadding(padding, padding, padding, padding)
+
+                        val view = actions.findViewById(removeId) as View?
+                        if (view == null) {
+                            actions.addView(index + 1)
+                        }
                     }
                 }
             }
@@ -185,13 +217,15 @@ class AvatarChanger : Plugin() {
         guild: Guild?,
         user: User?
     ) {
-        AlertDialog.Builder(ContextThemeWrapper(
-            ctx,
-            Utils.getResId(
-                "AppTheme.Dark.BottomSheet",
-                "style"
+        AlertDialog.Builder(
+            ContextThemeWrapper(
+                ctx,
+                Utils.getResId(
+                    "AppTheme.Dark.BottomSheet",
+                    "style"
+                )
             )
-        ))
+        )
             .setTitle("Avatar Changer")
             .setItems(
                 arrayOf("Download Current Avatar", "Change Avatar"),
