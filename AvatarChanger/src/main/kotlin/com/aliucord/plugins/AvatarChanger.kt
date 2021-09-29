@@ -220,34 +220,18 @@ class AvatarChanger : Plugin() {
                 WidgetUserSheetViewModel.ViewState::class.java
             ),
             PinePatchFn { callFrame ->
-                // Yes
-                //Utils.showToast(context, "Correct Method")
                 val state = callFrame.args[0] as WidgetUserSheetViewModel.ViewState
 
-                // true
-                //Utils.showToast(context, (state is WidgetUserSheetViewModel.ViewState.Loaded).toString())
                 if (state is WidgetUserSheetViewModel.ViewState.Loaded) {
                     val user = state.user
 
-                    // Correct
-                    //Utils.showToast(context, user.toString())
                     val sheet = callFrame.thisObject as WidgetUserSheet
                     val binding = profileBinding.invoke(sheet) as WidgetUserSheetBinding
 
-                    // Seems correct
-                    //Utils.showToast(context, binding.toString())
                     val root = binding.root as NestedScrollView
                     val layout = root.findViewById(
                         Utils.getResId("user_sheet_content", "id")
                     ) as LinearLayout
-
-                    // Correct
-                    //Utils.showToast(context, layout.toString())
-                    val index = layout.indexOfChild(
-                        layout.findViewById(
-                            Utils.getResId("about_me_header", "style")
-                        )
-                    )
 
                     TextView(
                         sheet.activity as Context,
@@ -262,7 +246,7 @@ class AvatarChanger : Plugin() {
                         id = headerId
                         layoutParams = params
                     }.also {
-                        it.setPadding(padding,padding,padding,padding)
+                        it.setPadding(padding, padding, padding, padding)
 
                         val header = root.findViewById(headerId) as View?
 
@@ -292,7 +276,7 @@ class AvatarChanger : Plugin() {
                             )
                         }
                     }.also {
-                        it.setPadding(padding,padding,padding,padding)
+                        it.setPadding(padding, padding, padding, padding)
                         it.setCompoundDrawablesWithIntrinsicBounds(
                             Utils.getResId("ic_edit_white_a60_24dp", "drawable"),
                             0,
@@ -306,38 +290,42 @@ class AvatarChanger : Plugin() {
                         }
                     }
 
-                    TextView(
-                        sheet.activity as Context,
-                        null,
-                        0,
-                        Utils.getResId(
-                            "UiKit.ListItem.Icon",
-                            "style"
-                        )
-                    ).apply {
-                        text = "Revert User Avatar"
-                        id = removeId
-                        layoutParams = params
-                        setOnClickListener {
-                            UserAdapter.removeDialog(
-                                null,
-                                user,
-                                sheet.parentFragmentManager
-                            )
-                        }
-                    }.also {
-                        it.setPadding(padding,padding,padding,padding)
-                        it.setCompoundDrawablesWithIntrinsicBounds(
-                            Utils.getResId("ic_refresh_white_a60_24dp", "drawable"),
-                            0,
-                            0,
-                            0
-                        )
-                        val view = layout.findViewById(removeId) as View?
+                    val userIds = AvatarChangerSettings.getUserIds()
 
-                        if (view == null) {
-                            layout.addView(it)
-                        }
+                    if (user.id.toString() in userIds) {
+                        TextView(
+                            sheet.activity as Context,
+                            null,
+                            0,
+                            Utils.getResId(
+                                "UiKit.ListItem.Icon",
+                                "style"
+                            )
+                        ).apply {
+                            text = "Revert User Avatar"
+                            id = removeId
+                            layoutParams = params
+                            setOnClickListener {
+                                UserAdapter.removeDialog(
+                                    null,
+                                    user,
+                                    sheet.parentFragmentManager
+                                )
+                            }
+                        }.also {
+                            it.setPadding(padding, padding, padding, padding)
+                            it.setCompoundDrawablesWithIntrinsicBounds(
+                                Utils.getResId("ic_refresh_white_a60_24dp", "drawable"),
+                                0,
+                                0,
+                                0
+                            )
+                            val view = layout.findViewById(removeId) as View?
+
+                            if (view == null) {
+                                layout.addView(it)
+                            }
+                        } 
                     }
                 }
             }

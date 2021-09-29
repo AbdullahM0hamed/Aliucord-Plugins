@@ -30,10 +30,9 @@ class UserAdapter(
         position: Int
     ) {
         if (position < guilds.size) {
-            populateView(position, holder, guilds.get(position), null)
+            populateView(holder, guilds.get(position), null)
         } else {
             populateView(
-                position,
                 holder,
                 null,
                 users.get(position - guilds.size)
@@ -44,7 +43,6 @@ class UserAdapter(
     override fun getItemCount() = guilds.size + users.size
 
     private fun populateView(
-        position: Int,
         holder: RecyclerView.ViewHolder,
         guild: Guild?,
         user: User?
