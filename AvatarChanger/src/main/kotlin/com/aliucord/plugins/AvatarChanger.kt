@@ -229,9 +229,12 @@ class AvatarChanger : Plugin() {
                 if (state is WidgetUserSheetViewModel.ViewState.Loaded) {
                     val user = state.user
 
-                    Utils.showToast(context, user.toString())
+                    // Correct
+                    //Utils.showToast(context, user.toString())
                     val sheet = callFrame.thisObject as WidgetUserSheet
                     val binding = profileBinding.invoke(sheet) as WidgetUserSheetBinding
+
+                    Utils.showToast(context, binding.toString())
                     val root = binding.root as NestedScrollView
                     val layout = root.findViewById(
                         Utils.getResId("user_sheet_content", "style")
