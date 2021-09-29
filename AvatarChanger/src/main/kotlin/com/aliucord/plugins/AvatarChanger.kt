@@ -127,8 +127,6 @@ class AvatarChanger : Plugin() {
                 WidgetGuildProfileSheetViewModel.ViewState.Loaded::class.java,
             ),
             PinePatchFn { callFrame ->
-                Utils.showToast(context, "Correct Method")
-
                 val sheet = callFrame.thisObject as WidgetGuildProfileSheet
                 val state = callFrame.args[0] as WidgetGuildProfileSheetViewModel.ViewState.Loaded
                 val binding = getBinding.invoke(callFrame.thisObject) as WidgetGuildProfileSheetBinding
@@ -222,6 +220,7 @@ class AvatarChanger : Plugin() {
                 WidgetUserSheetViewModel.ViewState::class.java
             ),
             PinePatchFn { callFrame ->
+                Utils.showToast(context, "Correct Method")
                 val state = callFrame.args[0] as WidgetUserSheetViewModel.ViewState
 
                 if (state is WidgetUserSheetViewModel.ViewState.Loaded) {
