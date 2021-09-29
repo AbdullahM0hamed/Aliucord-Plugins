@@ -220,9 +220,11 @@ class AvatarChanger : Plugin() {
                 WidgetUserSheetViewModel.ViewState::class.java
             ),
             PinePatchFn { callFrame ->
-                Utils.showToast(context, "Correct Method")
+                // Yes
+                //Utils.showToast(context, "Correct Method")
                 val state = callFrame.args[0] as WidgetUserSheetViewModel.ViewState
 
+                Utils.showToast(context, (state is WidgetUserSheetViewModel.ViewState.Loaded).toString())
                 if (state is WidgetUserSheetViewModel.ViewState.Loaded) {
                     val user = state.user
                     val sheet = callFrame.thisObject as WidgetUserSheet
