@@ -281,7 +281,7 @@ class AvatarChanger : Plugin() {
                         }
                     }.also {
                         it.setPadding(padding,padding,padding,padding)
-                        it.setCompoundDrawableWithIntrinsicBounds(
+                        it.setCompoundDrawablesWithIntrinsicBounds(
                             Utils.getResId("ic_edit_white_a60_24dp", "drawable"),
                             null,
                             null,
@@ -315,7 +315,7 @@ class AvatarChanger : Plugin() {
                         }
                     }.also {
                         it.setPadding(padding,padding,padding,padding)
-                        it.setCompoundDrawableWithIntrinsicBounds(
+                        it.setCompoundDrawablesWithIntrinsicBounds(
                             Utils.getResId("ic_refresh_white_a60_24dp", "drawable"),
                             null,
                             null,
