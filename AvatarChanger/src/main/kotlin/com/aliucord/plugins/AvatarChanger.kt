@@ -283,9 +283,9 @@ class AvatarChanger : Plugin() {
                         it.setPadding(padding,padding,padding,padding)
                         it.setCompoundDrawablesWithIntrinsicBounds(
                             Utils.getResId("ic_edit_white_a60_24dp", "drawable"),
-                            null,
-                            null,
-                            null
+                            0,
+                            0,
+                            0
                         )
                         val view = layout.findViewById(editId) as View?
 
@@ -317,9 +317,9 @@ class AvatarChanger : Plugin() {
                         it.setPadding(padding,padding,padding,padding)
                         it.setCompoundDrawablesWithIntrinsicBounds(
                             Utils.getResId("ic_refresh_white_a60_24dp", "drawable"),
-                            null,
-                            null,
-                            null
+                            0,
+                            0,
+                            0
                         )
                         val view = layout.findViewById(removeId) as View?
 
