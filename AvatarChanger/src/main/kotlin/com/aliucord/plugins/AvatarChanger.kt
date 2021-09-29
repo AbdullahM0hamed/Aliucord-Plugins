@@ -234,12 +234,14 @@ class AvatarChanger : Plugin() {
                     val sheet = callFrame.thisObject as WidgetUserSheet
                     val binding = profileBinding.invoke(sheet) as WidgetUserSheetBinding
 
-                    Utils.showToast(context, binding.toString())
+                    // Seems correct
+                    //Utils.showToast(context, binding.toString())
                     val root = binding.root as NestedScrollView
                     val layout = root.findViewById(
-                        Utils.getResId("user_sheet_content", "style")
+                        Utils.getResId("user_sheet_content", "id")
                     ) as LinearLayout
 
+                    Utils.showToast(context, layout.toString())
                     val index = layout.indexOfChild(
                         layout.findViewById(
                             Utils.getResId("about_me_header", "style")
