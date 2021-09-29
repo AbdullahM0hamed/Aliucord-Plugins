@@ -241,7 +241,8 @@ class AvatarChanger : Plugin() {
                         Utils.getResId("user_sheet_content", "id")
                     ) as LinearLayout
 
-                    Utils.showToast(context, layout.toString())
+                    // Correct
+                    //Utils.showToast(context, layout.toString())
                     val index = layout.indexOfChild(
                         layout.findViewById(
                             Utils.getResId("about_me_header", "style")
@@ -266,7 +267,7 @@ class AvatarChanger : Plugin() {
                         val header = root.findViewById(headerId) as View?
 
                         if (header == null) {
-                            layout.addView(it, index)
+                            layout.addView(it, 0)
                         }
                     }
 
@@ -301,7 +302,7 @@ class AvatarChanger : Plugin() {
                         val view = layout.findViewById(editId) as View?
 
                         if (view == null) {
-                            layout.addView(it, index + 1)
+                            layout.addView(it, 1)
                         }
                     }
 
@@ -335,7 +336,7 @@ class AvatarChanger : Plugin() {
                         val view = layout.findViewById(removeId) as View?
 
                         if (view == null) {
-                            layout.addView(it, index + 2)
+                            layout.addView(it, 2)
                         }
                     }
                 }
