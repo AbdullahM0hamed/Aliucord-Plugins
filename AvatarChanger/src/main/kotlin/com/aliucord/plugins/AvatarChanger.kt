@@ -21,6 +21,7 @@ import com.aliucord.plugins.settings.EditAvatar
 import com.aliucord.plugins.settings.UserAdapter
 import com.aliucord.utils.DimenUtils
 import com.discord.databinding.WidgetGuildProfileSheetBinding
+import com.discord.databinding.WidgetUserSheetBinding
 import com.discord.models.guild.Guild
 import com.discord.models.user.User
 import com.discord.stores.StoreStream
@@ -224,8 +225,17 @@ class AvatarChanger : Plugin() {
                 if (state is WidgetUserSheetViewModel.ViewState.Loaded) {
                     val user = state.user
                     val sheet = callFrame.thisObject as WidgetUserSheet
-                    val binding = profileBinding.invoke(sheet)
+                    val binding = profileBinding.invoke(sheet) as WidgetUserSheetBinding
                     val root = binding.root as NestedScrollView
+                    val layout = root.findViewById(
+                        Utils.getResId("user_sheet_content", "style")
+                    ) as LinearLayout
+
+                    val index = layout.indexOfChild(
+                        layout.findViewById(
+                            Utils.getResId("about_me_header", "style")
+                        )
+                    )
 
                     TextView(
                         sheet.activity as Context,
@@ -241,10 +251,11 @@ class AvatarChanger : Plugin() {
                         layoutParams = params
                     }.also {
                         it.setPadding(padding,padding,padding,padding)
-                        val header = sheet.findViewById(headerId) as View?
+
+                        val header = root.findViewById(headerId) as View?
 
                         if (header == null) {
-                            sheet.addView(it, 0)
+                            layout.addView(it, index)
                         }
                     }
 
@@ -270,10 +281,16 @@ class AvatarChanger : Plugin() {
                         }
                     }.also {
                         it.setPadding(padding,padding,padding,padding)
-                        val view = sheet.findViewById(editId) as View?
+                        it.setCompoundDrawableWithIntrinsicBounds(
+                            Utils.getResId("ic_edit_white_a60_24dp", "drawable"),
+                            null,
+                            null,
+                            null
+                        )
+                        val view = layout.findViewById(editId) as View?
 
                         if (view == null) {
-                            sheet.addView(it, 1)
+                            layout.addView(it, index + 1)
                         }
                     }
 
@@ -298,10 +315,16 @@ class AvatarChanger : Plugin() {
                         }
                     }.also {
                         it.setPadding(padding,padding,padding,padding)
-                        val view = sheet.findViewById(removeId) as View?
+                        it.setCompoundDrawableWithIntrinsicBounds(
+                            Utils.getResId("ic_refresh_white_a60_24dp", "drawable"),
+                            null,
+                            null,
+                            null
+                        )
+                        val view = layout.findViewById(removeId) as View?
 
                         if (view == null) {
-                            sheet.addView(it, 2)
+                            layout.addView(it, index + 2)
                         }
                     }
                 }
