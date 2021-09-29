@@ -267,7 +267,7 @@ class AvatarChanger : Plugin() {
                         val header = root.findViewById(headerId) as View?
 
                         if (header == null) {
-                            layout.addView(it, 0)
+                            layout.addView(it, index)
                         }
                     }
 
@@ -302,7 +302,7 @@ class AvatarChanger : Plugin() {
                         val view = layout.findViewById(editId) as View?
 
                         if (view == null) {
-                            layout.addView(it, 1)
+                            layout.addView(it, index + 1)
                         }
                     }
 
@@ -316,7 +316,7 @@ class AvatarChanger : Plugin() {
                         )
                     ).apply {
                         text = "Revert User Avatar"
-                        id = editId
+                        id = removeId
                         layoutParams = params
                         setOnClickListener {
                             UserAdapter.removeDialog(
@@ -336,7 +336,7 @@ class AvatarChanger : Plugin() {
                         val view = layout.findViewById(removeId) as View?
 
                         if (view == null) {
-                            layout.addView(it, 2)
+                            layout.addView(it, index + 2)
                         }
                     }
                 }
