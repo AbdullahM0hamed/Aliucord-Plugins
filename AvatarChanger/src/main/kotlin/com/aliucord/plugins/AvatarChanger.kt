@@ -267,7 +267,7 @@ class AvatarChanger : Plugin() {
                         val header = root.findViewById(headerId) as View?
 
                         if (header == null) {
-                            layout.addView(it, index)
+                            layout.addView(it)
                         }
                     }
 
@@ -302,7 +302,7 @@ class AvatarChanger : Plugin() {
                         val view = layout.findViewById(editId) as View?
 
                         if (view == null) {
-                            layout.addView(it, index + 1)
+                            layout.addView(it)
                         }
                     }
 
@@ -336,7 +336,7 @@ class AvatarChanger : Plugin() {
                         val view = layout.findViewById(removeId) as View?
 
                         if (view == null) {
-                            layout.addView(it, index + 2)
+                            layout.addView(it)
                         }
                     }
                 }
