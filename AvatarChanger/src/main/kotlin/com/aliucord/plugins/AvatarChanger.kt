@@ -224,9 +224,12 @@ class AvatarChanger : Plugin() {
                 //Utils.showToast(context, "Correct Method")
                 val state = callFrame.args[0] as WidgetUserSheetViewModel.ViewState
 
-                Utils.showToast(context, (state is WidgetUserSheetViewModel.ViewState.Loaded).toString())
+                // true
+                //Utils.showToast(context, (state is WidgetUserSheetViewModel.ViewState.Loaded).toString())
                 if (state is WidgetUserSheetViewModel.ViewState.Loaded) {
                     val user = state.user
+
+                    Utils.showToast(context, user.toString())
                     val sheet = callFrame.thisObject as WidgetUserSheet
                     val binding = profileBinding.invoke(sheet) as WidgetUserSheetBinding
                     val root = binding.root as NestedScrollView
