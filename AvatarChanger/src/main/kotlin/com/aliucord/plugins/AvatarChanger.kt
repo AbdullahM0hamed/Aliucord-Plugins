@@ -375,7 +375,9 @@ class AvatarChanger : Plugin() {
 
             val typedValue = TypedValue()
             val color = ctx.theme.resolveAttribute(
-                Utils.getResId("colorBackgroundPrimary", "attr")
+                Utils.getResId("colorBackgroundPrimary", "attr"),
+                typedValue,
+                true
             ).data
 
             dialog.window?.setBackgroundDrawableResource(
