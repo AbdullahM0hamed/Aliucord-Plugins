@@ -374,7 +374,7 @@ class AvatarChanger : Plugin() {
             .show()
 
             val typedValue = TypedValue()
-            val color = context.theme.resolveAttribute(
+            val color = ctx.theme.resolveAttribute(
                 Utils.getResId("colorBackgroundPrimary", "attr")
             ).data
 
