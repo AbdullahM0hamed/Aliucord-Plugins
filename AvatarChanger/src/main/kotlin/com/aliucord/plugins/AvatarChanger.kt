@@ -3,6 +3,7 @@ package com.aliucord.plugins
 import android.app.AlertDialog
 import android.content.Context
 import android.graphics.drawable.Drawable
+import android.text.Spannable
 import android.text.SpannableString
 import android.text.style.ForegroundColorSpan
 import android.util.TypedValue
@@ -354,9 +355,9 @@ class AvatarChanger : Plugin() {
         )
 
         val span = ForegroundColorSpan(typedValue.data)
-        title.setSpan(span)
-        download.setSpan(span)
-        change.setSpan(span)
+        title.setSpan(span, 0, title.size, Spannable.SPAN_EXCLUSIVE_INCLUSIVE)
+        download.setSpan(span, 0, download.size, Spannable.SPAN_EXCLUSIVE_INCLUSIVE)
+        change.setSpan(span, 0, change.size, Spannable.SPAN_EXCLUSIVE_INCLUSIVE)
 
         val dialog = AlertDialog.Builder(
             ContextThemeWrapper(
