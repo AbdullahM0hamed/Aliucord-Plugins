@@ -3,6 +3,7 @@ package com.aliucord.plugins
 import android.app.AlertDialog
 import android.content.Context
 import android.graphics.drawable.Drawable
+import android.util.TypedValue
 import android.view.ContextThemeWrapper
 import android.view.View
 import android.widget.FrameLayout
@@ -372,8 +373,13 @@ class AvatarChanger : Plugin() {
             )
             .show()
 
-            dialog.window?.setBackgroundDrawableResource(
+            val typedValue = TypedValue()
+            val color = context.theme.resolveAttribute(
                 Utils.getResId("colorBackgroundPrimary", "attr")
+            ).data
+
+            dialog.window?.setBackgroundDrawableResource(
+                color
             )
     }
 
