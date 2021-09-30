@@ -340,7 +340,7 @@ class AvatarChanger : Plugin() {
         guild: Guild?,
         user: User?
     ) {
-        AlertDialog.Builder(
+        val dialog = AlertDialog.Builder(
             ContextThemeWrapper(
                 ctx,
                 Utils.getResId(
@@ -371,6 +371,10 @@ class AvatarChanger : Plugin() {
                 }
             )
             .show()
+
+            dialog.window.setBackgroundDrawableResource(
+                Utils.getResId("transparent", "color")
+            )
     }
 
     companion object {
