@@ -349,7 +349,7 @@ class AvatarChanger : Plugin() {
         val change = SpannableString("Change Avatar")
         var typedValue = TypedValue()
         ctx.theme.resolveAttribute(
-            Utils.getResId("colorTextNormal", "attr"),
+            Utils.getResId("colorInteractiveActive", "attr"),
             typedValue,
             true
         )
