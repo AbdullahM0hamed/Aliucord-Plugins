@@ -341,6 +341,21 @@ class AvatarChanger : Plugin() {
         guild: Guild?,
         user: User?
     ) {
+        val title = SpannableString("Avatar Changer")
+        val download = SpannableString("Download Current Avatar")
+        val change = SpannableString("Change Avatar")
+        var typedValue = TypedValue()
+        ctx.theme.resolveAttribute(
+            Utils.getResId("colorBackgroundPrimary", "attr"),
+            typedValue,
+            true
+        )
+
+        val span = ForegroundSpan(typedValue.data)
+        title.setSpan(span)
+        download.setSpan(span)
+        change.setSpan(span)
+
         val dialog = AlertDialog.Builder(
             ContextThemeWrapper(
                 ctx,
@@ -350,9 +365,9 @@ class AvatarChanger : Plugin() {
                 )
             )
         )
-            .setTitle("Avatar Changer")
+            .setTitle(title)
             .setItems(
-                arrayOf("Download Current Avatar", "Change Avatar"),
+                arrayOf(download, change),
                 { dialog, item ->
                     when (item) {
                         0 -> EditAvatar.downloadAvatar(
@@ -373,8 +388,8 @@ class AvatarChanger : Plugin() {
             )
             .show()
 
-            val typedValue = TypedValue()
-            val color = ctx.theme.resolveAttribute(
+            typedValue = TypedValue()
+            ctx.theme.resolveAttribute(
                 Utils.getResId("colorBackgroundPrimary", "attr"),
                 typedValue,
                 true
