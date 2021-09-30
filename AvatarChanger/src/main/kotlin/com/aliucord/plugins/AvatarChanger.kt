@@ -373,7 +373,7 @@ class AvatarChanger : Plugin() {
             .show()
 
             dialog.window?.setBackgroundDrawableResource(
-                Utils.getResId("transparent", "color")
+                Utils.getResId("colorBackgroundPrimary", "attr")
             )
     }
 
