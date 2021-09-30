@@ -7,11 +7,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.aliucord.Utils
 import com.aliucord.fragments.ConfirmDialog
 import com.aliucord.plugins.AvatarChanger
-import com.aliucord.utils.RxUtils.createActionSubscriber
-import com.aliucord.utils.RxUtils.subscribe
 import com.discord.models.guild.Guild
 import com.discord.models.user.User
-import com.discord.stores.StoreStream
 import com.discord.utilities.icon.IconUtils
 
 class UserAdapter(
@@ -33,10 +30,9 @@ class UserAdapter(
         position: Int
     ) {
         if (position < guilds.size) {
-            populateView(position, holder, guilds.get(position), null)
+            populateView(holder, guilds.get(position), null)
         } else {
             populateView(
-                position,
                 holder,
                 null,
                 users.get(position - guilds.size)
@@ -47,9 +43,8 @@ class UserAdapter(
     override fun getItemCount() = guilds.size + users.size
 
     private fun populateView(
-        position: Int,
         holder: RecyclerView.ViewHolder,
-        guild: Guild?, 
+        guild: Guild?,
         user: User?
     ) {
         val card = holder.itemView as ItemCard
@@ -69,29 +64,41 @@ class UserAdapter(
             Utils.openPageWithProxy(ctx, EditAvatar(guild, user))
         }
 
-        card.clear.setOnClickListener {
+        card.clear.setOnClickListener { removeDialog(guild, user, manager, this) }
+    }
+
+    companion object {
+        public fun removeDialog(
+            guild: Guild?,
+            user: User?,
+            manager: FragmentManager,
+            adapter: RecyclerView.Adapter<*>? = null
+        ) {
             val confirm = ConfirmDialog()
                 .setTitle("Revert Avatar")
                 .setDescription(
                     "This will revert to the original avatar. Continue?"
                 )
 
+            val guilds = AvatarChangerSettings.getEditedGuilds()
+            val userIds = AvatarChangerSettings.getUserIds()
+
             confirm.setOnOkListener {
                 if (guild != null) {
-                    guilds.removeAt(position)
+                    guilds.remove(guild)
                 }
 
                 if (user != null) {
-                    users.removeAt(position - guilds.size)
+                    userIds.remove(user.id.toString())
                 }
 
                 AvatarChanger.mSettings.setObject(
-                    "guilds", 
+                    "guilds",
                     guilds.map { it.id.toString() }
                 )
                 AvatarChanger.mSettings.setObject(
-                    "users", 
-                    users.map { it.id.toString() }
+                    "users",
+                    userIds
                 )
 
                 val prefs = Utils.getAppContext()
@@ -101,9 +108,10 @@ class UserAdapter(
                     )
 
                 prefs.edit().remove(
-                    "AC_AvatarChanger_${guild?.id ?: user!!.id}"                      ).apply()
+                    "AC_AvatarChanger_${guild?.id ?: user!!.id}"
+                ).apply()
 
-                notifyDataSetChanged()
+                adapter?.notifyDataSetChanged()
                 confirm.dismiss()
             }
 

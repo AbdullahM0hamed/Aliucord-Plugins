@@ -10,6 +10,7 @@ import com.aliucord.plugins.AvatarChanger
 import com.aliucord.utils.RxUtils.createActionSubscriber
 import com.aliucord.utils.RxUtils.subscribe
 import com.aliucord.views.Button
+import com.discord.models.guild.Guild
 import com.discord.models.user.User
 import com.discord.stores.StoreStream
 import rx.Observable
@@ -83,37 +84,23 @@ class AvatarChangerSettings : SettingsPage() {
         val recycler = RecyclerView(view.context)
         recycler.layoutManager = LinearLayoutManager(view.context)
 
-        val guildIds = AvatarChanger.mSettings.getObject(
-            "guilds",
-            mutableListOf<String>()
-        )
-
-        val userIds = AvatarChanger.mSettings.getObject(
-            "users",
-            mutableListOf<String>()
-        )
-
-        val guildList = StoreStream.getGuilds().getGuilds().entries
-            .filter { it.key.toString() in guildIds }
-            .map { it.value }
-            .toMutableList()
-
         val userList = mutableListOf<User>()
         recycler.adapter = UserAdapter(
             view.context,
             parentFragmentManager,
-            guildList,
+            getEditedGuilds(),
             userList
         )
 
-        val userIdsLong = userIds.map { it.toLong() }
-        StoreStream.getUsers().fetchUsers(userIdsLong)
-        StoreStream.getUsers().observeUsers(userIdsLong).subscribe(
+        val userIds = getUserIds().map { it.toLong() }
+        StoreStream.getUsers().fetchUsers(userIds)
+
+        StoreStream.getUsers().observeUsers(userIds).subscribe(
             createActionSubscriber({ users ->
                 recycler.adapter = UserAdapter(
                     view.context,
                     parentFragmentManager,
-                    guildList,
+                    getEditedGuilds(),
                     users.values.asSequence().toMutableList()
                 )
             })
@@ -125,5 +112,34 @@ class AvatarChangerSettings : SettingsPage() {
     override fun onResume() {
         super.onResume()
         reRender()
+    }
+
+    companion object {
+        public fun getGuildIds(): MutableList<String> {
+            val guildIds = AvatarChanger.mSettings.getObject(
+                "guilds",
+                mutableListOf<String>()
+            )
+
+            return guildIds
+        }
+
+        public fun getEditedGuilds(): MutableList<Guild> {
+            val guilds = StoreStream.getGuilds().getGuilds().entries
+                .filter { it.key.toString() in getGuildIds() }
+                .map { it.value }
+                .toMutableList()
+
+            return guilds
+        }
+
+        public fun getUserIds(): MutableList<String> {
+            val userIds = AvatarChanger.mSettings.getObject(
+                "users",
+                mutableListOf<String>()
+            )
+
+            return userIds
+        }
     }
 }
