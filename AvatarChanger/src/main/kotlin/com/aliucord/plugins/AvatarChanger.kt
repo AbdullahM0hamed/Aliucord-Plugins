@@ -380,7 +380,7 @@ class AvatarChanger : Plugin() {
                 true
             )
 
-            dialog.window?.setBackgroundDrawableResource(
+            dialog.window?.decorView?.setBackgroundColor(
                 typedValue.data
             )
     }
