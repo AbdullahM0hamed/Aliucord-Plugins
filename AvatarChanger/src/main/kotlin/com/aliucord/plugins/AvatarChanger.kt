@@ -355,9 +355,9 @@ class AvatarChanger : Plugin() {
         )
 
         val span = ForegroundColorSpan(typedValue.data)
-        title.setSpan(span, 0, title.size, Spannable.SPAN_EXCLUSIVE_INCLUSIVE)
-        download.setSpan(span, 0, download.size, Spannable.SPAN_EXCLUSIVE_INCLUSIVE)
-        change.setSpan(span, 0, change.size, Spannable.SPAN_EXCLUSIVE_INCLUSIVE)
+        title.setSpan(span, 0, title.length, Spannable.SPAN_EXCLUSIVE_INCLUSIVE)
+        download.setSpan(span, 0, download.length, Spannable.SPAN_EXCLUSIVE_INCLUSIVE)
+        change.setSpan(span, 0, change.length, Spannable.SPAN_EXCLUSIVE_INCLUSIVE)
 
         val dialog = AlertDialog.Builder(
             ContextThemeWrapper(
