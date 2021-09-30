@@ -378,10 +378,10 @@ class AvatarChanger : Plugin() {
                 Utils.getResId("colorBackgroundPrimary", "attr"),
                 typedValue,
                 true
-            ).data
+            )
 
             dialog.window?.setBackgroundDrawableResource(
-                color
+                typedValue.data
             )
     }
 
