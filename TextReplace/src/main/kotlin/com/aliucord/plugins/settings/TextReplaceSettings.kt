@@ -35,7 +35,7 @@ class TextReplaceSettings : SettingsPage() {
 
             textDialog.show(parentFragmentManager, "text")
 
-            textDialog.dialog.setOnDismissListener {
+            textDialog.dialog?.setOnDismissListener {
                 if (!toReplace.isEmpty()) {
                     val replaceDialog = InputDialog()
                         .setTitle("Add Text To Replace With")
