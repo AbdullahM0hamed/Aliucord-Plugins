@@ -5,6 +5,7 @@ import com.aliucord.Utils
 import com.aliucord.fragments.InputDialog
 import com.aliucord.fragments.SettingsPage
 import com.aliucord.plugins.TextReplace
+import com.aliucord.views.Button
 
 class TextReplaceSettings : SettingsPage() {
 
@@ -23,7 +24,7 @@ class TextReplaceSettings : SettingsPage() {
             var toReplace = ""
 
             textDialog.setOnOkListener {
-                val text = dialog.input
+                val text = textDialog.input
 
                 if (!text.isEmpty()) {
                     toReplace = text
@@ -42,12 +43,13 @@ class TextReplaceSettings : SettingsPage() {
                         .setPlaceholderText("Not Annoying Text")
 
                     replaceDialog.setOnOkListener {
-                        val text = dialog.input
+                        val text = replaceDialog.input
 
-                        val replaceMap = TextReplace.mSettings.getObject(
-                            "replaceMap",
-                            mutableMapOf<String, String>()
-                        )
+                        val replaceMap = TextReplace.mSettings
+                            .getObject(
+                                "replaceMap",
+                                mutableMapOf<String, String>()
+                            )
 
                         replaceMap.put(toReplace, text)
                         TextReplace.mSettings.setObject(
@@ -58,13 +60,19 @@ class TextReplaceSettings : SettingsPage() {
                         replaceDialog.dismiss()
                     }
 
-                    replaceDialog.show(parentFragmentManager, "replace")
+                    replaceDialog.show(
+                        parentFragmentManager,
+                        "replace"
+                    )
                 } else {
-                    Utils.showToast("No text to replace")
+                    Utils.showToast(
+                        view.context,
+                        "No text to replace"
+                    )
                 }
-            }
 
-            linearLayout.addView(this)
+                linearLayout.addView(this)
+            }
         }
     }
 }
