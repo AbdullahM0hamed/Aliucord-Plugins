@@ -2,6 +2,7 @@ package com.aliucord.plugins
 
 import android.content.Context
 import android.graphics.drawable.Drawable
+import androidx.core.content.ContextCompat
 import com.aliucord.Utils
 import com.aliucord.annotations.AliucordPlugin
 import com.aliucord.entities.Plugin
