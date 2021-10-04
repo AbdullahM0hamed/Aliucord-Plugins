@@ -15,62 +15,60 @@ class TextReplaceSettings : SettingsPage() {
 
         Button(view.context).apply {
             text = "Add Text To Replace (Regex Supported)"
+            setOnClickListener {
+                val textDialog = InputDialog()
+                    .setTitle("Add Text To Replace (Regex Supported)")
+                    .setDescription("Enter Text To Replace")
+                    .setPlaceholderText("Annoying Text")
 
-            val textDialog = InputDialog()
-                .setTitle("Add Text To Replace (Regex Supported)")
-                .setDescription("Enter Text To Replace")
-                .setPlaceholderText("Annoying Text")
+                var toReplace = ""
 
-            var toReplace = ""
+                textDialog.setOnOkListener {
+                    val text = textDialog.input
 
-            textDialog.setOnOkListener {
-                val text = textDialog.input
-
-                if (!text.isEmpty()) {
-                    toReplace = text
-                }
-
-                textDialog.dismiss()
-            }
-
-            textDialog.show(parentFragmentManager, "text")
-
-            textDialog.dialog?.setOnDismissListener {
-                if (!toReplace.isEmpty()) {
-                    val replaceDialog = InputDialog()
-                        .setTitle("Add Text To Replace With")
-                        .setDescription("Add New Text")
-                        .setPlaceholderText("Not Annoying Text")
-
-                    replaceDialog.setOnOkListener {
-                        val text = replaceDialog.input
-
-                        val replaceMap = TextReplace.mSettings
-                            .getObject(
-                                "replaceMap",
-                                mutableMapOf<String, String>()
-                            )
-
-                        replaceMap.put(toReplace, text)
-                        TextReplace.mSettings.setObject(
-                            "replaceMap",
-                            replaceMap
-                        )
-
-                        replaceDialog.dismiss()
+                    if (!text.isEmpty()) {
+                        toReplace = text
                     }
 
-                    replaceDialog.show(
-                        parentFragmentManager,
-                        "replace"
-                    )
-                } else {
-                    Utils.showToast(
-                        view.context,
-                        "No text to replace"
-                    )
+                    if (!toReplace.isEmpty()) {
+                        val replaceDialog = InputDialog()
+                            .setTitle("Add Text To Replace With")
+                            .setDescription("Add New Text")
+                            .setPlaceholderText("Not Annoying Text")
+
+                        replaceDialog.setOnOkListener {
+                            val text = replaceDialog.input
+
+                            val replaceMap = TextReplace.mSettings
+                                .getObject(
+                                    "replaceMap",
+                                    mutableMapOf<String, String>()
+                                )
+
+                            replaceMap.put(toReplace, text)
+                            TextReplace.mSettings.setObject(
+                                "replaceMap",
+                                replaceMap
+                            )
+
+                            replaceDialog.dismiss()
+                        }
+
+                        replaceDialog.show(
+                            parentFragmentManager,
+                            "replace"
+                        )
+                    } else {
+                        Utils.showToast(
+                            view.context,
+                            "No text to replace"
+                        )
+                    }
+
+                    textDialog.dismiss()
                 }
 
+                textDialog.show(parentFragmentManager, "text")
                 linearLayout.addView(this)
             }
         }
