@@ -102,6 +102,17 @@ class AvatarChanger : Plugin() {
 
                     callFrame.result = icon
                 } else {
+                    val user = StoreStream.getUsers().getUsers().get(
+                        id
+                    )
+
+                    if (
+                        user != null &&
+                        user.isBot() &&
+                        user.discriminator == 0
+                    ) {
+                        Utils.showToast(context, user.username)
+                    }
                     callFrame.invokeOriginalMethod()
                 }
             }
@@ -329,7 +340,7 @@ class AvatarChanger : Plugin() {
                             if (view == null) {
                                 layout.addView(it)
                             }
-                        } 
+                        }
                     }
                 }
             }
@@ -391,16 +402,16 @@ class AvatarChanger : Plugin() {
             )
             .show()
 
-            typedValue = TypedValue()
-            ctx.theme.resolveAttribute(
-                Utils.getResId("colorBackgroundPrimary", "attr"),
-                typedValue,
-                true
-            )
+        typedValue = TypedValue()
+        ctx.theme.resolveAttribute(
+            Utils.getResId("colorBackgroundPrimary", "attr"),
+            typedValue,
+            true
+        )
 
-            dialog.window?.decorView?.setBackgroundColor(
-                typedValue.data
-            )
+        dialog.window?.decorView?.setBackgroundColor(
+            typedValue.data
+        )
     }
 
     companion object {
