@@ -12,7 +12,6 @@ import com.aliucord.views.ToolbarButton
 import com.discord.utilities.color.ColorCompat
 import com.facebook.drawee.view.SimpleDraweeView
 import com.google.android.material.card.MaterialCardView
-import com.lytefast.flexinput.R
 
 class ItemCard(
     val ctx: Context
@@ -28,7 +27,7 @@ class ItemCard(
         setCardBackgroundColor(
             ColorCompat.getThemedColor(
                 ctx,
-                R.b.colorBackgroundSecondary
+                Utils.getResId("colorBackgroundSecondary", "attr")
             )
         )
 
@@ -73,7 +72,7 @@ class ItemCard(
         name.setTextColor(
             ColorCompat.getThemedColor(
                 ctx,
-                R.b.colorInteractiveNormal
+                Utils.getResId("colorInteractiveNormal", "attr")
             )
         )
 
@@ -113,7 +112,7 @@ class ItemCard(
         clear.layoutParams = clearParams
         val clearIcon = ContextCompat.getDrawable(
             ctx, 
-            R.d.ic_clear_24dp
+            Utils.getResId("ic_clear_24dp", "drawable")
         )
         clearIcon?.setTint(0xFFED4245.toInt())
         clear.setImageDrawable(clearIcon)
