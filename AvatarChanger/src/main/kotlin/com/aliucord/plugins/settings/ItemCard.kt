@@ -23,7 +23,7 @@ class ItemCard(
     public var clear: ToolbarButton
 
     init {
-        setRadius(DimenUtils.getDefaultCardRadius().toFloat())
+        setRadius(DimenUtils.defaultCardRadius.toFloat())
         setCardBackgroundColor(
             ColorCompat.getThemedColor(
                 ctx,

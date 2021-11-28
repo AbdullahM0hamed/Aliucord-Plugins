@@ -101,8 +101,7 @@ class UserAdapter(
                     userIds
                 )
 
-                val prefs = Utils.getAppContext()
-                    .getSharedPreferences(
+                val prefs = Utils.appContext.getSharedPreferences(
                         "aliucord",
                         Context.MODE_PRIVATE
                     )

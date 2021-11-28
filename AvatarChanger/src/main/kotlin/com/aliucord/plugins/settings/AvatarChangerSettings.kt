@@ -62,10 +62,12 @@ class AvatarChangerSettings : SettingsPage() {
                                                 user = user
                                             )
 
-                                            Utils.openPageWithProxy(
-                                                view.context,
-                                                page
-                                            )
+                                            page?.let {
+                                                Utils.openPageWithProxy(
+                                                    view.context,
+                                                    page
+                                                )
+                                            }
                                         }
 
                                         dialog.dismiss()
