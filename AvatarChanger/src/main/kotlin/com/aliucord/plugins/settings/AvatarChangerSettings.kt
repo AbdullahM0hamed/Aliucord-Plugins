@@ -62,9 +62,11 @@ class AvatarChangerSettings : SettingsPage() {
                                                 user = user
                                             )
 
+                                            //Pain
+                                            val localPage = EditAvatar(user=user)
                                             Utils.openPageWithProxy(
                                                 view.context,
-                                                page
+                                                localPage
                                             )
                                         }
 

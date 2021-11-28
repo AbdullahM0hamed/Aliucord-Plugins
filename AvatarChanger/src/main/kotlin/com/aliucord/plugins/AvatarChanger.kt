@@ -34,7 +34,6 @@ import com.discord.widgets.guilds.profile.WidgetGuildProfileSheet
 import com.discord.widgets.guilds.profile.WidgetGuildProfileSheetViewModel
 import com.discord.widgets.user.usersheet.WidgetUserSheet
 import com.discord.widgets.user.usersheet.WidgetUserSheetViewModel
-import com.lytefast.flexinput.R
 
 @AliucordPlugin
 class AvatarChanger : Plugin() {
@@ -48,7 +47,7 @@ class AvatarChanger : Plugin() {
     override fun load(context: Context) {
         pluginIcon = ContextCompat.getDrawable(
             context,
-            R.d.ic_profile_24dp
+            Utils.getResId("ic_profile_24dp", "drawable")
         )!!
     }
 

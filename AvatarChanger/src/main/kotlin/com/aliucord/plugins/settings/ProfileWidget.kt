@@ -13,7 +13,6 @@ import com.discord.models.guild.Guild
 import com.discord.models.user.User
 import com.discord.utilities.color.ColorCompat
 import com.discord.utilities.icon.IconUtils
-import com.lytefast.flexinput.R
 
 class ProfileWidget(
     val ctx: Context,
@@ -51,7 +50,7 @@ class ProfileWidget(
         cutoutImg.setTint(
             ColorCompat.getThemedColor(
                 ctx,
-                R.b.colorBackgroundSecondary
+                Utils.getResId("colorBackgroundSecondary", "attr")
             )
         )
         cutout.setBackground(cutoutImg)
