@@ -69,8 +69,9 @@ class TextReplaceSettings : SettingsPage() {
                 }
 
                 textDialog.show(parentFragmentManager, "text")
-                linearLayout.addView(this)
             }
+            
+            linearLayout.addView(this)
         }
     }
 }
