@@ -32,23 +32,25 @@ class TextReplace : Plugin() {
 
     override fun start(context: Context) {
         mSettings = settings
-        patcher.patch(MessageContent::class.java.getDeclaredMethod("sendMessage"),
-        PreHook { callFrame ->
-            val textContent = MessageContent::class.java.getDeclaredField("textContent").apply {
-                isAccessible = true
-            }
-            var text = textContent.get(callFrame.thisObject) as String
-            val map = TextReplace.mSettings.getObject(
-                "replaceMap",
-                mutableMapOf<String, String>()
-            )
+        patcher.patch
+            MessageContent::class.java.getDeclaredMethod("sendMessage"),
+            PreHook { callFrame ->
+                val textContent = MessageContent::class.java.getDeclaredField("textContent").apply {
+                    isAccessible = true
+                }
+                var text = textContent.get(callFrame.thisObject) as String
+                val map = TextReplace.mSettings.getObject(
+                    "replaceMap",
+                    mutableMapOf<String, String>()
+                )
 
-            map.toList().forEach { old, new ->
-                text = text.replace(old, new)
-            }
+                map.toList().forEach { (old, new) ->
+                    text = text.replace(old, new)
+                }
 
-            callFrame.result = text
-        }
+                callFrame.result = text
+            }
+        )
     }
 
     override fun stop(context: Context) = patcher.unpatchAll()
