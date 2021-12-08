@@ -1,6 +1,8 @@
 package com.aliucord.plugins.settings
 
 import android.view.View
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.aliucord.Utils
 import com.aliucord.fragments.InputDialog
 import com.aliucord.fragments.SettingsPage
@@ -12,6 +14,12 @@ class TextReplaceSettings : SettingsPage() {
     override fun onViewBound(view: View) {
         super.onViewBound(view)
         setActionBarTitle("Text Replace")
+
+        val replaceMap = TextReplace.mSettings
+            .getObject(
+                "replaceMap",
+                mutableMapOf<String, String>()
+            )
 
         Button(view.context).apply {
             text = "Add Text To Replace (Regex Supported)"
@@ -39,18 +47,13 @@ class TextReplaceSettings : SettingsPage() {
                         replaceDialog.setOnOkListener {
                             val text = replaceDialog.input
 
-                            val replaceMap = TextReplace.mSettings
-                                .getObject(
-                                    "replaceMap",
-                                    mutableMapOf<String, String>()
-                                )
-
                             replaceMap.put(toReplace, text)
                             TextReplace.mSettings.setObject(
                                 "replaceMap",
                                 replaceMap
                             )
 
+                            reRender()
                             replaceDialog.dismiss()
                         }
 
@@ -73,5 +76,17 @@ class TextReplaceSettings : SettingsPage() {
             
             linearLayout.addView(this)
         }
+
+        val recycler = RecyclerView(view.context)
+        recycler.layoutManager = LinearLayoutManager(view.context)
+        recycler.adapter = ReplaceAdapter(view.context, replaceMap)
+
+        linearLayout.addView(recycler)
     }
+
+    override fun onResume() {
+        super.onResume()
+        reRender()
+    }
+
 }
