@@ -139,8 +139,4 @@ class ItemCard(
         root.addView(buttons)
         addView(root)
     }
-
-    public fun setPosition(pos: Int) {
-        position = pos
-    }
 }
