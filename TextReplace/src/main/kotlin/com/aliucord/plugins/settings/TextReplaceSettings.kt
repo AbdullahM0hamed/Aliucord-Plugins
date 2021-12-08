@@ -15,11 +15,10 @@ class TextReplaceSettings : SettingsPage() {
         super.onViewBound(view)
         setActionBarTitle("Text Replace")
 
-        val replaceMap = TextReplace.mSettings
-            .getObject(
-                "replaceMap",
-                mutableMapOf<String, String>()
-            )
+        val replaceMap = TextReplace.mSettings.getObject(
+            "replaceMap",
+            mutableMapOf<String, String>()
+        )
 
         Button(view.context).apply {
             text = "Add Text To Replace (Regex Supported)"

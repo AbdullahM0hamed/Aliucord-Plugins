@@ -6,12 +6,17 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import com.aliucord.Utils
+import com.aliucord.plugins.TextReplace
 import com.aliucord.views.ToolbarButton
 import com.aliucord.utils.DimenUtils
 import com.discord.utilities.color.ColorCompat
 import com.google.android.material.card.MaterialCardView
 
-class ItemCard(val ctx: Context) : MaterialCardView(ctx) {
+class ItemCard(
+    val ctx: Context,
+    val position: Int,
+    val reRender: () -> Unit
+) : MaterialCardView(ctx) {
 
     public var text: TextView
     public var edit: ToolbarButton
@@ -105,6 +110,21 @@ class ItemCard(val ctx: Context) : MaterialCardView(ctx) {
                 DimenUtils.dpToPx(40)
             )
             setLayoutParams(clearParams)
+            setOnClickListener {
+                val replaceMap = TextReplace.mSettings.getObject(
+                    "replaceMap"
+                    mutableMapOf<String, String>
+                )
+
+                replaceMap.remove(replaceMap.toList()[position].first)
+
+                TextReplace.mSettings.setObject(
+                    "replaceMap",
+                    replaceMap
+                 )
+
+                 reRender()
+            }
             val clearIcon = ContextCompat.getDrawable(
                 ctx, 
                 Utils.getResId("ic_clear_24dp", "drawable")
