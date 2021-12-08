@@ -32,7 +32,7 @@ class TextReplace : Plugin() {
 
     override fun start(context: Context) {
         mSettings = settings
-        patcher.patch
+        patcher.patch(
             MessageContent::class.java.getDeclaredMethod("sendMessage"),
             PreHook { callFrame ->
                 val textContent = MessageContent::class.java.getDeclaredField("textContent").apply {
