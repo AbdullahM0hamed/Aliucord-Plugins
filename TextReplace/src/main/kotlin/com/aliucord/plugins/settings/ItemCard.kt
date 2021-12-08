@@ -103,17 +103,19 @@ class ItemCard(
                     .setTitle("Add Text To Replace With")
                     .setDescription("Enter Text To Replace With")
                     .setPlaceholderText("New Text")
-                    .setOnOkListener {
-                        if (!input.isEmpty()) {
-                            replaceMap[replaceMap.toList()[position].first] = input
-                            TextReplace.mSettings.setObject(
-                                "replaceMap",
-                                replaceMap
-                            )
-                        }
-                        reRender()
-                        dismiss()
+                
+                textDialog.setOnOkListener {
+                    val text = textDialog.input
+                    if (!text.isEmpty()) {
+                        replaceMap[replaceMap.toList()[position].first] = text
+                        TextReplace.mSettings.setObject(
+                            "replaceMap",
+                            replaceMap
+                        )
                     }
+                    reRender()
+                    textDialog.dismiss()
+                }
             }
 
             val editIcon = ContextCompat.getDrawable(
