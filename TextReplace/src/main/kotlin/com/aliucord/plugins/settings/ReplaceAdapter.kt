@@ -7,14 +7,15 @@ import androidx.recyclerview.widget.RecyclerView
 
 class ReplaceAdapter(
     val ctx: Context,
-    val replaceMap: MutableMap<String, String>
+    val replaceMap: MutableMap<String, String>,
+    val reRender: () -> Unit
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
         type: Int
     ): RecyclerView.ViewHolder {
-        return ViewHolder(ItemCard(ctx))
+        return ViewHolder(ItemCard(ctx, position, reRender))
     }
 
     override fun onBindViewHolder(

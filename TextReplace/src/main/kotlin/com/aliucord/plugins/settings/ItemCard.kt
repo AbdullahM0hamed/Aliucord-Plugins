@@ -113,7 +113,7 @@ class ItemCard(
             setOnClickListener {
                 val replaceMap = TextReplace.mSettings.getObject(
                     "replaceMap",
-                    mutableMapOf<String, String>
+                    mutableMapOf<String, String>()
                 )
 
                 replaceMap.remove(replaceMap.toList()[position].first)
