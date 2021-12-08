@@ -14,13 +14,13 @@ import com.google.android.material.card.MaterialCardView
 
 class ItemCard(
     val ctx: Context,
-    val position: Int,
     val reRender: () -> Unit
 ) : MaterialCardView(ctx) {
 
     public var text: TextView
     public var edit: ToolbarButton
     public var clear: ToolbarButton
+    public var position = 0
 
     init {
         setRadius(DimenUtils.defaultCardRadius.toFloat())
@@ -138,5 +138,9 @@ class ItemCard(
 
         root.addView(buttons)
         addView(root)
+    }
+
+    public fun setPosition(pos: Int) {
+        position = pos
     }
 }
