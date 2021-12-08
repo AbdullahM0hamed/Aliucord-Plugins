@@ -62,16 +62,17 @@ class ItemCard(val ctx: Context) : MaterialCardView(ctx) {
             )
         )
 
-        text.setSingleLine(true)
+        text.setSingleLine(false)
         root.addView(text)
 
         val buttons = LinearLayout(ctx)
         buttons.orientation = LinearLayout.HORIZONTAL
-        buttons.layoutParams =
-            LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT
+        val params = LinearLayout.LayoutParams(
+            LinearLayout.LayoutParams.MATCH_PARENT,
+            LinearLayout.LayoutParams.WRAP_CONTENT
         )
+        params.setMarginEnd(DimenUtils.dpToPx(16))
+        buttons.layoutParams = params
 
         buttons.setHorizontalGravity(Gravity.END)
         buttons.setVerticalGravity(Gravity.CENTER_VERTICAL)
