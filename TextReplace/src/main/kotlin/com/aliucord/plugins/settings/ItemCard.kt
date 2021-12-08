@@ -112,7 +112,7 @@ class ItemCard(
             setLayoutParams(clearParams)
             setOnClickListener {
                 val replaceMap = TextReplace.mSettings.getObject(
-                    "replaceMap"
+                    "replaceMap",
                     mutableMapOf<String, String>
                 )
 
