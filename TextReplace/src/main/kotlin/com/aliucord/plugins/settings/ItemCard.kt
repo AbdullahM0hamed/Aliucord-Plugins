@@ -1,7 +1,9 @@
 package com.aliucord.plugins.settings
 
 import android.content.Context
+import android.view.Gravity
 import android.widget.LinearLayout
+import android.widget.TextView
 import androidx.core.content.ContextCompat
 import com.aliucord.Utils
 import com.aliucord.views.ToolbarButton
