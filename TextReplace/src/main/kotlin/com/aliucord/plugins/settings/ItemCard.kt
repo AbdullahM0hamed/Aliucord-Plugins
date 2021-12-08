@@ -103,7 +103,7 @@ class ItemCard(
                     .setTitle("Add Text To Replace With")
                     .setDescription("Enter Text To Replace With")
                     .setPlaceholderText("New Text")
-                    .setOnClickListener {
+                    .setOnOkListener {
                         if (!input.isEmpty()) {
                             replaceMap[replaceMap.toList()[position].first] = input
                             TextReplace.mSettings.setObject(
