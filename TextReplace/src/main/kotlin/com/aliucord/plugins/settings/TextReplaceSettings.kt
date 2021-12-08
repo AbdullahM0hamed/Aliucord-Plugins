@@ -44,9 +44,9 @@ class TextReplaceSettings : SettingsPage() {
                             .setPlaceholderText("Not Annoying Text")
 
                         replaceDialog.setOnOkListener {
-                            val text = replaceDialog.input
+                            val txt = replaceDialog.input
 
-                            replaceMap.put(toReplace, text)
+                            replaceMap.put(toReplace, txt)
                             TextReplace.mSettings.setObject(
                                 "replaceMap",
                                 replaceMap
@@ -61,10 +61,7 @@ class TextReplaceSettings : SettingsPage() {
                             "replace"
                         )
                     } else {
-                        Utils.showToast(
-                            view.context,
-                            "No text to replace"
-                        )
+                        Utils.showToast("No text to replace", false)
                     }
 
                     textDialog.dismiss()

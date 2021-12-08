@@ -121,7 +121,7 @@ class ItemCard(
                 textDialog.show(manager, "replace")
             }
 
-            val editIcon = ContextCompat.getDrawable(
+            ContextCompat.getDrawable(
                 ctx,
                 Utils.getResId("ic_edit_24dp", "drawable")
             )?.mutate()?.let {
@@ -154,7 +154,7 @@ class ItemCard(
 
                  reRender()
             }
-            val clearIcon = ContextCompat.getDrawable(
+            ContextCompat.getDrawable(
                 ctx, 
                 Utils.getResId("ic_delete_24dp", "drawable")
             )?.mutate()?.let {

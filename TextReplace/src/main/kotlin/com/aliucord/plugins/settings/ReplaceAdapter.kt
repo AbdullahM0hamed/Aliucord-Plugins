@@ -27,7 +27,7 @@ class ReplaceAdapter(
         val pair = replaceMap.toList()[position]
         val card = holder.itemView as ItemCard
         card.position = position
-        card.text.text = Html.fromHtml("<b>Old:</b> ${pair.first} <b>New:</b> ${pair.second}")
+        card.text.text = Html.fromHtml("<b>Old:</b> ${pair.first} <b>New:</b> ${pair.second}", Html.FROM_HTML_MODE_COMPACT)
     }
 
     override fun getItemCount() = replaceMap.size
