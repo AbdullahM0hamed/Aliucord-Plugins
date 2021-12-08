@@ -3,11 +3,13 @@ package com.aliucord.plugins.settings
 import android.content.Context
 import android.text.Html
 import android.view.ViewGroup
+import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.RecyclerView
 
 class ReplaceAdapter(
     val ctx: Context,
     val replaceMap: MutableMap<String, String>,
+    val manager: FragmentManager,
     val reRender: () -> Unit
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
@@ -15,7 +17,7 @@ class ReplaceAdapter(
         parent: ViewGroup,
         type: Int
     ): RecyclerView.ViewHolder {
-        return ViewHolder(ItemCard(ctx, reRender))
+        return ViewHolder(ItemCard(ctx, manager, reRender))
     }
 
     override fun onBindViewHolder(

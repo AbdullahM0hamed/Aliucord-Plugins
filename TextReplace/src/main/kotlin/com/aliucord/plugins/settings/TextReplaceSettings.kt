@@ -78,7 +78,7 @@ class TextReplaceSettings : SettingsPage() {
 
         val recycler = RecyclerView(view.context)
         recycler.layoutManager = LinearLayoutManager(view.context)
-        recycler.adapter = ReplaceAdapter(view.context, replaceMap, ::reRender)
+        recycler.adapter = ReplaceAdapter(view.context, replaceMap, parentFragmentManager, ::reRender)
 
         linearLayout.addView(recycler)
     }

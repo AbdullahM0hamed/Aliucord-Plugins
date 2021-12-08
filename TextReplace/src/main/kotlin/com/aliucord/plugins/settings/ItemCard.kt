@@ -5,6 +5,7 @@ import android.view.Gravity
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.FragmentManager
 import com.aliucord.Utils
 import com.aliucord.fragments.InputDialog
 import com.aliucord.plugins.TextReplace
@@ -15,6 +16,7 @@ import com.google.android.material.card.MaterialCardView
 
 class ItemCard(
     val ctx: Context,
+    val manager: FragmentManager,
     val reRender: () -> Unit
 ) : MaterialCardView(ctx) {
 
@@ -116,6 +118,7 @@ class ItemCard(
                     reRender()
                     textDialog.dismiss()
                 }
+                textDialog.show(manager, "replace")
             }
 
             val editIcon = ContextCompat.getDrawable(
@@ -153,7 +156,7 @@ class ItemCard(
             }
             val clearIcon = ContextCompat.getDrawable(
                 ctx, 
-                Utils.getResId("ic_clear_24dp", "drawable")
+                Utils.getResId("ic_delete_24dp", "drawable")
             )?.mutate()?.let {
                 Utils.tintToTheme(it)
                 setImageDrawable(it)
