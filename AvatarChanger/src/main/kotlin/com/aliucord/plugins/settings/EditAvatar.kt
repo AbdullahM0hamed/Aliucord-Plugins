@@ -59,7 +59,7 @@ data class EditAvatar(
         Button(ctx).apply {
             text = "Change Avatar"
             setOnClickListener {
-                setAvatar(ctx, parentFragmentManager, guild, user)
+                setAvatar(parentFragmentManager, guild, user)
             }
             buttons.addView(this)
         }
@@ -106,7 +106,6 @@ data class EditAvatar(
         }
 
         public fun setAvatar(
-            ctx: Context,
             manager: FragmentManager,
             guild: Guild?,
             user: User?

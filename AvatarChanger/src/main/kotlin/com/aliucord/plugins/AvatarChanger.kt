@@ -378,7 +378,6 @@ class AvatarChanger : Plugin() {
                             user
                         )
                         1 -> EditAvatar.setAvatar(
-                            ctx,
                             manager,
                             guild,
                             user
