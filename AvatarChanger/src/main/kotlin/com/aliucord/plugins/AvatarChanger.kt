@@ -75,7 +75,7 @@ class AvatarChanger : Plugin() {
 
                     callFrame.result = icon
                 } else {
-                    callFrame.invokeOriginalMethod()
+                    callFrame.getResult()
                 }
             }
         )
@@ -101,7 +101,7 @@ class AvatarChanger : Plugin() {
 
                     callFrame.result = icon
                 } else {
-                    callFrame.invokeOriginalMethod()
+                    callFrame.getResult()
                 }
             }
         )
