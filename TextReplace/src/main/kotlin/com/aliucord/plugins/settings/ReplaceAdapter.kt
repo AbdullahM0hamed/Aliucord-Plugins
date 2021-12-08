@@ -1,6 +1,7 @@
 package com.aliucord.plugins.settings
 
 import android.content.Context
+import android.text.Html
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 
@@ -22,7 +23,7 @@ class ReplaceAdapter(
     ) {
         val pair = replaceMap.toList()[position]
         val card = holder.itemView as ItemCard
-        card.text.text = Html.fromHtml("<b>Old:</b> ${pair[0]} <b>New:</b> ${pair[1]}")
+        card.text.text = Html.fromHtml("<b>Old:</b> ${pair.first} <b>New:</b> ${pair.second}")
     }
 
     override fun getItemCount() = replaceMap.size
