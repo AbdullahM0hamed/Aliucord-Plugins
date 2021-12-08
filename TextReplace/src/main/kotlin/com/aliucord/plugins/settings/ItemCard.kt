@@ -6,6 +6,7 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import com.aliucord.Utils
+import com.aliucord.fragments.InputDialog
 import com.aliucord.plugins.TextReplace
 import com.aliucord.views.ToolbarButton
 import com.aliucord.utils.DimenUtils
@@ -92,6 +93,29 @@ class ItemCard(
             )
 
             setLayoutParams(editParams)
+            setOnClickListener {
+                val replaceMap = TextReplace.mSettings.getObject(
+                    "replaceMap",
+                    mutableMapOf<String, String>()
+                )
+
+                val textDialog = InputDialog()
+                    .setTitle("Add Text To Replace With")
+                    .setDescription("Enter Text To Replace With")
+                    .setPlaceholderText("New Text")
+                    .setOnClickListener {
+                        if (!input.isEmpty()) {
+                            replaceMap[replaceMap.toList()[position].first] = input
+                            TextReplace.mSettings.setObject(
+                                "replaceMap",
+                                replaceMap
+                            )
+                        }
+                        reRender()
+                        dismiss()
+                    }
+            }
+
             val editIcon = ContextCompat.getDrawable(
                 ctx,
                 Utils.getResId("ic_edit_24dp", "drawable")
