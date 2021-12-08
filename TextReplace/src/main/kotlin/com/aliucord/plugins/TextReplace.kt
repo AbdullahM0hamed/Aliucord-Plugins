@@ -51,6 +51,7 @@ class TextReplace : Plugin() {
             PreHook { callFrame ->
                 val messageContent = callFrame.args[2] as MessageContent
                 var text = textContentField.get(messageContent) as String
+                com.aliucord.Utils.showToast(text, true)
                 val map = TextReplace.mSettings.getObject(
                     "replaceMap",
                     mutableMapOf<String, String>()
