@@ -29,7 +29,7 @@ data class EditAvatar(
         ctx = view.context
 
         if (guild == null && user == null) {
-            Utils.showToast(ctx, "Invalid User/Server")
+            Utils.showToast("Invalid User/Server", false)
             activity?.onBackPressed()
             return
         }
@@ -120,7 +120,7 @@ data class EditAvatar(
                 val url = dialog.input
 
                 if (!Patterns.WEB_URL.matcher(url).matches()) {
-                    Utils.showToast(ctx, "Invalid URL")
+                    Utils.showToast("Invalid URL", false)
                 } else {
                     AvatarChanger.mSettings.setString(
                         (guild?.id ?: user!!.id).toString(),
