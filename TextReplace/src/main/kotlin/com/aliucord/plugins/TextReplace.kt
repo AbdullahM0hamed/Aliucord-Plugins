@@ -50,7 +50,7 @@ class TextReplace : Plugin() {
             ),
             PreHook { callFrame ->
                 val messageContent = callFrame.args[2] as MessageContent
-                var text = textContent.get(messageContent) as String
+                var text = textContentField.get(messageContent) as String
                 val map = TextReplace.mSettings.getObject(
                     "replaceMap",
                     mutableMapOf<String, String>()
@@ -60,7 +60,7 @@ class TextReplace : Plugin() {
                     text = text.replace(Regex(old), new)
                 }
 
-                textContent.set(messageContent, text)
+                textContentField.set(messageContent, text)
                 callFrame.args[2] = messageContent
             }
         )
