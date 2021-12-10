@@ -98,7 +98,6 @@ class ItemCard(
                 DimenUtils.dpToPx(40),
                 DimenUtils.dpToPx(40)
             )
-            editParams.setMargins(0, 0, p2, 0)
             setLayoutParams(editParams)
             ContextCompat.getDrawable(
                 ctx,
