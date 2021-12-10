@@ -19,6 +19,8 @@ class ItemCard(
 
     public var icon: SimpleDraweeView
     public var name: TextView
+    public var edit: ToolbarButton
+    public var clear: ToolbarButton
 
     init {
         setRadius(DimenUtils.defaultCardRadius.toFloat())
@@ -91,7 +93,7 @@ class ItemCard(
 
         val p2 = p / 2
 
-        ToolbarButton(ctx).apply {
+        edit = ToolbarButton(ctx).apply {
             val editParams = LinearLayout.LayoutParams(
                 DimenUtils.dpToPx(103),
                 DimenUtils.dpToPx(48)
@@ -109,7 +111,7 @@ class ItemCard(
             buttons.addView(this)
         }
 
-        ToolbarButton(ctx).apply {
+        clear = ToolbarButton(ctx).apply {
             setPadding(p2, p2, p2, p2)
             val clearParams = LinearLayout.LayoutParams(
                 DimenUtils.dpToPx(40), 
