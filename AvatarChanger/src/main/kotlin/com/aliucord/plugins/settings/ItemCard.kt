@@ -95,8 +95,8 @@ class ItemCard(
 
         edit = ToolbarButton(ctx).apply {
             val editParams = LinearLayout.LayoutParams(
-                DimenUtils.dpToPx(103),
-                DimenUtils.dpToPx(48)
+                DimenUtils.dpToPx(40),
+                DimenUtils.dpToPx(40)
             )
             editParams.setMargins(0, 0, p2, 0)
             setLayoutParams(editParams)
@@ -120,7 +120,7 @@ class ItemCard(
             setLayoutParams(clearParams)
             ContextCompat.getDrawable(
                 ctx, 
-                Utils.getResId("ic_clear_24dp", "drawable")
+                Utils.getResId("ic_delete_24dp", "drawable")
             )?.mutate()?.let {
                 Utils.tintToTheme(it)
                 setImageDrawable(it)
