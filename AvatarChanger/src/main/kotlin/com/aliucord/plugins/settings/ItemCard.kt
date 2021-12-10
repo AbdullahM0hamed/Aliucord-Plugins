@@ -94,6 +94,7 @@ class ItemCard(
         val p2 = p / 2
 
         edit = ToolbarButton(ctx).apply {
+            setPadding(p2, p2, p2, p2)
             val editParams = LinearLayout.LayoutParams(
                 DimenUtils.dpToPx(40),
                 DimenUtils.dpToPx(40)
