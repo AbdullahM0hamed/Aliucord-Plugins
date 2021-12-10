@@ -19,8 +19,6 @@ class ItemCard(
 
     public var icon: SimpleDraweeView
     public var name: TextView
-    public var edit: ToolbarButton
-    public var clear: ToolbarButton
 
     init {
         setRadius(DimenUtils.defaultCardRadius.toFloat())

@@ -21,8 +21,8 @@ class ItemCard(
 ) : MaterialCardView(ctx) {
 
     public var text: TextView
-    public lateinit var edit: ToolbarButton
-    public lateinit var clear: ToolbarButton
+    public var edit: ToolbarButton
+    public var clear: ToolbarButton
     public var position = 0
 
     init {
