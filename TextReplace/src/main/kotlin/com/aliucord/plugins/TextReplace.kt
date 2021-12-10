@@ -7,18 +7,17 @@ import com.aliucord.Utils
 import com.aliucord.annotations.AliucordPlugin
 import com.aliucord.api.SettingsAPI
 import com.aliucord.entities.Plugin
-import com.aliucord.patcher.PreHook
+import com.aliucord.patcher.Hook
 import com.aliucord.plugins.settings.TextReplaceSettings
-import com.discord.widgets.chat.MessageContent
-import com.discord.widgets.chat.MessageManager
-import com.discord.widgets.chat.input.ChatInputViewModel
+import com.discord.models.message.Message
+import com.discord.stores.StoreMessages
 
 @AliucordPlugin
 class TextReplace : Plugin() {
 
     lateinit var pluginIcon: Drawable
-    private val textContentField =
-        MessageContent::class.java.getDeclaredField("textContent").apply {
+    private val contentField =
+        Message::class.java.getDeclaredField("content").apply {
             isAccessible = true
         }
 
@@ -39,19 +38,15 @@ class TextReplace : Plugin() {
     override fun start(context: Context) {
         mSettings = settings
         patcher.patch(
-            ChatInputViewModel::class.java.getDeclaredMethod(
-                "sendMessage",
-                Context::class.java,
-                MessageManager::class.java,
-                MessageContent::class.java,
-                List::class.java,
-                Boolean::class.javaPrimitiveType!!,
-                Function1::class.java
+            StoreMessages::class.java.getDeclaredMethod(
+                "getMessage",
+                Long::class.javaObjectType,
+                Long::class.javaObjectType
             ),
-            PreHook { callFrame ->
-                val messageContent = callFrame.args[2] as MessageContent
-                var text = textContentField.get(messageContent) as String
-                com.aliucord.Utils.showToast(text, true)
+            Hook { callFrame ->
+                val message = callFrame.result as Mesaage
+                var text = contentField.get(message) as String
+
                 val map = TextReplace.mSettings.getObject(
                     "replaceMap",
                     mutableMapOf<String, String>()
@@ -61,8 +56,8 @@ class TextReplace : Plugin() {
                     text = text.replace(Regex(old), new)
                 }
 
-                textContentField.set(messageContent, text)
-                callFrame.args[2] = messageContent
+                contentField.set(message, text)
+                callFram.result = message
             }
         )
     }
