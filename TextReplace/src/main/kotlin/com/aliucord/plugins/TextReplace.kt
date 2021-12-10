@@ -44,7 +44,7 @@ class TextReplace : Plugin() {
                 Long::class.javaObjectType
             ),
             Hook { callFrame ->
-                val message = callFrame.result as Mesaage
+                val message = callFrame.result as Message
                 var text = contentField.get(message) as String
 
                 val map = TextReplace.mSettings.getObject(
@@ -57,7 +57,7 @@ class TextReplace : Plugin() {
                 }
 
                 contentField.set(message, text)
-                callFram.result = message
+                callFrame.result = message
             }
         )
     }
