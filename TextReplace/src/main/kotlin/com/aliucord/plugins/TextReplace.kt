@@ -12,8 +12,8 @@ import com.aliucord.plugins.settings.TextReplaceSettings
 import com.discord.stores.StoreStream
 import com.aliucord.utils.ReflectUtils
 import com.discord.utilities.view.text.SimpleDraweeSpanTextView
-import com.discord.widgets.chat.list.WidgetChatListAdapterItemMessage
-import com.discord.widgets.chat.list.entry.MessageEntry
+import com.discord.widgets.chat.list.adapter.WidgetChatListAdapterItemMessage
+import com.discord.widgets.chat.list.entries.MessageEntry
 
 @AliucordPlugin
 class TextReplace : Plugin() {
@@ -44,7 +44,7 @@ class TextReplace : Plugin() {
             ),
             Hook { callFrame ->
                 val msg = (callFrame.args[1] as MessageEntry).message
-                val text = ReflectUtils.getField(msg, "content") as String
+                var text = ReflectUtils.getField(msg, "content") as String
                 val map = TextReplace.mSettings.getObject(
                     "replaceMap",
                     mutableMapOf<String, String>()
@@ -55,7 +55,7 @@ class TextReplace : Plugin() {
                 }
 
                 ReflectUtils.setField(msg, "content", text)
-                StoreStream.messages.handleMessageUpdate(
+                StoreStream.getMessages().handleMessageUpdate(
                     msg.synthesizeApiMessage()
                 )
             }
