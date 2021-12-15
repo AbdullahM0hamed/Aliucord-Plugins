@@ -9,17 +9,16 @@ import com.aliucord.api.SettingsAPI
 import com.aliucord.entities.Plugin
 import com.aliucord.patcher.Hook
 import com.aliucord.plugins.settings.TextReplaceSettings
-import com.discord.models.message.Message
-import com.discord.stores.StoreMessages
+import com.discord.stores.StoreStream
+import com.aliucord.utils.ReflectUtils
+import com.discord.utilities.view.text.SimpleDraweeSpanTextView
+import com.discord.widgets.chat.list.WidgetChatListAdapterItemMessage
+import com.discord.widgets.chat.list.entry.MessageEntry
 
 @AliucordPlugin
 class TextReplace : Plugin() {
 
     lateinit var pluginIcon: Drawable
-    private val contentField =
-        Message::class.java.getDeclaredField("content").apply {
-            isAccessible = true
-        }
 
     init {
         settingsTab = SettingsTab(TextReplaceSettings::class.java)
@@ -38,15 +37,14 @@ class TextReplace : Plugin() {
     override fun start(context: Context) {
         mSettings = settings
         patcher.patch(
-            StoreMessages::class.java.getDeclaredMethod(
-                "getMessage",
-                Long::class.javaObjectType,
-                Long::class.javaObjectType
+            WidgetChatListAdapterItemMessage::class.java.getDeclaredMethod(
+                "processMessageText",
+                SimpleDraweeSpanTextView::class.java,
+                MessageEntry::class.java
             ),
             Hook { callFrame ->
-                val message = callFrame.result as Message
-                var text = contentField.get(message) as String
-
+                val msg = (callFrame.args[1] as MessageEntry).message
+                val text = ReflectUtils.getField(msg, "content") as String
                 val map = TextReplace.mSettings.getObject(
                     "replaceMap",
                     mutableMapOf<String, String>()
@@ -56,8 +54,10 @@ class TextReplace : Plugin() {
                     text = text.replace(Regex(old), new)
                 }
 
-                contentField.set(message, text)
-                callFrame.result = message
+                ReflectUtils.setField(msg, "content", text)
+                StoreStream.messages.handleMessageUpdate(
+                    msg.synthesizeApiMessage()
+                )
             }
         )
     }
