@@ -29,7 +29,7 @@ data class EditAvatar(
         ctx = view.context
 
         if (guild == null && user == null) {
-            Utils.showToast(ctx, "Invalid User/Server")
+            Utils.showToast("Invalid User/Server", false)
             activity?.onBackPressed()
             return
         }
@@ -59,7 +59,7 @@ data class EditAvatar(
         Button(ctx).apply {
             text = "Change Avatar"
             setOnClickListener {
-                setAvatar(ctx, parentFragmentManager, guild, user)
+                setAvatar(parentFragmentManager, guild, user)
             }
             buttons.addView(this)
         }
@@ -106,7 +106,6 @@ data class EditAvatar(
         }
 
         public fun setAvatar(
-            ctx: Context,
             manager: FragmentManager,
             guild: Guild?,
             user: User?
@@ -120,7 +119,7 @@ data class EditAvatar(
                 val url = dialog.input
 
                 if (!Patterns.WEB_URL.matcher(url).matches()) {
-                    Utils.showToast(ctx, "Invalid URL")
+                    Utils.showToast("Invalid URL", false)
                 } else {
                     AvatarChanger.mSettings.setString(
                         (guild?.id ?: user!!.id).toString(),

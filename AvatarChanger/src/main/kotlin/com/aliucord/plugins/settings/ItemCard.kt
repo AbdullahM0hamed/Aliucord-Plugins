@@ -19,7 +19,7 @@ class ItemCard(
 
     public var icon: SimpleDraweeView
     public var name: TextView
-    public var edit: Button
+    public var edit: ToolbarButton
     public var clear: ToolbarButton
 
     init {
@@ -91,32 +91,43 @@ class ItemCard(
         buttons.setHorizontalGravity(Gravity.END)
         buttons.setVerticalGravity(Gravity.CENTER_VERTICAL)
 
-        edit = Button(ctx)
-        edit.setText("Edit")
-        val editParams = LinearLayout.LayoutParams(
-            DimenUtils.dpToPx(103),
-            DimenUtils.dpToPx(48)
-        )
-
         val p2 = p / 2
-        editParams.setMargins(0, 0, p2, 0)
-        edit.layoutParams = editParams
-        buttons.addView(edit)
 
-        clear = ToolbarButton(ctx);
-        clear.setPadding(p2, p2, p2, p2)
-        val clearParams = LinearLayout.LayoutParams(
-            DimenUtils.dpToPx(40), 
-            DimenUtils.dpToPx(40)
-        )
-        clear.layoutParams = clearParams
-        val clearIcon = ContextCompat.getDrawable(
-            ctx, 
-            Utils.getResId("ic_clear_24dp", "drawable")
-        )
-        clearIcon?.setTint(0xFFED4245.toInt())
-        clear.setImageDrawable(clearIcon)
-        buttons.addView(clear)
+        edit = ToolbarButton(ctx).apply {
+            setPadding(p2, p2, p2, p2)
+            val editParams = LinearLayout.LayoutParams(
+                DimenUtils.dpToPx(40),
+                DimenUtils.dpToPx(40)
+            )
+            setLayoutParams(editParams)
+            ContextCompat.getDrawable(
+                ctx,
+                Utils.getResId("ic_edit_24dp", "drawable")
+            )?.mutate()?.let {
+                Utils.tintToTheme(it)
+                setImageDrawable(it)
+            }
+
+            buttons.addView(this)
+        }
+
+        clear = ToolbarButton(ctx).apply {
+            setPadding(p2, p2, p2, p2)
+            val clearParams = LinearLayout.LayoutParams(
+                DimenUtils.dpToPx(40), 
+                DimenUtils.dpToPx(40)
+            )
+            setLayoutParams(clearParams)
+            ContextCompat.getDrawable(
+                ctx, 
+                Utils.getResId("ic_delete_24dp", "drawable")
+            )?.mutate()?.let {
+                Utils.tintToTheme(it)
+                setImageDrawable(it)
+            }
+
+            buttons.addView(this)
+        }
 
         root.addView(buttons)
         addView(root)

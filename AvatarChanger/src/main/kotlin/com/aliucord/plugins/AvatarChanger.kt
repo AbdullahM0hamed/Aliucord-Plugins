@@ -19,7 +19,7 @@ import com.aliucord.Utils
 import com.aliucord.annotations.AliucordPlugin
 import com.aliucord.api.SettingsAPI
 import com.aliucord.entities.Plugin
-import com.aliucord.patcher.PinePatchFn
+import com.aliucord.patcher.Hook
 import com.aliucord.plugins.settings.AvatarChangerSettings
 import com.aliucord.plugins.settings.EditAvatar
 import com.aliucord.plugins.settings.UserAdapter
@@ -63,7 +63,7 @@ class AvatarChanger : Plugin() {
                 Boolean::class.java,
                 Int::class.javaObjectType
             ),
-            PinePatchFn { callFrame ->
+            Hook { callFrame ->
                 val id = callFrame.args[0] as Long
 
                 val guildIds = AvatarChangerSettings.getGuildIds()
@@ -75,7 +75,7 @@ class AvatarChanger : Plugin() {
 
                     callFrame.result = icon
                 } else {
-                    callFrame.invokeOriginalMethod()
+                    callFrame.getResult()
                 }
             }
         )
@@ -89,7 +89,7 @@ class AvatarChanger : Plugin() {
                 Boolean::class.javaPrimitiveType,
                 Int::class.javaObjectType
             ),
-            PinePatchFn { callFrame ->
+            Hook { callFrame ->
                 val id = callFrame.args[0] as Long
 
                 val userIds = AvatarChangerSettings.getUserIds()
@@ -101,7 +101,7 @@ class AvatarChanger : Plugin() {
 
                     callFrame.result = icon
                 } else {
-                    callFrame.invokeOriginalMethod()
+                    callFrame.getResult()
                 }
             }
         )
@@ -129,7 +129,7 @@ class AvatarChanger : Plugin() {
                 "configureUI",
                 WidgetGuildProfileSheetViewModel.ViewState.Loaded::class.java,
             ),
-            PinePatchFn { callFrame ->
+            Hook { callFrame ->
                 val sheet = callFrame.thisObject as WidgetGuildProfileSheet
                 val state = callFrame.args[0] as WidgetGuildProfileSheetViewModel.ViewState.Loaded
                 val binding = getBinding.invoke(callFrame.thisObject) as WidgetGuildProfileSheetBinding
@@ -222,7 +222,7 @@ class AvatarChanger : Plugin() {
                 "configureUI",
                 WidgetUserSheetViewModel.ViewState::class.java
             ),
-            PinePatchFn { callFrame ->
+            Hook { callFrame ->
                 val state = callFrame.args[0] as WidgetUserSheetViewModel.ViewState
 
                 if (state is WidgetUserSheetViewModel.ViewState.Loaded) {
@@ -378,7 +378,6 @@ class AvatarChanger : Plugin() {
                             user
                         )
                         1 -> EditAvatar.setAvatar(
-                            ctx,
                             manager,
                             guild,
                             user
