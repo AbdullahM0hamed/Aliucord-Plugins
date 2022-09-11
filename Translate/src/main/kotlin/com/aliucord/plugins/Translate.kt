@@ -1,11 +1,12 @@
 package com.aliucord.plugins
 
+import android.content.Context
 import com.aliucord.annotations.AliucordPlugin
 import com.aliucord.entities.Plugin
 import com.aliucord.patcher.after
 import com.aliucord.patcher.before
-import com.discord.widget.settings.WidgetSettingsLanguage
-import com.discord.widget.settings.WidgetSettingsLanguageSelect
+import com.discord.widgets.settings.WidgetSettingsLanguage
+import com.discord.widgets.settings.WidgetSettingsLanguageSelect
 
 @AliucordPlugin
 class Translate : Plugin() {
