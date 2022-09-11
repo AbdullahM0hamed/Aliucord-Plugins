@@ -6,12 +6,13 @@ buildscript {
     repositories {
         google()
         mavenCentral()
+        maven("https://maven.aliucord.com/snapshots")
         maven("https://jitpack.io")
     }
     dependencies {
-        classpath("com.android.tools.build:gradle:7.0.2")
-        classpath("com.github.Aliucord:gradle:main-SNAPSHOT")
-        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.5.21")
+        classpath("com.android.tools.build:gradle:7.0.4")
+        classpath("com.aliucord:gradle:main-SNAPSHOT")
+        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.5.30")
     }
 }
 
@@ -19,13 +20,13 @@ allprojects {
     repositories {
         google()
         mavenCentral()
+        maven("https://maven.aliucord.com/snapshots")
         maven("https://jitpack.io")
     }
 }
 
-fun Project.aliucord(configuration: AliucordExtension.() -> Unit) = extensions.getByName<AliucordExtension>("aliucord").configuration()
-
 fun Project.android(configuration: BaseExtension.() -> Unit) = extensions.getByName<BaseExtension>("android").configuration()
+fun Project.aliucord(configuration: AliucordExtension.() -> Unit) = extensions.getByName<AliucordExtension>("aliucord").configuration()
 
 subprojects {
     apply(plugin = "com.android.library")
@@ -33,9 +34,9 @@ subprojects {
     apply(plugin = "kotlin-android")
 
     aliucord {
-        author("Red Guy", 467745715632734208L)
-        updateUrl.set("https://raw.githubusercontent.com/AbdullahM0hamed/Aliucord-Plugins/builds/updater.json")
-        buildUrl.set("https://raw.githubusercontent.com/AbdullahM0hamed/Aliucord-Plugins/builds/%s.zip")
+        author("Cloudburst", 295186738085756929L)
+        updateUrl.set("https://raw.githubusercontent.com/c10udburst-discord/aliucord-plugins/builds/updater.json")
+        buildUrl.set("https://raw.githubusercontent.com/c10udburst-discord/aliucord-plugins/builds/%s.zip")
     }
 
     android {
@@ -43,7 +44,9 @@ subprojects {
 
         defaultConfig {
             minSdk = 24
-            targetSdk = 30
+            targetSdk= 31
+            versionCode = 1
+            versionName = "1.0"
         }
 
         compileOptions {
@@ -51,9 +54,10 @@ subprojects {
             targetCompatibility = JavaVersion.VERSION_11
         }
 
-        tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
+        tasks.withType<KotlinCompile> {
             kotlinOptions {
-                jvmTarget = "11"
+                jvmTarget = "11" // Required
+                // Disables some unnecessary features
                 freeCompilerArgs = freeCompilerArgs +
                         "-Xno-call-assertions" +
                         "-Xno-param-assertions" +
@@ -63,15 +67,15 @@ subprojects {
     }
 
     dependencies {
-        val discord by configurations
         val implementation by configurations
+        val discord by configurations
 
         discord("com.discord:discord:aliucord-SNAPSHOT")
-        implementation("com.github.Aliucord:Aliucord:main-SNAPSHOT")
+        implementation ("com.aliucord:Aliucord:main-SNAPSHOT")
 
         implementation("androidx.appcompat:appcompat:1.3.1")
         implementation("com.google.android.material:material:1.4.0")
-        implementation("androidx.constraintlayout:constraintlayout:2.1.0")
+        implementation("androidx.constraintlayout:constraintlayout:2.1.2")
     }
 }
 
