@@ -46,7 +46,7 @@ class Translate : Plugin() {
             }
         }
 
-        patcher.before<WdigetSettingsLanguage.Companion>(
+        patcher.before<WidgetSettingsLanguage.Companion>(
             "getLocaleResId",
             String::class.javaObjectType
         ) {
