@@ -31,6 +31,7 @@ class Translate : Plugin() {
             //logger.error("AFTER RESULT", null)
         //}
 
+        //Works
         patcher.before<WidgetSettingsLanguage.Companion>(
             "getAsStringInLocale",
             String::class.javaObjectType
@@ -42,13 +43,11 @@ class Translate : Plugin() {
             "getLocaleFlagResId",
             String::class.javaObjectType
         ) {
-            if ((it.args[0] as String) in ourLocales) {
                 it.result = resources.getIdentifier(
                     "icon_flag_so",
                     "drawable",
                     "com.aliucord.plugins"
                 )
-            }
         }
 
         //patcher.before<WidgetSettingsLanguage.Companion>(
