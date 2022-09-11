@@ -20,8 +20,11 @@ class Translate : Plugin() {
         ourLocales.add("so")
 
         patcher.after<WidgetSettingsLanguageSelect.Model>("getLocales") {
-            val locales = it.result as MutableList<String>
-            locales.addAll(ourLocales)
+            val allLocales = mutableListOf<String>()
+            val locales = it.result as List<String>
+            allLocales.addAll(locales)
+            allLocales.addAll(ourLocales)
+            it.result = allLocales as List<String>
         }
 
         patcher.before<WidgetSettingsLanguage.Companion>(
