@@ -1,6 +1,8 @@
 package com.aliucord.plugins
 
 import android.content.Context
+import android.widget.ImageView
+import androidx.core.content.res.ResourcesCompat
 import com.aliucord.annotations.AliucordPlugin
 import com.aliucord.entities.Plugin
 import com.aliucord.patcher.after
@@ -58,6 +60,26 @@ class Translate : Plugin() {
                 //it.args[0] = null
             //}
         //}
+
+        patcher.instead<ImageView>("setImageResource", Int::class.javaObjectType) {
+            val res = it.args[0] as Int
+            val flag = resources.getIdentifier(
+                "icon_flag_so",
+                "drawable",
+                "com.aliucord.plugins"
+            )
+
+            if (res == flag) {
+                it.thisObject.setImageDrawable(
+                    ResourcesCompat.getDrawable(
+                        resources,
+                        flag
+                    )
+                )
+            } else {
+                it.invokeOriginalMethod()
+            }
+        }
     }
 
     override fun stop(context: Context) = patcher.unpatchAll()
