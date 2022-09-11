@@ -19,25 +19,23 @@ class Translate : Plugin() {
         val ourLocales = mutableListOf<String>()
         ourLocales.add("so")
 
-        patcher.after<WidgetSettingsLanguageSelect.Model>("getLocales") {
-            logger.error("BEFORE CAST", null)
-            val allLocales = mutableListOf<String>()
-            val locales = it.result as List<String>
-            logger.error("AFTER CAST", null)
-            allLocales.addAll(locales)
-            allLocales.addAll(ourLocales)
-            logger.error("BEFORE RESULT", null)
-            it.result = allLocales
-            logger.error("AFTER RESULT", null)
-        }
+        //patcher.after<WidgetSettingsLanguageSelect.Model>("getLocales") {
+            //logger.error("BEFORE CAST", null)
+            //val allLocales = mutableListOf<String>()
+            //val locales = it.result as List<String>
+            //logger.error("AFTER CAST", null)
+            //allLocales.addAll(locales)
+            //allLocales.addAll(ourLocales)
+            //logger.error("BEFORE RESULT", null)
+            //it.result = allLocales
+            //logger.error("AFTER RESULT", null)
+        //}
 
         patcher.before<WidgetSettingsLanguage.Companion>(
             "getAsStringInLocale",
             String::class.javaObjectType
         ) {
-            if ((it.args[0] as String) in ourLocales) {
                 it.result = "Af-Soomaali"
-            }
         }
 
         patcher.before<WidgetSettingsLanguage.Companion>(
@@ -53,14 +51,14 @@ class Translate : Plugin() {
             }
         }
 
-        patcher.before<WidgetSettingsLanguage.Companion>(
-            "getLocaleResId",
-            String::class.javaObjectType
-        ) {
-            if ((it.args[0] as String) in ourLocales) {
-                it.args[0] = null
-            }
-        }
+        //patcher.before<WidgetSettingsLanguage.Companion>(
+            //"getLocaleResId",
+            //String::class.javaObjectType
+        //) {
+            //if ((it.args[0] as String) in ourLocales) {
+                //it.args[0] = null
+            //}
+        //}
     }
 
     override fun stop(context: Context) = patcher.unpatchAll()
