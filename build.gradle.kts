@@ -1,18 +1,22 @@
 import com.aliucord.gradle.AliucordExtension
 import com.android.build.gradle.BaseExtension
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 buildscript {
     repositories {
         google()
         mavenCentral()
+        // Aliucords Maven repo which contains our tools and dependencies
         maven("https://maven.aliucord.com/snapshots")
+        // Shitpack which still contains some Aliucord dependencies for now. TODO: Remove
         maven("https://jitpack.io")
     }
+
     dependencies {
         classpath("com.android.tools.build:gradle:7.0.4")
+        // Aliucord gradle plugin which makes everything work and builds plugins
         classpath("com.aliucord:gradle:main-SNAPSHOT")
-        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.5.30")
+        // Kotlin support. Remove if you want to use Java
+        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.5.21")
     }
 }
 
@@ -21,32 +25,32 @@ allprojects {
         google()
         mavenCentral()
         maven("https://maven.aliucord.com/snapshots")
-        maven("https://jitpack.io")
     }
 }
 
-fun Project.android(configuration: BaseExtension.() -> Unit) = extensions.getByName<BaseExtension>("android").configuration()
 fun Project.aliucord(configuration: AliucordExtension.() -> Unit) = extensions.getByName<AliucordExtension>("aliucord").configuration()
+
+fun Project.android(configuration: BaseExtension.() -> Unit) = extensions.getByName<BaseExtension>("android").configuration()
 
 subprojects {
     apply(plugin = "com.android.library")
     apply(plugin = "com.aliucord.gradle")
+    // Remove if using Java
     apply(plugin = "kotlin-android")
 
+    // Fill out with your info
     aliucord {
-        author("Cloudburst", 295186738085756929L)
-        updateUrl.set("https://raw.githubusercontent.com/c10udburst-discord/aliucord-plugins/builds/updater.json")
-        buildUrl.set("https://raw.githubusercontent.com/c10udburst-discord/aliucord-plugins/builds/%s.zip")
+        author("DISCORD USERNAME", 123456789L)
+        updateUrl.set("https://raw.githubusercontent.com/USERNAME/REPONAME/builds/updater.json")
+        buildUrl.set("https://raw.githubusercontent.com/USERNAME/REPONAME/builds/%s.zip")
     }
 
     android {
-        compileSdkVersion(30)
+        compileSdkVersion(31)
 
         defaultConfig {
             minSdk = 24
-            targetSdk= 31
-            versionCode = 1
-            versionName = "1.0"
+            targetSdk = 31
         }
 
         compileOptions {
@@ -54,7 +58,7 @@ subprojects {
             targetCompatibility = JavaVersion.VERSION_11
         }
 
-        tasks.withType<KotlinCompile> {
+        tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
             kotlinOptions {
                 jvmTarget = "11" // Required
                 // Disables some unnecessary features
@@ -67,13 +71,14 @@ subprojects {
     }
 
     dependencies {
-        val implementation by configurations
         val discord by configurations
+        val implementation by configurations
 
+        // Stubs for all Discord classes
         discord("com.discord:discord:aliucord-SNAPSHOT")
-        implementation ("com.aliucord:Aliucord:main-SNAPSHOT")
+        implementation("com.aliucord:Aliucord:main-SNAPSHOT")
 
-        implementation("androidx.appcompat:appcompat:1.3.1")
+        implementation("androidx.appcompat:appcompat:1.4.0")
         implementation("com.google.android.material:material:1.4.0")
         implementation("androidx.constraintlayout:constraintlayout:2.1.2")
     }
