@@ -62,7 +62,7 @@ class Translate : Plugin() {
             //}
         //}
 
-        patcher.instead<ImageView>("setImageResource", Int::class.javaObjectType) {
+        patcher.before<ImageView>("setImageResource", Int::class.javaObjectType) {
             val res = it.args[0] as Int
             val flag = resources.getIdentifier(
                 "icon_flag_so",
@@ -71,15 +71,14 @@ class Translate : Plugin() {
             )
 
             if (res == flag) {
-                it.thisObject.setImageDrawable(
+                (it.thisObject as ImageView).setImageDrawable(
                     ResourcesCompat.getDrawable(
                         resources,
                         flag,
                         null
                     )
                 )
-            } else {
-                it.invokeOriginalMethod()
+                it.result = null
             }
         }
     }
