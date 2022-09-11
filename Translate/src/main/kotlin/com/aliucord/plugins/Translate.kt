@@ -7,6 +7,7 @@ import com.aliucord.annotations.AliucordPlugin
 import com.aliucord.entities.Plugin
 import com.aliucord.patcher.after
 import com.aliucord.patcher.before
+import com.aliucord.patcher.instead
 import com.discord.widgets.settings.WidgetSettingsLanguage
 import com.discord.widgets.settings.WidgetSettingsLanguageSelect
 
@@ -73,7 +74,8 @@ class Translate : Plugin() {
                 it.thisObject.setImageDrawable(
                     ResourcesCompat.getDrawable(
                         resources,
-                        flag
+                        flag,
+                        null
                     )
                 )
             } else {
