@@ -1,4 +1,4 @@
 include(":AvatarChanger")
-include(":Translate")
+include(":LanguagePlugin")
 
 rootProject.name = "Aliucord-Plugins"
