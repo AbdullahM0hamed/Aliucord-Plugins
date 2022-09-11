@@ -83,7 +83,3 @@ subprojects {
         implementation("androidx.constraintlayout:constraintlayout:2.1.2")
     }
 }
-
-task<Delete>("clean") {
-    delete(rootProject.buildDir)
-}
