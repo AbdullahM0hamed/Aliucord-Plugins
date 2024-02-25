@@ -44,6 +44,9 @@ import com.discord.widgets.user.usersheet.WidgetUserSheetViewModel
 import com.facebook.imagepipeline.request.ImageRequestBuilder
 import kotlin.Unit
 import kotlin.Function1
+import kotlin.reflect.KFunction
+import kotlin.reflect.KClass
+import java.lang.reflect.Member
 
 @AliucordPlugin
 class AvatarChanger : Plugin() {
@@ -64,8 +67,9 @@ class AvatarChanger : Plugin() {
     override fun start(context: Context) {
         mSettings = settings
 
-        patcher.patch(
-            IconUtils::class.java.getDeclaredMethod(
+        patch(
+            getDeclaredMethodByName(
+                IconUtils::class,
                 "getForGuild",
                 Long::class.javaObjectType,
                 String::class.javaObjectType,
@@ -90,8 +94,9 @@ class AvatarChanger : Plugin() {
             }
         )
 
-        patcher.patch(
-            IconUtils::class.java.getDeclaredMethod(
+        patch(
+            getDeclaredMethodByName(
+                IconUtils::class,
                 "getForUser",
                 Long::class.javaObjectType,
                 String::class.javaObjectType,
@@ -116,8 +121,9 @@ class AvatarChanger : Plugin() {
             }
         )
 
-        patcher.patch(
-            IconUtils::class.java.getDeclaredMethod(
+        patch(
+            getDeclaredMethodByName(
+                IconUtils::class,
                 "getForUser",
                 User::class.javaObjectType,
                 Boolean::class.javaPrimitiveType,
@@ -140,8 +146,9 @@ class AvatarChanger : Plugin() {
             }
         )
 
-        patcher.patch(
-            IconUtils::class.java.getDeclaredMethod(
+        patch(
+            getDeclaredMethodByName(
+                IconUtils::class,
                 "getForUser",
                 User::class.javaObjectType
             ),
@@ -162,8 +169,9 @@ class AvatarChanger : Plugin() {
             }
         )
 
-        patcher.patch(
-            IconUtils::class.java.getDeclaredMethod(
+        patch(
+            getDeclaredMethodByName(
+                IconUtils::class,
                 "getForUser",
                 User::class.javaObjectType,
                 Boolean::class.javaPrimitiveType
@@ -185,8 +193,9 @@ class AvatarChanger : Plugin() {
             }
         )
 
-        patcher.patch(
-            IconUtils::class.java.getDeclaredMethod(
+        patch(
+            getDeclaredMethodByName(
+                IconUtils::class,
                 "getForUser",
                 Long::class.javaObjectType,
                 String::class.javaObjectType
@@ -208,8 +217,9 @@ class AvatarChanger : Plugin() {
             }
         )
 
-        patcher.patch(
-            IconUtils::class.java.getDeclaredMethod(
+        patch(
+            getDeclaredMethodByName(
+                IconUtils::class,
                 "getForUser",
                 Long::class.javaObjectType,
                 String::class.javaObjectType,
@@ -232,8 +242,9 @@ class AvatarChanger : Plugin() {
             }
         )
 
-        patcher.patch(
-            IconUtils::class.java.getDeclaredMethod(
+        patch(
+            getDeclaredMethodByName(
+                IconUtils::class,
                 "getForUser",
                 Long::class.javaObjectType,
                 String::class.javaObjectType,
@@ -257,8 +268,9 @@ class AvatarChanger : Plugin() {
             }
         )
 
-        patcher.patch(
-            IconUtils::class.java.getDeclaredMethod(
+        patch(
+            getDeclaredMethodByName(
+                IconUtils::class,
                 "getForUser\$default",
                 User::class.javaObjectType,
                 Boolean::class.javaPrimitiveType,
@@ -283,8 +295,9 @@ class AvatarChanger : Plugin() {
             }
         )
 
-        patcher.patch(
-            IconUtils::class.java.getDeclaredMethod(
+        patch(
+            getDeclaredMethodByName(
+                IconUtils::class,
                 "getForUser\$default",
                 Long::class.javaObjectType,
                 String::class.javaPrimitiveType,
@@ -311,8 +324,9 @@ class AvatarChanger : Plugin() {
             }
         )
 
-        patcher.patch(
-            IconUtils::class.java.getDeclaredMethod(
+        patch(
+            getDeclaredMethodByName(
+                IconUtils::class,
                 "getForGuildMember",
                 GuildMember::class.javaObjectType,
                 Int::class.javaObjectType,
@@ -335,8 +349,9 @@ class AvatarChanger : Plugin() {
             }
         )
 
-        patcher.patch(
-            IconUtils::class.java.getDeclaredMethod(
+        patch(
+            getDeclaredMethodByName(
+                IconUtils::class,
                 "getForGuildMember",
                 String::class.javaObjectType,
                 Long::class.javaObjectType,
@@ -361,8 +376,9 @@ class AvatarChanger : Plugin() {
             }
         )
 
-        patcher.patch(
-            IconUtils::class.java.getDeclaredMethod(
+        patch(
+            getDeclaredMethodByName(
+                IconUtils::class,
                 "getForGuildMember\$default",
                 IconUtils::class.javaObjectType,
                 GuildMember::class.javaObjectType,
@@ -388,8 +404,9 @@ class AvatarChanger : Plugin() {
             }
         )
 
-        patcher.patch(
-            IconUtils::class.java.getDeclaredMethod(
+        patch(
+            getDeclaredMethodByName(
+                IconUtils::class,
                 "getForGuildMember\$default",
                 IconUtils::class.javaObjectType,
                 String::class.javaObjectType,
@@ -417,8 +434,9 @@ class AvatarChanger : Plugin() {
             }
         )
 
-        patcher.patch(
-            UserUtils::class.java.getDeclaredMethod(
+        patch(
+            getDeclaredMethodByName(
+                UserUtils::class,
                 "synthesizeApiUser",
                 User::class.javaObjectType
             ),
@@ -461,8 +479,10 @@ class AvatarChanger : Plugin() {
             }
         )
 
-        patcher.patch(
-            IconUtils::class.java.getDeclaredMethod("withSize",
+        patch(
+            getDeclaredMethodByName(
+                IconUtils::class,
+                "withSize",
                 String::class.javaObjectType,
                 Int::class.javaObjectType
             ),
@@ -488,47 +508,49 @@ class AvatarChanger : Plugin() {
             }
         )
 
-        val setIcon = IconUtils::class.java.getDeclaredMethod(
-            "setIcon",
-            ImageView::class.javaObjectType,
-            User::class.javaObjectType,
-            Int::class.javaObjectType,
-            Function1::class.javaObjectType,
-            ChangeDetector::class.javaObjectType,
-            GuildMember::class.javaObjectType
-        )
+        try {
+            val setIcon = IconUtils::class.java.getDeclaredMethod(
+                "setIcon",
+                ImageView::class.javaObjectType,
+                User::class.javaObjectType,
+                Int::class.javaObjectType,
+                Function1::class.javaObjectType,
+                ChangeDetector::class.javaObjectType,
+                GuildMember::class.javaObjectType
+            )
 
-        patcher.patch(
-            setIcon,
-            Hook { callFrame ->
-                val user = callFrame.args[0] as User
+            patch(
+                setIcon,
+                Hook { callFrame ->
+                    val user = callFrame.args[0] as User
 
-                if (user.id.toString() in AvatarChangerSettings.getUserIds()) {
-                    val icon = settings.getString(
-                        user.id.toString(),
-                        ""
-                    )
+                    if (user.id.toString() in AvatarChangerSettings.getUserIds()) {
+                        val icon = settings.getString(
+                            user.id.toString(),
+                            ""
+                        )
 
-                    val avatar = user::class.java.getDeclaredField("avatar")
-                    avatar.isAccessible = true
-                    avatar.set(user, icon)
-                    val iconUtil = callFrame.thisObject as IconUtils
-                    setIcon.apply { isAccessible = true }
-                    callFrame.result = setIcon(
-                        iconUtil,
-                        callFrame.args[0] as ImageView,
-                        user,
-                        callFrame.args[2] as Int,
-                        callFrame.args[3] as Function1<ImageRequestBuilder, Unit>,
-                        callFrame.args[4] as ChangeDetector,
-                        callFrame.args[5] as GuildMember
-                    )
-                } else {
-                    callFrame.getResult()
+                        val avatar = user::class.java.getDeclaredField("avatar")
+                        avatar.isAccessible = true
+                        avatar.set(user, icon)
+                        val iconUtil = callFrame.thisObject as IconUtils
+                        setIcon.apply { isAccessible = true }
+                        callFrame.result = setIcon(
+                            iconUtil,
+                            callFrame.args[0] as ImageView,
+                            user,
+                            callFrame.args[2] as Int,
+                            callFrame.args[3] as Function1<ImageRequestBuilder, Unit>,
+                            callFrame.args[4] as ChangeDetector,
+                            callFrame.args[5] as GuildMember
+                        )
+                    } else {
+                        callFrame.getResult()
+                    }
                 }
-            }
-        )
-
+            )
+        } catch (e: Exception) {
+        }
         val editId = View.generateViewId()
         val removeId = View.generateViewId()
 
@@ -547,8 +569,9 @@ class AvatarChanger : Plugin() {
             .getDeclaredMethod("getBinding")
             .apply { isAccessible = true }
 
-        patcher.patch(
-            WidgetGuildProfileSheet::class.java.getDeclaredMethod(
+        patch(
+            getDeclaredMethodByName(
+                WidgetGuildProfileSheet::class,
                 "configureUI",
                 WidgetGuildProfileSheetViewModel.ViewState.Loaded::class.java,
             ),
@@ -640,8 +663,9 @@ class AvatarChanger : Plugin() {
             .apply { isAccessible = true }
 
         val headerId = View.generateViewId()
-        patcher.patch(
-            WidgetUserSheet::class.java.getDeclaredMethod(
+        patch(
+            getDeclaredMethodByName(
+                WidgetUserSheet::class,
                 "configureUI",
                 WidgetUserSheetViewModel.ViewState::class.java
             ),
@@ -822,6 +846,28 @@ class AvatarChanger : Plugin() {
             dialog.window?.decorView?.setBackgroundColor(
                 typedValue.data
             )
+    }
+
+    private fun patch(func: Member, hook: Hook) {
+        try {
+            patcher.patch(func, hook)
+        } catch (e: Exception) {
+        }
+    }
+
+    private fun getDeclaredMethodByName(cls: KClass<*>, methodName: String, vararg parameterTypes: Class<*>?): Member {
+        return try {
+            cls.java.getDeclaredMethod(methodName, *parameterTypes)
+        } catch (e: NoSuchMethodException) {
+            StubMember()
+        }
+    }
+
+    class StubMember : Member {
+        override fun getName() = "stub"
+	override fun getDeclaringClass() = null
+        override fun getModifiers() = 0
+	override fun isSynthetic() = false
     }
 
     companion object {
