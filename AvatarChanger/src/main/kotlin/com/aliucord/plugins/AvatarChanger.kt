@@ -43,7 +43,7 @@ import com.discord.widgets.user.usersheet.WidgetUserSheet
 import com.discord.widgets.user.usersheet.WidgetUserSheetViewModel
 import com.facebook.imagepipeline.request.ImageRequestBuilder
 import kotlin.Unit
-import kotlin.jvm.functions.Function1
+import kotlin.Function1
 
 @AliucordPlugin
 class AvatarChanger : Plugin() {
@@ -427,7 +427,7 @@ class AvatarChanger : Plugin() {
                 if (user.id.toString() in AvatarChangerSettings.getUserIds()) {
                     val icon = settings.getString(
                         user.id.toString(),
-                        "" as String
+                        ""
                     )
 
                     callFrame.result = com.discord.api.user.User(
@@ -528,26 +528,6 @@ class AvatarChanger : Plugin() {
                 }
             }
         )
-        //patcher.patch(
-            //CoreUser::class.java.getDeclaredMethod(
-                //"getAvatar"
-            //),
-            //Hook { callFrame ->
-                //val id = (callFrame.thisObject as CoreUser).id
-                //val userIds = AvatarChangerSettings.getUserIds()
-
-                //if (id.toString() in userIds) {
-                    //val icon = settings.getString(
-                        //id.toString(),
-                        //callFrame.result as String
-                    //)
-
-                    //callFrame.result = icon
-                //} else {
-                    //callFrame.getResult()
-                //}
-            //}
-        //)
 
         val editId = View.generateViewId()
         val removeId = View.generateViewId()
