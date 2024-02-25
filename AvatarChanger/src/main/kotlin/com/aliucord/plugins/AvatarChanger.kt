@@ -10,6 +10,7 @@ import android.util.TypedValue
 import android.view.ContextThemeWrapper
 import android.view.View
 import android.widget.FrameLayout
+import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.core.content.ContextCompat
@@ -27,13 +28,22 @@ import com.aliucord.utils.DimenUtils
 import com.discord.databinding.WidgetGuildProfileSheetBinding
 import com.discord.databinding.WidgetUserSheetBinding
 import com.discord.models.guild.Guild
+import com.discord.models.member.GuildMember
+import com.discord.models.user.CoreUser
 import com.discord.models.user.User
+import com.discord.nullserializable.NullSerializable.a
+import com.discord.nullserializable.NullSerializable.b
 import com.discord.stores.StoreStream
 import com.discord.utilities.icon.IconUtils
+import com.discord.utilities.images.MGImages.ChangeDetector
+import com.discord.utilities.user.UserUtils
 import com.discord.widgets.guilds.profile.WidgetGuildProfileSheet
 import com.discord.widgets.guilds.profile.WidgetGuildProfileSheetViewModel
 import com.discord.widgets.user.usersheet.WidgetUserSheet
 import com.discord.widgets.user.usersheet.WidgetUserSheetViewModel
+import com.facebook.imagepipeline.request.ImageRequestBuilder
+import kotlin.Unit
+import kotlin.jvm.functions.Function1
 
 @AliucordPlugin
 class AvatarChanger : Plugin() {
@@ -105,6 +115,439 @@ class AvatarChanger : Plugin() {
                 }
             }
         )
+
+        patcher.patch(
+            IconUtils::class.java.getDeclaredMethod(
+                "getForUser",
+                User::class.javaObjectType,
+                Boolean::class.javaPrimitiveType,
+                Int::class.javaObjectType
+            ),
+            Hook { callFrame ->
+                val id = (callFrame.args[0] as User).id
+
+                val userIds = AvatarChangerSettings.getUserIds()
+                if (id.toString() in userIds) {
+                    val icon = settings.getString(
+                        id.toString(),
+                        callFrame.result as String
+                    )
+
+                    callFrame.result = icon
+                } else {
+                    callFrame.getResult()
+                }
+            }
+        )
+
+        patcher.patch(
+            IconUtils::class.java.getDeclaredMethod(
+                "getForUser",
+                User::class.javaObjectType
+            ),
+            Hook { callFrame ->
+                val id = (callFrame.args[0] as User).id
+
+                val userIds = AvatarChangerSettings.getUserIds()
+                if (id.toString() in userIds) {
+                    val icon = settings.getString(
+                        id.toString(),
+                        callFrame.result as String
+                    )
+
+                    callFrame.result = icon
+                } else {
+                    callFrame.getResult()
+                }
+            }
+        )
+
+        patcher.patch(
+            IconUtils::class.java.getDeclaredMethod(
+                "getForUser",
+                User::class.javaObjectType,
+                Boolean::class.javaPrimitiveType
+            ),
+            Hook { callFrame ->
+                val id = (callFrame.args[0] as User).id
+
+                val userIds = AvatarChangerSettings.getUserIds()
+                if (id.toString() in userIds) {
+                    val icon = settings.getString(
+                        id.toString(),
+                        callFrame.result as String
+                    )
+
+                    callFrame.result = icon
+                } else {
+                    callFrame.getResult()
+                }
+            }
+        )
+
+        patcher.patch(
+            IconUtils::class.java.getDeclaredMethod(
+                "getForUser",
+                Long::class.javaObjectType,
+                String::class.javaObjectType
+            ),
+            Hook { callFrame ->
+                val id = callFrame.args[0] as Long
+
+                val userIds = AvatarChangerSettings.getUserIds()
+                if (id.toString() in userIds) {
+                    val icon = settings.getString(
+                        id.toString(),
+                        callFrame.result as String
+                    )
+
+                    callFrame.result = icon
+                } else {
+                    callFrame.getResult()
+                }
+            }
+        )
+
+        patcher.patch(
+            IconUtils::class.java.getDeclaredMethod(
+                "getForUser",
+                Long::class.javaObjectType,
+                String::class.javaObjectType,
+                Int::class.javaObjectType
+            ),
+            Hook { callFrame ->
+                val id = callFrame.args[0] as Long
+
+                val userIds = AvatarChangerSettings.getUserIds()
+                if (id.toString() in userIds) {
+                    val icon = settings.getString(
+                        id.toString(),
+                        callFrame.result as String
+                    )
+
+                    callFrame.result = icon
+                } else {
+                    callFrame.getResult()
+                }
+            }
+        )
+
+        patcher.patch(
+            IconUtils::class.java.getDeclaredMethod(
+                "getForUser",
+                Long::class.javaObjectType,
+                String::class.javaObjectType,
+                Int::class.javaObjectType,
+                Boolean::class.javaPrimitiveType
+            ),
+            Hook { callFrame ->
+                val id = callFrame.args[0] as Long
+
+                val userIds = AvatarChangerSettings.getUserIds()
+                if (id.toString() in userIds) {
+                    val icon = settings.getString(
+                        id.toString(),
+                        callFrame.result as String
+                    )
+
+                    callFrame.result = icon
+                } else {
+                    callFrame.getResult()
+                }
+            }
+        )
+
+        patcher.patch(
+            IconUtils::class.java.getDeclaredMethod(
+                "getForUser\$default",
+                User::class.javaObjectType,
+                Boolean::class.javaPrimitiveType,
+                Int::class.javaObjectType,
+                Int::class.javaObjectType,
+                Any::class.java
+            ),
+            Hook { callFrame ->
+                val id = (callFrame.args[0] as User).id
+
+                val userIds = AvatarChangerSettings.getUserIds()
+                if (id.toString() in userIds) {
+                    val icon = settings.getString(
+                        id.toString(),
+                        callFrame.result as String
+                    )
+
+                    callFrame.result = icon
+                } else {
+                    callFrame.getResult()
+                }
+            }
+        )
+
+        patcher.patch(
+            IconUtils::class.java.getDeclaredMethod(
+                "getForUser\$default",
+                Long::class.javaObjectType,
+                String::class.javaPrimitiveType,
+                Int::class.javaObjectType,
+                Boolean::class.javaPrimitiveType,
+                Int::class.javaObjectType,
+                Int::class.javaObjectType,
+                Any::class.java
+            ),
+            Hook { callFrame ->
+                val id = callFrame.args[0] as Long
+
+                val userIds = AvatarChangerSettings.getUserIds()
+                if (id.toString() in userIds) {
+                    val icon = settings.getString(
+                        id.toString(),
+                        callFrame.result as String
+                    )
+
+                    callFrame.result = icon
+                } else {
+                    callFrame.getResult()
+                }
+            }
+        )
+
+        patcher.patch(
+            IconUtils::class.java.getDeclaredMethod(
+                "getForGuildMember",
+                GuildMember::class.javaObjectType,
+                Int::class.javaObjectType,
+                Boolean::class.javaPrimitiveType
+            ),
+            Hook { callFrame ->
+                val id = (callFrame.args[0] as GuildMember).userId
+
+                val userIds = AvatarChangerSettings.getUserIds()
+                if (id.toString() in userIds) {
+                    val icon = settings.getString(
+                        id.toString(),
+                        callFrame.result as String
+                    )
+
+                    callFrame.result = icon
+                } else {
+                    callFrame.getResult()
+                }
+            }
+        )
+
+        patcher.patch(
+            IconUtils::class.java.getDeclaredMethod(
+                "getForGuildMember",
+                String::class.javaObjectType,
+                Long::class.javaObjectType,
+                Long::class.javaObjectType,
+                Int::class.javaObjectType,
+                Boolean::class.javaObjectType
+            ),
+            Hook { callFrame ->
+                val id = callFrame.args[2] as Long
+
+                val userIds = AvatarChangerSettings.getUserIds()
+                if (id.toString() in userIds) {
+                    val icon = settings.getString(
+                        id.toString(),
+                        callFrame.result as String
+                    )
+
+                    callFrame.result = icon
+                } else {
+                    callFrame.getResult()
+                }
+            }
+        )
+
+        patcher.patch(
+            IconUtils::class.java.getDeclaredMethod(
+                "getForGuildMember\$default",
+                IconUtils::class.javaObjectType,
+                GuildMember::class.javaObjectType,
+                Int::class.javaObjectType,
+                Boolean::class.javaPrimitiveType,
+                Int::class.javaObjectType,
+                Any::class.javaObjectType
+            ),
+            Hook { callFrame ->
+                val id = (callFrame.args[1] as GuildMember).userId
+
+                val userIds = AvatarChangerSettings.getUserIds()
+                if (id.toString() in userIds) {
+                    val icon = settings.getString(
+                        id.toString(),
+                        callFrame.result as String
+                    )
+
+                    callFrame.result = icon
+                } else {
+                    callFrame.getResult()
+                }
+            }
+        )
+
+        patcher.patch(
+            IconUtils::class.java.getDeclaredMethod(
+                "getForGuildMember\$default",
+                IconUtils::class.javaObjectType,
+                String::class.javaObjectType,
+                Long::class.javaObjectType,
+                Long::class.javaObjectType,
+                Int::class.javaObjectType,
+                Boolean::class.javaPrimitiveType,
+                Int::class.javaObjectType,
+                Any::class.javaObjectType
+            ),
+            Hook { callFrame ->
+                val id = callFrame.args[3] as Long
+
+                val userIds = AvatarChangerSettings.getUserIds()
+                if (id.toString() in userIds) {
+                    val icon = settings.getString(
+                        id.toString(),
+                        callFrame.result as String
+                    )
+
+                    callFrame.result = icon
+                } else {
+                    callFrame.getResult()
+                }
+            }
+        )
+
+        patcher.patch(
+            UserUtils::class.java.getDeclaredMethod(
+                "synthesizeApiUser",
+                User::class.javaObjectType
+            ),
+            Hook { callFrame ->
+                val user = callFrame.args[0] as User
+                if (user.id.toString() in AvatarChangerSettings.getUserIds()) {
+                    val icon = settings.getString(
+                        user.id.toString(),
+                        "" as String
+                    )
+
+                    callFrame.result = com.discord.api.user.User(
+                        user.id,
+                        user.username,
+                        if (icon != null) b(icon) else a(null, 1),
+                        null,
+                        user.discriminator.toString(),
+                        user.publicFlags.toInt(),
+                        user.flags.toInt(),
+                        user.isBot(),
+                        user.isSystemUser(),
+                        null,
+                        null,
+                        null,
+                        null,
+                        null,
+                        null,
+                        null,
+                        null,
+                        null,
+                        null,
+                        null,
+                        null,
+                        null,
+                        3145736
+                    )
+                } else {
+                    callFrame.getResult()
+                }
+            }
+        )
+
+        patcher.patch(
+            IconUtils::class.java.getDeclaredMethod("withSize",
+                String::class.javaObjectType,
+                Int::class.javaObjectType
+            ),
+            Hook { callFrame ->
+                val userIds = AvatarChangerSettings.getUserIds()
+                var custom = false
+                for (id in userIds) {
+                    if (id in (callFrame.args[0] as String)) {
+                        custom = true
+
+                        val icon = settings.getString(
+                            id.toString(),
+                            callFrame.result as String
+                        )
+                        callFrame.result = icon
+                        break
+                    }
+                }
+
+                if (!custom) {
+                    callFrame.getResult()
+                }
+            }
+        )
+
+        val setIcon = IconUtils::class.java.getDeclaredMethod(
+            "setIcon",
+            ImageView::class.javaObjectType,
+            User::class.javaObjectType,
+            Int::class.javaObjectType,
+            Function1::class.javaObjectType,
+            ChangeDetector::class.javaObjectType,
+            GuildMember::class.javaObjectType
+        )
+
+        patcher.patch(
+            setIcon,
+            Hook { callFrame ->
+                val user = callFrame.args[0] as User
+
+                if (user.id.toString() in AvatarChangerSettings.getUserIds()) {
+                    val icon = settings.getString(
+                        user.id.toString(),
+                        ""
+                    )
+
+                    val avatar = user::class.java.getDeclaredField("avatar")
+                    avatar.isAccessible = true
+                    avatar.set(user, icon)
+                    val iconUtil = callFrame.thisObject as IconUtils
+                    setIcon.apply { isAccessible = true }
+                    callFrame.result = setIcon(
+                        iconUtil,
+                        callFrame.args[0] as ImageView,
+                        user,
+                        callFrame.args[2] as Int,
+                        callFrame.args[3] as Function1<ImageRequestBuilder, Unit>,
+                        callFrame.args[4] as ChangeDetector,
+                        callFrame.args[5] as GuildMember
+                    )
+                } else {
+                    callFrame.getResult()
+                }
+            }
+        )
+        //patcher.patch(
+            //CoreUser::class.java.getDeclaredMethod(
+                //"getAvatar"
+            //),
+            //Hook { callFrame ->
+                //val id = (callFrame.thisObject as CoreUser).id
+                //val userIds = AvatarChangerSettings.getUserIds()
+
+                //if (id.toString() in userIds) {
+                    //val icon = settings.getString(
+                        //id.toString(),
+                        //callFrame.result as String
+                    //)
+
+                    //callFrame.result = icon
+                //} else {
+                    //callFrame.getResult()
+                //}
+            //}
+        //)
 
         val editId = View.generateViewId()
         val removeId = View.generateViewId()
